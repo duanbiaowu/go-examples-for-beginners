@@ -38,13 +38,13 @@
     
     func main() {
         fmt.Println("hello world")
-        fmt.Println(strings.Contains("hello world", "hello"))
+        fmt.Println(strings.Repeat("hello ", 3))   // 字符串重复
     }
     
     // $ go run main.go
     // 输出如下
     /**
         hello world
-        true
+        hello hello hello
     */
     ```
