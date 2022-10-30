@@ -31,13 +31,23 @@ var (
     变量名称 [变量类型] =  变量值
     ...
 )
+```
 
-# 例子
-var (
-    pi float64 = 3.14159
-    page int = 1
-    name = "abc"
-)
+### 例子
+```go
+package main
+
+func main() {
+   var (
+      pi float64 = 3.14159
+      page int = 1
+      name = "abc"
+   )
+
+   println(pi)
+   println(page)
+   println(name)
+}
 ```
 
 # 显式/隐式
