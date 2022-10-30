@@ -48,6 +48,14 @@ func main() {
    println(page)
    println(name)
 }
+
+// $ go run main.go
+// 输出如下 
+/**
+    +3.141590e+000
+    1
+    abc
+*/
 ```
 
 # 显式/隐式
