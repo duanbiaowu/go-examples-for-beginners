@@ -18,16 +18,43 @@ const (
   常量名称 [常量类型] =  常量值
   ...
 )
+````
   
-# 例子
+### 例子
+```go
+package main
+
 const (
-	Monday    = 1
-	Tuesday   = 2
-	Wednesday = 3
-	Thursday  = 4
-	Friday    = 5
-	Saturday  = 6
+   Sunday    = 0
+   Monday    = 1
+   Tuesday   = 2
+   Wednesday = 3
+   Thursday  = 4
+   Friday    = 5
+   Saturday  = 6
 )
+
+func main() {
+   println(Sunday)
+   println(Monday)
+   println(Tuesday)
+   println(Wednesday)
+   println(Thursday)
+   println(Friday)
+   println(Saturday)
+}
+
+// $ go run main.go
+// 输出如下 
+/**
+    0
+    1
+    2
+    3
+    4
+    5
+    6
+*/
 ```
 
 # 显式/隐式
