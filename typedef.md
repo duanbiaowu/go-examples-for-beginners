@@ -11,6 +11,8 @@ type Number       int
 
 ## 同时定义多个自定义类型
 ```go
+package main
+
 type (
     Number int
     Name string
@@ -21,13 +23,43 @@ type (
 ## 嵌套定义
 可以基于已有的自定义类型，定义一个新的自定义类型。
 ```go
+package main
+
+type (
+	Number int
+	Name string
+	Has bool
+)
+
 type Number2 Number
 ```
 
 # 使用规则
 和变量使用规则一样。
 ```go
-var x Number = 1024
-var n Name = "abc"
-var h Has = true
+package main
+
+type (
+	Number int
+	Name string
+	Has bool
+)
+
+func main() {
+	var x Number = 1024
+	var n Name = "abc"
+	var h Has = true
+
+	println(x)
+	println(n)
+	println(h)
+}
+
+// $ go run main.go
+// 输出如下 
+/**
+    1024
+    abc
+    true
+*/
 ```
