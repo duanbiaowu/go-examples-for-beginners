@@ -111,6 +111,7 @@ func main() {
 	fmt.Printf("yes = %b\n", x) // 输出二进制
 }
 
+// $ go run main.go
 // 输出如下
 /**
     n = 1024
@@ -119,6 +120,31 @@ func main() {
     yes = true
     x = 10001
 
+*/
+```
+
+## fmt.Printf() 技巧
+在打印中，如果一个变量打印多次，可以通过 `[1]` 来表示后续变量全部以第一个为准。
+
+### 例子
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	n := 1024
+	fmt.Printf("%T %d %v\n", n, n, n)
+
+	fmt.Printf("%T %[1]d %[1]v\n", n) // 可以使用 [1] 来表示引用第一个变量，这样只需要一个变量就可以了
+}
+// $ go run main.go
+// 输出如下
+/**
+    int 1024 1024
+    int 1024 1024
 */
 ```
 
