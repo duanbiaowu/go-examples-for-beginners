@@ -15,6 +15,10 @@
         ...
     )
     ```
+3. 导入包使用别名
+   ```shell
+   import 别名 "包名"
+   ```
    
 ## 例子
 1. 导入 `打印包`
@@ -28,7 +32,6 @@
     }
     ```
 2. 导入 `打印包` 和 `字符串包`
-    ```go
     package main
     
     import (
@@ -47,4 +50,23 @@
         hello world
         hello hello hello
     */
-    ```
+   
+3. 导入包使用别名
+   ```go
+   package main
+   
+   import (
+       "fmt"
+       myStr "strings"
+   )
+   
+   func main() {
+       fmt.Println(myStr.Repeat("hello ", 3))
+   }
+   
+   // $ go run main.go
+   // 输出如下
+   /**
+     hello hello hello
+   */
+   ```
