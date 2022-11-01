@@ -1,4 +1,4 @@
-# Go-examples-for-beginners
+# 目录
 
 - [环境安装](installation.md)
 - [Go 程序的运行方式及要求](buildandrun.md)
@@ -27,18 +27,17 @@
 - [if/else](if_else.md)
 - [for](for.md)
 - [range](range.md)
-switch 
-goto 
-关键字跳转 
+- [switch](switch.md)
+- [goto / 标签](goto.md)
 可见性 (大写，小写)
 作用域
 
-[数组]
-[切片]
-[Map]
-[遍历]
-[排序]
-[Sorting by Functions]
+- [数组](array.md)
+- [切片](slice.md)
+- [Map](map.md)
+- [有序 Map](sorted_map.md)
+make 
+new
 
 [函数]
 [多返回值]
