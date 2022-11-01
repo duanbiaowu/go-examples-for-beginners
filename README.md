@@ -41,11 +41,10 @@ new
 
 - [函数](func.md)
 - [init](init.md)
-包的初始化
-[可变参数值]
-[指针参数]
-[闭包]
-[递归]
+- [可变参数](variadic_func.md)
+- [指针参数]
+- [闭包]
+- [递归]
 
 defer
 panic
