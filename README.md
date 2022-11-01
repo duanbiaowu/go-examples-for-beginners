@@ -39,14 +39,17 @@
 make 
 new
 
-[函数]
-[多返回值]
-[init]
+- [函数](func.md)
+- [init](init.md)
 包的初始化
 [可变参数值]
 [指针参数]
-[闭包函数]
+[闭包]
 [递归]
+
+defer
+panic
+recover
 
 [结构体]
 [嵌套结构体]
@@ -54,5 +57,21 @@ new
 [接口]
 [判断接口是否实现]
 
+json
+xml
+random
+file io
+exec
+command args
+signals
+exit
+
 [泛型]
 [日志]
+
+超时
+日期时间
+定时器
+
+原子操作
+锁
