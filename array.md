@@ -54,6 +54,29 @@ func main() {
  */
 ```
 
+# 获取数组长度
+通过 `len()` 函数获取。
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var arr [3]int
+
+	arr[0] = 100 // 为数组第 1 个元素赋值
+	arr[1] = 200 // 为数组第 2 个元素赋值
+	arr[2] = 300 // 为数组第 3 个元素赋值
+
+	fmt.Printf("数组长度 = %d\n", len(arr))
+}
+// $ go run main.go
+// 输出如下 
+/**
+    数组长度 = 3
+*/
+```
+
 # 遍历数组
 可以使用两种方法遍历数组，[普通循环](for.md) 和 [range 循环](range.md)。
 
