@@ -24,7 +24,7 @@ var sli []int
 
 ## 声明及初始化
 ```shell
-var 变量名 = make([]int, 长度, 容量)
+var 变量名 = make([]int, 长度, 容量)   // 容量参数可以省略
 
 # 例子
 var sli = make([]int, 5, 10)
