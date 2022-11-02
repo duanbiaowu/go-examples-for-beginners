@@ -42,6 +42,8 @@ func main() {
 ```
 
 ## JSON 字符串转为结构体
+调用 `json.Unmarshal()` 方法完成。
+
 ```go
 package main
 
@@ -82,6 +84,8 @@ func main() {
 ```
 
 ## 输出格式化 JSON 字符串
+调用 `json.MarshalIndent()` 方法完成。
+
 ```go
 package main
 
