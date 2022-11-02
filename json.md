@@ -134,3 +134,45 @@ func main() {
     }
 */
 ```
+
+## 忽略零值
+通过 `omitempty` 关键字完成。
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type person struct {
+	Name  string   `json:"name"`
+	Age   int      `json:"age"`
+	Hobby []string `json:"hobby,omitempty"` // omitempty 关键字将字段标记为忽略零值
+}
+
+func main() {
+	tom := person{ // 使用字面量初始化
+		Name: "Tom",
+		Age:  6,
+	}
+
+	// 前缀符为空字符串，缩进符为两个空格
+	formatted, err := json.MarshalIndent(tom, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("json.MarshalIndent(tom) = \n%s\n", formatted)
+}
+// $ go run main.go
+// 输出如下 
+/**
+  json.MarshalIndent(tom) =
+  {
+    "name": "Tom",
+    "age": 6
+  }
+*/
+```
