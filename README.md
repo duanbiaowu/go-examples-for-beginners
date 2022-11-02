@@ -1,6 +1,9 @@
 # 目录
 
 - [环境安装](installation.md)
+- Windows
+- Mac
+- Linux
 - [Go 程序的运行方式及要求](buildandrun.md)
 - [基本代码格式，关键字, 预定义标识符](basesyntaxandkeyword.md)
 - [变量](variables.md)
@@ -41,23 +44,24 @@ new
 
 - [函数](func.md)
 - [init](init.md)
-- [可变参数](variadic_func.md)
-- [指针参数]
-- [闭包]
-- [递归]
+[可变参数](func_variadic_params.md)
+[指针参数](func_pointer_params.md)
+[闭包](func_closures.md)
+[递归](func_recursion.md)
+[内部函数](func_inner.md)
 
-defer
-panic
-recover
+[panic](panic.md)
+[defer](defer.md) 
+[recover](recover.md)
 
-[结构体]
-[嵌套结构体]
-[方法]
-[接口]
-[判断接口是否实现]
+[结构体](struct.md)
+[嵌套结构体](struct_embedding.md)
+[方法](methods.md)
+[接口](interface.md)
+[判断是否实现接口](implement.md)
 
-json
-xml
+[json](json.md)
+[xml](xml.md)
 random
 file io
 exec
