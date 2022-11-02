@@ -176,3 +176,44 @@ func main() {
   }
 */
 ```
+
+## 保留零值
+某些场景下，需要在输出 JSON 字符串时自动忽略零值，但是在将 JSON 字符串转为目标结构体时，需要保留零值。
+可以通过将字段设置为 [指针](pointer.md) 类型即可。
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type person struct {
+	Name     string `json:"name"`
+	Age      int    `json:"age"`
+	HasMoney *bool  `json:"hasMoney,omitempty"`
+}
+
+func main() {
+	tomJson := `
+{
+  "name": "Tom",
+  "age": 6,
+  "hasMoney": false
+}
+`
+	var tom person
+	err := json.Unmarshal([]byte(tomJson), &tom)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("Tom's name is %s, age is %d, hasMoney is %t\n", tom.Name, tom.Age, *tom.HasMoney)
+}
+// $ go run main.go
+// 输出如下 
+/**
+    Tom's name is Tom, age is 6, hasMoney is false
+*/
+```
