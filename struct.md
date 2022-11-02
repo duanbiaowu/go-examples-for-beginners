@@ -26,20 +26,20 @@ func main() {
 		age:  6,
 	}
 
-	fmt.Printf("Tom's name is = %s, age is %d\n", tom.name, tom.age)
+	fmt.Printf("Tom's name is %s, age is %d\n", tom.name, tom.age)
 
 	jerry := new(person) // 使用 new 关键字创建
 	jerry.name = "Jerry"
 	jerry.age = 8
 
-	fmt.Printf("Jerry's name is = %s, age is %d\n", jerry.name, jerry.age)
+	fmt.Printf("Jerry's name is %s, age is %d\n", jerry.name, jerry.age)
 }
 
 // $ go run main.go
 // 输出如下 
 /**
-    Tom's name is = Tom, age is 6
-    Jerry's name is = Jerry, age is 8
+    Tom's name is Tom, age is 6
+    Jerry's name is Jerry, age is 8
 */
 ```
 
@@ -61,19 +61,19 @@ func main() {
 		age:  6,
 	}
 
-	fmt.Printf("Tom's name is = %s, age is %d\n", tom.name, tom.age)
+	fmt.Printf("Tom's name is %s, age is %d\n", tom.name, tom.age)
 
 	var tomPtr *person
 	tomPtr = &tom
 	tomPtr.name = "Jerry"
 	tomPtr.age = 8
 
-	fmt.Printf("Tom's name is = %s, age is %d\n", tom.name, tom.age)
+	fmt.Printf("Tom's name is %s, age is %d\n", tom.name, tom.age)
 }
 // $ go run main.go
 // 输出如下 
 /**
-    Tom's name is = Tom, age is 6
-    Tom's name is = Jerry, age is 8
+    Tom's name is Tom, age is 6
+    Tom's name is Jerry, age is 8
 */
 ```

@@ -5,7 +5,7 @@ recover 必须和 defer 配套使用, defer 和 panic 的顺序非常重要。
 
 # 例子
 
-## 内部求和函数
+## 错误捕获
 ```go
 package main
 
