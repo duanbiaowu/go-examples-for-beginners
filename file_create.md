@@ -16,6 +16,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	
+	// 记得关闭文件句柄
 	defer func() {
 		err = file.Close()
 		if err != nil {
