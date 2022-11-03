@@ -3,7 +3,7 @@
 
 # 例子
 
-## WriteFile() 直接写入
+## 直接写入
 
 ```go
 package main
@@ -31,7 +31,7 @@ func main() {
     package main
 
     func main() {
-            println("hello world")
+        println("hello world")
     }
 */
 ```
