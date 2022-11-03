@@ -62,12 +62,15 @@ new
 
 [json](json.md)
 [xml](xml.md)
-random
+[日期, 时间](time.md)
+[时间戳](timestamp.md)
+[random](random.md)
 file io
-exec
+
+- [exit](exit.md)
+- [command](command.md)
 command args
 signals
-exit
 
 [泛型]
 [日志]
