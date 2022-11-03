@@ -17,10 +17,7 @@
 - [常量生成器](iota.md)
 - [运算优先级](operator_priority.md)
 - 字符
-- 字符串 中文，编码 
-- rune
-- 错误
-- 零值
+- 字符串 中文，编码
 
 - [包的导入](import.md)
 - [调试打印](print.md)
@@ -30,6 +27,9 @@
 - [指针](pointer.md)
 - uintptr 
 - nil
+[rune](rune.md)
+[错误](error.md)
+- 零值
 
 - [if/else](if_else.md)
 - [for](for.md)
@@ -43,11 +43,10 @@
 - [切片](slice.md)
 - [Map](map.md)
 - [有序 Map](sorted_map.md)
-make 
-new
 
 - [函数](func.md)
 - [init](init.md)
+[make, new](make_with_new.md)
 [可变参数](func_variadic_params.md)
 [指针参数](func_pointer_params.md)
 [闭包](func_closures.md)
@@ -62,6 +61,7 @@ new
 [嵌套结构体](struct_embedding.md)
 [方法](methods.md)
 [接口](interface.md)
+[实现系统错误接口](implement_error.md)
 [判断是否实现接口](implement.md)
 
 [json](json.md)
@@ -84,12 +84,13 @@ new
 - [命令行参数解析与设置](command_flag.md)
 - [信号](signal.md)
 
-[泛型]
-[日志]
+- [日志](log.md)
+- [HTTP](http.md) 
 
-超时
-日期时间
-定时器
+- [超时控制](timeout.md)
+- [定时器](ticker.md)
 
-原子操作
-锁
+- [原子操作](atomic.md)
+[互斥锁](mutex.md)
+
+泛型
