@@ -18,6 +18,7 @@ select {
   * 如果存在则执行
   * 否则阻塞等待
 
+通常情况下，把含有 `default 分支` 的 `select` 操作称为 `无阻塞通道操作`。
 
 # 例子
 
@@ -70,7 +71,7 @@ func main() {
 */
 ```
 
-## default 分支
+## default (无阻塞通道操作)
 ```go
 package main
 
