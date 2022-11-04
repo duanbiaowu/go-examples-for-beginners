@@ -1,0 +1,196 @@
+# 概述
+
+# 语法规则
+```go
+select {
+    case v1:= <- ch1:
+        // do something ...  
+    case v2:= <- ch2:
+        // do something ...
+    default: 
+        // do something ...
+}
+```
+
+## 执行顺序
+* 当同时存在多个满足条件的通道时，随机选择一个执行
+* 如果没有满足条件的通道时，检测是否存在 default 分支
+  * 如果存在则执行
+  * 否则阻塞等待
+
+
+# 例子
+
+## 随机执行一个
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch1 := make(chan string)
+	ch2 := make(chan string)
+	done := make(chan bool)
+
+	go func() {
+		ch1 <- "hello"
+	}()
+
+	go func() {
+		ch2 <- "world"
+	}()
+
+	go func() {
+		done <- true
+	}()
+
+	time.Sleep(time.Second) //  休眠 1 秒
+
+	// 此时 3 个通道应该都满足条件，select 会随机选择一个执行
+	select {
+	case msg := <-ch1:
+		fmt.Printf("ch1 msg = %s\n", msg)
+	case msg := <-ch2:
+		fmt.Printf("ch2 msg = %s\n", msg)
+	case <-done:
+		fmt.Println("done !")
+	}
+
+	close(ch1)
+	close(ch2)
+	close(done)
+}
+// $ go run main.go
+// 输出如下，你的输出可能和这里的不一样, 多运行几次看看效果
+/**
+    ch1 msg = hello
+*/
+```
+
+## default 分支
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch1 := make(chan string)
+	ch2 := make(chan string)
+	done := make(chan bool)
+
+	go func() {
+		time.Sleep(time.Second)
+		ch1 <- "hello"
+	}()
+
+	go func() {
+		time.Sleep(time.Second)
+		ch2 <- "world"
+	}()
+
+	go func() {
+		time.Sleep(time.Second)
+		done <- true
+	}()
+
+	// 此时 3 个通道都在休眠中, 不满足条件，select 会执行 default 分支
+	select {
+	case msg := <-ch1:
+		fmt.Printf("ch1 msg = %s\n", msg)
+	case msg := <-ch2:
+		fmt.Printf("ch2 msg = %s\n", msg)
+	case <-done:
+		fmt.Println("done !")
+	default:
+		fmt.Println("default !")
+	}
+
+	close(ch1)
+	close(ch2)
+	close(done)
+}
+// $ go run main.go
+// 输出如下
+/**
+    default !
+*/
+```
+
+## 和 for 搭配使用
+通过在 `select` 外层加一个 `for` 循环，可以达到 `无限轮询` 的效果。
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch1 := make(chan string)
+	ch2 := make(chan string)
+	done := make(chan bool)
+
+	go func() {
+		// ch1 goroutine 输出 1 次 
+		fmt.Println("[ch1 goroutine]")
+		time.Sleep(time.Second)
+		ch1 <- "hello"
+	}()
+
+	go func() {
+		// ch2 goroutine 输出 2 次
+		for i := 0; i < 2; i++ {
+			fmt.Println("[ch2 goroutine]")
+			time.Sleep(time.Second)
+		}
+		ch2 <- "world"
+	}()
+
+	go func() {
+		// done goroutine 输出 3 次
+		for i := 0; i < 3; i++ {
+			fmt.Println("[done goroutine]")
+			time.Sleep(time.Second)
+		}
+		done <- true
+	}()
+
+	for exit := true; exit; {
+		select {
+		case msg := <-ch1:
+			fmt.Printf("ch1 msg = %s\n", msg)
+		case msg := <-ch2:
+			fmt.Printf("ch2 msg = %s\n", msg)
+		case <-done:
+			fmt.Println("done !")
+			exit = false // 通过变量控制外层 for 循环退出
+		}
+	}
+
+	close(ch1)
+	close(ch2)
+	close(done)
+}
+// $ go run main.go
+// 输出如下，你的输出顺序可能和这里的不一样
+/**
+    [done goroutine]
+    [ch2 goroutine]
+    [ch1 goroutine]
+    ch1 msg = hello
+    [done goroutine]
+    [ch2 goroutine]
+    ch2 msg = world
+    [done goroutine]
+    done !
+*/
+```
+
+从输出结果看，`[ch1 goroutine]` 输出了 1 次，`[ch2 goroutine]` 输出了 2 次，`[done goroutine]` 输出了 3 次。 
