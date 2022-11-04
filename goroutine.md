@@ -64,6 +64,9 @@ func main() {
 */
 ```
 
+调用 `time.Sleep()` 睡眠等待 3 个 goroutine 执行完成，虽然达到了演示效果，但是有很多潜在问题。
+更好的解决方案请看 [waitgroup](waitgroup.md)。
+
 ## 调用一个已定义的函数
 ```go
 package main
