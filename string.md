@@ -46,6 +46,40 @@ func main() {
 */
 ```
 
+# 字符串不可变的语义
+字符串的 `不可变` 是指: 字符串定义之后，每个索引位置的字符不可被修改，如下所示:
+```go
+package main
+
+func main() {
+	s := "hello world"
+	s[0] = 'a'
+	s[1] = 'b'
+}
+// $ go run main.go
+// 输出如下
+/**
+    ./main.go:5:2: cannot assign to s[0] (value of type byte)
+    ./main.go:6:2: cannot assign to s[1] (value of type byte)
+*/
+```
+
+但是，可以通过为字符串重新赋值，改变原有字符串，如下所示: 
+```go
+package main
+
+func main() {
+	s := "hello world"
+	s = "hello golang"
+	println(s)
+}
+// $ go run main.go
+// 输出如下
+/**
+    hello golang
+*/
+```
+
 # 字符串长度
 关于字符串不同编码对长度的计算方式，感兴趣的读者可以参考扩展阅读。
 
