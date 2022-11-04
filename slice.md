@@ -64,6 +64,31 @@ func main() {
  */
 ```
 
+# 追加值
+调用 `append` 函数
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var s []int // 声明一个整型切片
+
+	fmt.Printf("切片长度 = %d, 容量 = %d\n", len(s), cap(s))
+
+	s = append(s, 100)
+	s = append(s, 200)
+
+	fmt.Printf("切片长度 = %d, 容量 = %d\n", len(s), cap(s))
+}
+// $ go run main.go
+// 输出如下 
+/**
+    切片长度 = 0, 容量 = 0
+    切片长度 = 2, 容量 = 2
+*/
+```
+
 # 区间数据
 通过 `索引` 位置，可以灵活地获取切片的区间数据。
 ```go
