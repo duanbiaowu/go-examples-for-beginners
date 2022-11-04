@@ -87,6 +87,7 @@
 [日期, 时间](time.md)
 [时间戳](timestamp.md)
 [random](random.md)
+[正则表达式](regexp.md)
 
 - [创建, 删除文件](file_create_delete.md)
 - [写文件](file_write.md)
@@ -104,6 +105,10 @@
 
 - [日志](log.md)
 - [HTTP](http.md) 
+- [URL](url.md)
+- [base64](base64.md)
+- [sha256](sha256.md)
+- [md5](md5.md)
 
 - [超时控制](timeout.md)
 - [定时器](ticker.md)
