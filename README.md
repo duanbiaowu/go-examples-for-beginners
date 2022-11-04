@@ -2,6 +2,12 @@
 
 前言
   为什么要写这本书
+    总结输出
+    提炼笔记
+    锻炼写作水平
+    体会自己了解的东西，教会别人的过程。费曼学习法的践行。
+    体验分享的感觉
+    认识新朋友
   建议顺序阅读
 
 - [环境安装](installation.md)
@@ -63,6 +69,18 @@
 [接口](interface.md)
 [实现系统错误接口](implement_error.md)
 [判断是否实现接口](implement.md)
+
+[goroutine](goroutine.md)
+[waitgroup](waitgroup.md)
+[阻塞通道](channel.md)
+[非阻塞通道](channel_buffer.md)
+[关闭通道](channel_close.md)
+[通道方向](channel_direction.md)
+[检测通道是否关闭](channel_close_check.md)
+[遍历通道](channel_range.md)
+[select](select.md)
+
+- [进程ID](process_id.md)
 
 [json](json.md)
 [xml](xml.md)
