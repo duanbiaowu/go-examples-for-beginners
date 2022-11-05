@@ -1,5 +1,5 @@
 # 下载
-1. 打开 [Go 官网下载地址](https://go.dev/dl/)，选择对应的平台，这里以 Windows 为例
+1. 打开 [Go 官网下载地址](https://go.dev/dl/)，选择 Microsoft Windows
 2. 点击对应的版本开始下载，比如 go1.19.1.windows-amd64.msi
 
 # 安装
