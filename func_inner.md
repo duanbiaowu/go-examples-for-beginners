@@ -1,7 +1,5 @@
 # 概述
-
-# 语法规则
-先声明，后定义
+使用的场景：**在函数内部有很多重复性代码并且严重依赖上下文变量**。此时可以在函数内部声明一个函数，专门用来处理重复性的代码。
 
 # 例子
 
@@ -14,7 +12,7 @@ import "fmt"
 func main() {
 	var sum func(...int) int // 声明 sum 函数
 
-	sum = func(numbers ...int) int {	// 定义 sun 函数
+	sum = func(numbers ...int) int {	// 定义 sum 函数
 		total := 0
 		for _, num := range numbers {
 			total += num
