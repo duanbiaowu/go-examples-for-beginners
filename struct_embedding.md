@@ -1,7 +1,5 @@
 # 概述
-
-# 语法规则
-
+Go 支持将多个结构体通过嵌套的方式，组成一个大的结构体，降低了单个结构体复杂度，同时提高了结构体之间组合的灵活性。
 
 # 例子
 为了省略篇幅，本小节只使用 `字面量` 方式初始化，`new()` 的初始化方式请参照 [结构体](struct.md) 小节。
@@ -216,3 +214,6 @@ func main() {
     main.person{name:"小李", age:12, hobby:main.hobby{values:[]string{"读书", "羽毛球", "电影"}}, profession:main.profession{desc:"学生"}, address:main.address{tel:"123-456789", area:"XX 小区 1 栋 2 单元 304"}}
 */
 ```
+
+# 扩展阅读
+1. [为什么有“组合优于继承”的说法 - 知乎](https://www.zhihu.com/question/21862257)
