@@ -1,9 +1,6 @@
 # 概述
+`error` 本质上就是一个接口，原型如下:
 
-
-# 例子
-
-## 系统错误接口原型
 ```go
 package builtin
 
@@ -12,7 +9,9 @@ type error interface {
 }
 ```
 
-## 实现错误接口
+# 例子
+
+## 实现 error 接口
 ```go
 package main
 
@@ -53,7 +52,7 @@ func main() {
 	}
 }
 // $ go run main.go
-// 输出如下，你的输出可能和这里的不一样
+// 输出如下
 /**
     Error: divide by zero
 */
