@@ -1,7 +1,8 @@
 # 概述
-**Go 箴言: 不要通过共享内存来通信，而要通过通信来共享内存。**
+**goroutine 是 Go 程序并发执行的实体**，对于初学者来讲，可以简单地将 `goroutine` 理解为一个 `超轻量的线程`。
 
-对于初学者来讲，可以简单地将 `goroutine` 理解为一个 `超轻量的线程`。
+当一个程序启动时，只有一个 goroutine 调用 main 函数，称为 `主 goroutine`, 当 main 函数返回时，
+所有 goroutine 都会终止 (不论其是否运行完成与否)，然后程序退出。
 
 # 语法规则
 关键字 `go` 启动一个 `goroutine` (可以理解为在后台运行一个函数), 需要注意的是: **`go` 启动的函数没有返回值**。
@@ -134,3 +135,5 @@ func main() {
 
 # 扩展阅读
 1. [协程 - 维基百科](https://zh.wikipedia.org/wiki/%E5%8D%8F%E7%A8%8B)
+2. [线程 - 维基百科](https://zh.wikipedia.org/wiki/%E7%BA%BF%E7%A8%8B)
+3. [Go 圣经 - 第 8 章](https://book.douban.com/subject/27044219/)
