@@ -1,4 +1,7 @@
 # 概述
+建议先阅读 [panic](panic.md) 和 [defer](defer.md)。
+
+
 
 # 语法规则
 recover 必须和 defer 配套使用, defer 和 panic 的顺序非常重要。
