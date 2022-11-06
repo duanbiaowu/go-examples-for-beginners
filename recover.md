@@ -1,10 +1,11 @@
 # 概述
 建议先阅读 [panic](panic.md) 和 [defer](defer.md)。
 
-
+`recover` 会终止 `panic` 状态并且返回 `panic` 的值，函数会从 `panic` 之前执行到的地方直接返回，不会继续往下执行。
 
 # 语法规则
-recover 必须和 defer 配套使用, defer 和 panic 的顺序非常重要。
+**`recover` 和 `defer` 必须配套使用, 如果 `recover` 在其他地方执行会返回 nil，不会产生任何效果。
+`defer` 必须在 `panic` 之前声明，否则 `panic` 会直接终止程序。** 
 
 # 例子
 
