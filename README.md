@@ -7,13 +7,13 @@
     锻炼写作水平
     体会自己了解的东西，教会别人的过程。费曼学习法的践行。
     体验分享的感觉
-    认识新朋友
+    认识新朋友，一起交流，共同进步
   建议顺序阅读
 
-- [环境安装](installation.md)
-- Windows
-- Mac
-- Linux
+- [环境安装]
+  - [Windows](windows.md)
+  - [Mac](mac.md)
+  - [Linux](linux.md)
 - [Go 程序的运行方式及要求](buildandrun.md)
 - [基本代码格式，关键字, 预定义标识符](basesyntaxandkeyword.md)
 - [变量](variables.md)
@@ -22,46 +22,42 @@
 - [自定义类型](typedef.md)
 - [常量生成器](iota.md)
 - [运算优先级](operator_priority.md)
-- 字符
-- 字符串 中文，编码
 
 - [包的导入](import.md)
 - [调试打印](print.md)
 - [自增自减](inc_and_dec.md)
+- [字符串](string.md)
+- [字符](rune.md)
 - [类型转换](data_convert.md)
 - [保留小数位](decimal.md)
 - [指针](pointer.md)
-- uintptr 
-- nil
-[rune](rune.md)
-[错误](error.md)
-- 零值
+- [错误](error.md)
 
 - [if/else](if_else.md)
 - [for](for.md)
 - [range](range.md)
 - [switch](switch.md)
 - [goto / 标签](goto.md)
-可见性 (大写，小写)
-作用域
+- [可见性](visable.md)
+- [作用域](scope.md)
 
 - [数组](array.md)
 - [切片](slice.md)
+- [字节切片](bytes.md)
 - [Map](map.md)
 - [有序 Map](sorted_map.md)
 
 - [函数](func.md)
 - [init](init.md)
-[make, new](make_with_new.md)
-[可变参数](func_variadic_params.md)
-[指针参数](func_pointer_params.md)
-[闭包](func_closures.md)
-[递归](func_recursion.md)
-[内部函数](func_inner.md)
-
-[panic](panic.md)
-[defer](defer.md) 
-[recover](recover.md)
+- [make, new](make_with_new.md)
+- [变长参数](func_variadic_params.md)
+- [指针参数](func_pointer_params.md)
+- [闭包](func_closures.md)
+- [递归](func_recursion.md)
+- [内部函数](func_inner.md)
+- [panic](panic.md)
+- [defer](defer.md)
+- [recover](recover.md)
 
 [结构体](struct.md)
 [嵌套结构体](struct_embedding.md)
@@ -80,14 +76,12 @@
 [遍历通道](channel_range.md)
 [select](select.md)
 
-- [进程ID](process_id.md)
-
-[json](json.md)
-[xml](xml.md)
-[日期, 时间](time.md)
-[时间戳](timestamp.md)
-[random](random.md)
-[正则表达式](regexp.md)
+- [json](json.md)
+- [xml](xml.md)
+- [日期, 时间](time.md)
+- [时间戳](timestamp.md)
+- [random](random.md)
+- [正则表达式](regexp.md)
 
 - [创建, 删除文件](file_create_delete.md)
 - [写文件](file_write.md)
@@ -98,6 +92,7 @@
 - [遍历目录](dir_walk.md) 
 
 - [exit](exit.md)
+- [获取进程ID](process_id.md)
 - [命令行](command.md)
 - [命令行参数](command_args.md)
 - [命令行参数解析与设置](command_flag.md)
@@ -115,5 +110,3 @@
 
 - [原子操作](atomic.md)
 [互斥锁](mutex.md)
-
-泛型
