@@ -12,10 +12,10 @@ for v := range ch { // v 是从通道接收到的值
 ```
 
 # 使用规则
-1. **遍历一个空的通道 (值为 nil) 时，panic**
-2. **遍历一个阻塞 && 未关闭的通道时，panic**
+1. **遍历一个空的通道 (值为 nil) 时，阻塞**
+2. **遍历一个阻塞 && 未关闭的通道时，阻塞**
 3. **遍历一个阻塞 && 已关闭的通道时，不做任何事情**
-4. **遍历一个非阻塞 && 未关闭的通道时，就接收通道内的所有缓存数据，然后 panic**
+4. **遍历一个非阻塞 && 未关闭的通道时，就接收通道内的所有缓存数据，然后阻塞**
 5. **遍历一个非阻塞 && 已关闭的通道时，就接收通道内的所有缓存数据，然后返回**
 
 # 例子
@@ -24,49 +24,54 @@ for v := range ch { // v 是从通道接收到的值
 ```go
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
-	var ch chan string
-	for v := range ch {
-		println(v)
-	}
+	var done chan bool
+
+	go func() {
+		for v := range done {
+			fmt.Printf("v = %v\n", v)
+			break
+		}
+
+		fmt.Println("range broken") // 执行不到这里
+	}()
+
+	time.Sleep(time.Second)
 }
 // $ go run main.go
-// 输出如下
-/**
-    fatal error: all goroutines are asleep - deadlock!
-    
-    ...
-    ...
-
-    exit status 2
-*/
+// 没有任何输出
 ```
 
 ## 遍历一个阻塞 && 未关闭的通道
 ```go
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
-	ch := make(chan string)
-	ch <- "hello world"
+	done := make(chan bool)
 
-	for v := range ch {
-		println(v)
-	}
+	go func() {
+		for v := range done {
+			fmt.Printf("v = %v\n", v)
+			break
+		}
 
-	// 代码执行不到这里
-	close(ch)
+		fmt.Println("range broken") // 执行不到这里
+	}()
+
+	time.Sleep(time.Second)
 }
 // $ go run main.go
-// 输出如下
-/**
-  fatal error: all goroutines are asleep - deadlock!
-
-  ...
-  ...
-
-  exit status 2
-*/
+// 没有任何输出
 ```
 
 ## 遍历一个阻塞 && 已关闭的通道
@@ -86,28 +91,32 @@ func main() {
 
 ## 遍历一个非阻塞 && 未关闭的通道
 
-### 通道中无缓存数据，直接 panic
+### 通道中无缓存数据，阻塞
 ```go
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
 	ch := make(chan string, 1)
-	for v := range ch {
-		println(v)
-	}
-	// 代码执行不到这里
-	close(ch)
+
+	go func() {
+		for v := range ch {
+			fmt.Printf("v = %v\n", v)
+			break
+		}
+
+		fmt.Println("range broken") // 执行不到这里
+	}()
+
+	time.Sleep(time.Second)
 }
+
 // $ go run main.go
-// 输出如下
-/**
-    fatal error: all goroutines are asleep - deadlock!
-    
-    ...
-    ...
-    
-    exit status 2
-*/
+// 没有任何输出
 ```
 
 ### 通道中有 1 个数据
@@ -128,13 +137,7 @@ func main() {
 // $ go run main.go
 // 输出如下
 /**
-  hello world   // 输出 1 个数据
-  fatal error: all goroutines are asleep - deadlock!
-
-  ...
-  ...
-
-  exit status 2
+    v = hello world
 */
 ```
 
@@ -142,31 +145,33 @@ func main() {
 ```go
 package main
 
+import (
+	"fmt"
+	"time"
+)
+
 func main() {
 	ch := make(chan string, 3)
 	for i := 0; i < 3; i++ {
 		ch <- "hello world"
 	}
 
-	for v := range ch {
-		println(v)
-	}
+	go func() {
+		for v := range ch {
+			fmt.Printf("v = %v\n", v)
+		}
 
-	// 代码执行不到这里
-	close(ch)
+		fmt.Println("range broken") // 执行不到这里
+	}()
+
+	time.Sleep(time.Second)
 }
 // $ go run main.go
 // 输出如下
 /**
-  hello world 
-  hello world 
-  hello world 
-  fatal error: all goroutines are asleep - deadlock!
-
-  ...
-  ...
-
-  exit status 2
+    v = hello world
+    v = hello world
+    v = hello world
 */
 ```
 
