@@ -216,3 +216,50 @@ func main() {
     Tom's name is Tom, age is 6, hasMoney is false
 */
 ```
+
+## 忽略公开值
+某些场景下，需要将结构体字段设置为公开可导出，但是又不希望 JSON 序列化时输出该字段，
+可以使用 `-` 符号标识。
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+type person struct {
+	Name  string   `json:"name"`
+	Age   int      `json:"age"`
+	Hobby []string `json:"-"`
+}
+
+func main() {
+	tom := person{ // 使用字面量初始化
+		Name: "Tom",
+		Age:  6,
+		Hobby: []string{
+			"reading",
+			"coding",
+			"movie",
+		},
+	}
+
+	// 前缀符为空字符串，缩进符为两个空格
+	formatted, err := json.MarshalIndent(tom, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("json.MarshalIndent(tom) = \n%s\n", formatted)
+}
+// $ go run main.go
+// 输出如下 
+/**
+    json.MarshalIndent(tom) =
+    {
+      "name": "Tom",
+      "age": 6
+    }
+*/
+```
