@@ -5,7 +5,7 @@
 - make(T) 除了为数据类型 T 分配内存外，还可以指定长度和容量，返回类型为数据的初始化结构，只限于 `切片`, `Map`, `通道`。
 
 <p align="center">
-<img width="600" src="./images/make_with_new.jpg">
+<img width="600" src="./images/make_with_new.png">
 </p>
 
 ## 什么时候用 make()?
