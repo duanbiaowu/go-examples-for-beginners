@@ -1,16 +1,7 @@
 # 目录
 
-前言
-  为什么要写这本书
-    总结输出
-    提炼笔记
-    锻炼写作水平
-    体会自己了解的东西，教会别人的过程。费曼学习法的践行。
-    体验分享的感觉
-    认识新朋友，一起交流，共同进步
-  建议顺序阅读
-
-- [环境安装]
+- [前言](introduction.md)
+- 环境安装
   - [Windows](windows.md)
   - [Mac](mac.md)
   - [Linux](linux.md)
@@ -59,22 +50,22 @@
 - [defer](defer.md)
 - [recover](recover.md)
 
-[结构体](struct.md)
-[嵌套结构体](struct_embedding.md)
-[方法](methods.md)
-[接口](interface.md)
-[实现系统错误接口](implement_error.md)
-[判断是否实现接口](implement.md)
+- [结构体](struct.md)
+- [嵌套结构体](struct_embedding.md)
+- [方法](methods.md)
+- [接口](interface.md)
+- [实现系统错误接口](implement_error.md)
+- [判断是否实现接口](implement.md)
 
-[goroutine](goroutine.md)
-[waitgroup](waitgroup.md)
-[阻塞通道](channel.md)
-[非阻塞通道](channel_buffer.md)
-[关闭通道](channel_close.md)
-[通道方向](channel_direction.md)
-[检测通道是否关闭](channel_close_check.md)
-[遍历通道](channel_range.md)
-[select](select.md)
+- [goroutine](goroutine.md)
+- [waitgroup](waitgroup.md)
+- [缓冲通道](channel.md)
+- [非缓存通道](channel_buffer.md)
+- [关闭通道](channel_close.md)
+- [通道方向](channel_direction.md)
+- [检测通道是否关闭](channel_close_check.md)
+- [遍历通道](channel_range.md)
+- [select](select.md)
 
 - [json](json.md)
 - [xml](xml.md)
@@ -109,4 +100,4 @@
 - [定时器](ticker.md)
 
 - [原子操作](atomic.md)
-[互斥锁](mutex.md)
+- [互斥锁](mutex.md)
