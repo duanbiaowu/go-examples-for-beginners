@@ -59,6 +59,8 @@
 - [接口](interface.md)
 - [实现系统错误接口](implement_error.md)
 - [判断是否实现接口](implement.md)
+- [零值](zero_value.md)
+- [类型比较](type_comparison.md)
 
 ## 协程与通道
 
