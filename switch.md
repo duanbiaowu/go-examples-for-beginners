@@ -177,3 +177,38 @@ func main() {
     invalid n
 */
 ```
+
+## 类型断言
+
+`switch` 可以 `.(type)` 来实现类型断言，判断某个值是否为某个数据类型。
+
+```go
+package main
+
+func main() {
+	var n interface{} // 值必须为 interface 类型
+	n = 1024
+
+	switch n.(type) {
+	case nil:
+		println("n is a nil")
+	case int:
+		println("n is a integer")
+	case float64:
+		println("n is a float64")
+	case bool:
+		println("n is a bool")
+	case string:
+		println("n is a string")
+	default:
+		println("n is invalid")
+	}
+}
+// $ go run main.go
+// 输出如下 
+/**
+    n is a integer
+*/
+```
+
+关于上面代码注释中提到的 `interface`, [后面会讲到](interface.md), 读者这里只需知道关键字 `interface` 代表接口类型即可。
