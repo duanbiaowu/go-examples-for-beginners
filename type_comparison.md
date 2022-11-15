@@ -49,7 +49,7 @@ Go 中有 3 中数据类型不能比较，分别是 `slice`, `map`, `func`，如
 - `字符串` 可比较。
 - `指针` 可比较。如果两个指针指向相同的 `地址` 或者两者都为 `nil`，则两者相等，**但是指向不同的零大小变量的指针可能不相等**。
 - `通道` 可比较。如果两个通道是由同一个 `make` 创建的 (引用的是同一个 channel 指针)，或者两者都为 `nil`, 则两者相等。
-- `interface` 可比较。如果两个 `interface` 具有相同的动态类型和动态值，或者两者都为 `nil`, 则两者相等。
+- `接口` 可比较。`interface` 的内部实现包含了 2 个字段，类型 `T` 和 值 `V`。 如果两个 `接口` 具有相同的动态类型和动态值，或者两者都为 `nil`, 则两者相等。
 - `结构体` 可比较 (如果两个结构体的所有字段都是可比较的)。如果两个结构体对应的非空白字段相等，则两者相等。
 - `数组` 可比较 (如果两个数组的所有元素都是可比较的)。如果两个数组的所有对应元素相等，则两者相等。
 
@@ -148,7 +148,7 @@ func main() {
 
 **比较的前提: 如果两个结构体的所有字段都是可比较的**。
 
-### 两个结构体对应的非空白字段相等
+### 结构体对应的非空白字段相等
 
 ```go
 package main
@@ -206,6 +206,61 @@ func main() {
 // 输出如下
 /**
     nobody == nobody2: true
+*/
+```
+
+## 接口的比较
+
+### 具有相同的动态类型和动态值
+
+```go
+package main
+
+import "fmt"
+
+type person struct {
+	name string
+}
+
+func main() {
+	var tom1, tom2 interface{}
+
+	tom1 = &person{"Tom"}
+	tom2 = &person{"Tom"}
+
+	var tom3, tom4 interface{}
+	tom3 = person{"Tom"}
+	tom4 = person{"Tom"}
+
+	fmt.Printf("tom1 == tom2: %t\n", tom1 == tom2) // false
+	fmt.Printf("tom3 == tom4: %t\n", tom3 == tom4) // true
+}
+// $ go run main.go
+// 输出如下
+/**
+    tom1 == tom2: false
+    tom3 == tom4: true
+*/
+```
+
+上面的示例代码中，tom1 和 tom2 对应的类型是 *person，值是 person 结构体的地址，但是两个地址不同，因此两者不相等,
+tom3 和 tom4 对应的类型是 person，值是 person 结构体且各字段相等，因此两者相等。
+
+### 接口为 nil
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var tom1, tom2 interface{}
+	fmt.Printf("tom1 == tom2: %t\n", tom1 == tom2) // true
+}
+// $ go run main.go
+// 输出如下
+/**
+    tom1 == tom2: true
 */
 ```
 
