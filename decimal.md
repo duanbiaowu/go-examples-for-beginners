@@ -64,3 +64,6 @@ func main() {
 如果对场景产生的数据没办法做到 `100%` 预测，建议:
 1. 使用 `fmt.Sprintf()` 将 `数字` 转为 `字符串`
 2. 使用 [类型转换](data_convert.md)，将 `字符串` 转化为 `浮点型`
+
+# 扩展阅读
+1. [溢出](https://zh.wikipedia.org/wiki/%E7%AE%97%E8%A1%93%E6%BA%A2%E5%87%BA)

@@ -25,7 +25,6 @@
 - [类型转换](data_convert.md)
 - [保留小数位](decimal.md)
 - [指针](pointer.md)
-- [错误](error.md)
 - [if/else](if_else.md)
 - [自增自减](inc_and_dec.md)
 - [for](for.md)
@@ -59,6 +58,7 @@
 - [接口](interface.md)
 - [实现系统错误接口](implement_error.md)
 - [判断是否实现接口](implement.md)
+- [错误](error.md)
 - [零值](zero_value.md)
 - [类型比较](type_comparison.md)
 

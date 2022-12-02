@@ -1,7 +1,9 @@
 # 概述
+
 Go 仅提供了关键字 `for` 来表示循环，并没有提供 `while` 和 `do-while` 语句，这一点和主流编程语言不同。
 
 # 语法规则
+
 ```shell
 for 初始表达式; 条件表达式; 迭代表达式 {
     // do something
@@ -11,7 +13,9 @@ for 初始表达式; 条件表达式; 迭代表达式 {
 **注意: 迭代表达式中，不支持 `++i`, `--i` 这种形式，详情见 [自增/自减](inc_and_dec.md)。**
 
 # 例子
+
 ## 单个计数器
+
 ```go
 package main
 
@@ -20,18 +24,20 @@ func main() {
 		println(i)
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    0
-    1
-    2
-    3
-    4
+  0
+  1
+  2
+  3
+  4
 */
 ```
 
 ## 多个计数器
+
 ```go
 package main
 
@@ -40,18 +46,20 @@ func main() {
 		println("i = ", i, " j = ", j)
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    i =  1  j =  5
-    i =  2  j =  4
-    i =  3  j =  3
-    i =  4  j =  2
-    i =  5  j =  1
- */
+  i =  1  j =  5
+  i =  2  j =  4
+  i =  3  j =  3
+  i =  4  j =  2
+  i =  5  j =  1
+*/
 ```
 
-## 模仿 while 
+## 模仿 while
+
 ```go
 package main
 
@@ -62,6 +70,7 @@ func main() {
 		i++
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
@@ -74,6 +83,7 @@ func main() {
 ```
 
 ## 模仿 do-while
+
 ```go
 package main
 
@@ -87,6 +97,7 @@ func main() {
 		}
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
@@ -99,6 +110,7 @@ func main() {
 ```
 
 ## 无限循环
+
 ```go
 package main
 
@@ -112,6 +124,7 @@ func main() {
 		}
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**

@@ -1,4 +1,5 @@
 # 概述
+
 建议先阅读 [函数](func.md) 和 [接口](interface.md)。
 
 # 例子
@@ -29,10 +30,11 @@ func main() {
 		fmt.Printf("100 / 0 = %.2f\n", divide) // 代码执行不到这里
 	}
 }
+
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样
 /**
-    Error: divide by zero
+  Error: divide by zero
 */
 ```
 
@@ -63,12 +65,14 @@ func main() {
 		fmt.Printf("100 / 0 = %.2f\n", divide) // 代码执行不到这里
 	}
 }
+
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样
 /**
-    Error: 100.00 divide by zero
+  Error: 100.00 divide by zero
 */
 ```
 
 # 最佳实践
+
 **永远不要忽略错误，否则可能会导致程序崩溃！**
