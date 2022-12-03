@@ -73,10 +73,9 @@
 - [检测通道是否关闭](channel_close_check.md)
 - [遍历通道](channel_range.md)
 - [select](select.md)
-- [互斥锁](mutex.md) 
+- [互斥锁](mutex.md)
 - [超时控制](timeout.md)
 - [定时器](ticker.md)
-
 
 ## 常见操作
 
@@ -107,8 +106,8 @@
 - [random](random.md)
 - [正则表达式](regexp.md)
 
-
 ## 作者微信
+
 <p>
 <img width="300" src="./images/wechat_qrcode.jpg">
 </p>
