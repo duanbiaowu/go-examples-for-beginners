@@ -38,7 +38,7 @@
 
 - [数组](array.md)
 - [切片](slice.md)
-- [字节切片](bytes.md)
+- [字符切片](bytes.md)
 - [Map](map.md)
 - [有序 Map](sorted_map.md)
 - [函数](func.md)
