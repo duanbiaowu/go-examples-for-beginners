@@ -4,19 +4,19 @@
 
 # 不同类型对应的零值
 
-| 类型        | 零值    |
-|-----------|-------|
-| bool      | false |
-| int       | 0     |
-| float     | 0.0   |
-| string    | ""    |
-| byte      | ''    |
-| pointer   | nil   |
-| func      | nil   |
-| interface | nil   |
-| slice     | nil   |
-| channel   | nil   |
-| map       | nil   |
+| 类型           | 零值    |
+|--------------|-------|
+| bool         | false |
+| int          | 0     |
+| float        | 0     |
+| string       | ""    |
+| byte (uint8) | 0     |
+| pointer      | nil   |
+| func         | nil   |
+| interface    | nil   |
+| slice        | nil   |
+| channel      | nil   |
+| map          | nil   |
 
 # 例子
 
@@ -88,9 +88,10 @@ func main() {
 	var ch chan bool
 	fmt.Printf("ch = %v\n", ch)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    ch = <nil>
+  ch = <nil>
 */
 ```

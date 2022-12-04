@@ -1,5 +1,6 @@
 # 概述
-`error` 本质上就是一个接口，原型如下:
+
+标准库 `error` 数据类型本质上就是一个接口，原型如下:
 
 ```go
 package builtin
@@ -12,6 +13,7 @@ type error interface {
 # 例子
 
 ## 实现 error 接口
+
 ```go
 package main
 
@@ -51,9 +53,10 @@ func main() {
 		fmt.Printf("100 / 0 = %.2f\n", divide) // 代码执行不到这里
 	}
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    Error: divide by zero
+  Error: divide by zero
 */
 ```

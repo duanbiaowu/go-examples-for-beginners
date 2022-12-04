@@ -1,6 +1,7 @@
 # 概述
 
-`比较运算符` 用来比较两个操作数并返回一个 `bool` 值，常见的比较运算符: 
+`比较运算符` 用来比较两个操作数并返回一个 `bool` 值，常见的比较运算符:
+
 ```shell
 ==    等于
 !=    不等于
@@ -14,7 +15,7 @@
 
 # 不可比较类型
 
-Go 中有 3 中数据类型不能比较，分别是 `slice`, `map`, `func`，如果要比较这 3 种类型，
+Go 中有 3 种数据类型不能比较，分别是 `slice`, `map`, `func`，如果要比较这 3 种类型，
 使用 `reflect.DeepEqual` 函数。
 
 ## 为什么 slice 不能比较
@@ -31,7 +32,7 @@ Go 中有 3 中数据类型不能比较，分别是 `slice`, `map`, `func`，如
 
 **(个人猜测，待验证)**
 
-- `map` 遍历是随机的，无法保证 `key` 的一致性 
+- `map` 遍历是随机的，无法保证 `key` 的一致性
 
 ## 为什么 func 不能比较
 
@@ -42,16 +43,17 @@ Go 中有 3 中数据类型不能比较，分别是 `slice`, `map`, `func`，如
 
 # 可比较类型的具体规则
 
-- `布尔值` 可比较。
-- `整型` 可比较。
-- `浮点型` 可比较。如果两个浮点型值一样 (由 `IEEE-754` 标准定义)，则两者相等。
-- `复数型` 可比较。如果两个复数型值的 `real()` 方法 和 `imag()` 方法都相等，则两者相等。
-- `字符串` 可比较。
-- `指针` 可比较。如果两个指针指向相同的 `地址` 或者两者都为 `nil`，则两者相等，**但是指向不同的零大小变量的指针可能不相等**。
-- `通道` 可比较。如果两个通道是由同一个 `make` 创建的 (引用的是同一个 channel 指针)，或者两者都为 `nil`, 则两者相等。
-- `接口` 可比较。`interface` 的内部实现包含了 2 个字段，类型 `T` 和 值 `V`。 如果两个 `接口` 具有相同的动态类型和动态值，或者两者都为 `nil`, 则两者相等。
-- `结构体` 可比较 (如果两个结构体的所有字段都是可比较的)。如果两个结构体对应的非空白字段相等，则两者相等。
-- `数组` 可比较 (如果两个数组的所有元素都是可比较的)。如果两个数组的所有对应元素相等，则两者相等。
+- `布尔值` 可比较
+- `整型` 可比较
+- `浮点型` 可比较。如果两个浮点型值一样 (由 `IEEE-754` 标准定义)，则两者相等
+- `复数型` 可比较。如果两个复数型值的 `real()` 方法 和 `imag()` 方法都相等，则两者相等
+- `字符串` 可比较
+- `指针` 可比较。如果两个指针指向相同的 `地址` 或者两者都为 `nil`，则两者相等，**但是指向不同的零大小变量的指针可能不相等**
+- `通道` 可比较。如果两个通道是由同一个 `make` 创建的 (引用的是同一个 channel 指针)，或者两者都为 `nil`, 则两者相等
+- `接口` 可比较。`interface` 的内部实现包含了 2 个字段，类型 `T` 和 值 `V`。 如果两个 `接口`
+  具有相同的动态类型和动态值，或者两者都为 `nil`, 则两者相等
+- `结构体` 可比较 (如果两个结构体的所有字段都是可比较的)。如果两个结构体对应的非空白字段相等，则两者相等
+- `数组` 可比较 (如果两个数组的所有元素都是可比较的)。如果两个数组的所有对应元素相等，则两者相等
 
 # 例子
 
@@ -70,10 +72,11 @@ func main() {
 	p2 := &n
 	fmt.Printf("p == p2: %t\n", p == p2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    p == p2: true
+  p == p2: true
 */
 ```
 
@@ -89,10 +92,11 @@ func main() {
 	var p2 *string
 	fmt.Printf("p == p2: %t\n", p == p2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    p == p2: true
+  p == p2: true
 */
 ```
 
@@ -116,11 +120,12 @@ func main() {
 	p3 := &ch
 	fmt.Printf("p == p3: %t\n", p == p3)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    p == p2: false
-    p == p3: true
+  p == p2: false
+  p == p3: true
 */
 ```
 
@@ -137,10 +142,11 @@ func main() {
 
 	fmt.Printf("p == p2: %t\n", p == p2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    p == p2: true
+  p == p2: true
 */
 ```
 
@@ -176,11 +182,12 @@ func main() {
 
 	fmt.Printf("nobody == nobody2: %t\n", nobody == nobody2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    tom == jerry: false
-    nobody == nobody2: true
+  tom == jerry: false
+  nobody == nobody2: true
 */
 ```
 
@@ -202,10 +209,11 @@ func main() {
 
 	fmt.Printf("nobody == nobody2: %t\n", nobody == nobody2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    nobody == nobody2: true
+  nobody == nobody2: true
 */
 ```
 
@@ -235,11 +243,12 @@ func main() {
 	fmt.Printf("tom1 == tom2: %t\n", tom1 == tom2) // false
 	fmt.Printf("tom3 == tom4: %t\n", tom3 == tom4) // true
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    tom1 == tom2: false
-    tom3 == tom4: true
+  tom1 == tom2: false
+  tom3 == tom4: true
 */
 ```
 
@@ -257,10 +266,11 @@ func main() {
 	var tom1, tom2 interface{}
 	fmt.Printf("tom1 == tom2: %t\n", tom1 == tom2) // true
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    tom1 == tom2: true
+  tom1 == tom2: true
 */
 ```
 
@@ -271,4 +281,5 @@ func main() {
 限于时间和篇幅，没有给出所有数据类型的代码示例，读者可以编写代码验证具体的类型比较规则。
 
 # reference
+
 1. https://go.dev/ref/spec#Comparison_operators

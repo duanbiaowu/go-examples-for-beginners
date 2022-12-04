@@ -1,6 +1,6 @@
 # 概述
 
-建议先阅读 [函数](func.md) 和 [接口](interface.md)。
+建议先阅读 [函数](func.md) 和 [接口](interface.md) 小节。
 
 # 例子
 
@@ -32,7 +32,7 @@ func main() {
 }
 
 // $ go run main.go
-// 输出如下，你的输出可能和这里的不一样
+// 输出如下
 /**
   Error: divide by zero
 */
@@ -67,7 +67,7 @@ func main() {
 }
 
 // $ go run main.go
-// 输出如下，你的输出可能和这里的不一样
+// 输出如下
 /**
   Error: 100.00 divide by zero
 */
