@@ -1,18 +1,21 @@
 # 概述
 
-**Go 箴言: 不要通过共享内存来通信，而要通过通信来共享内存。**
-
 建议先阅读 [goroutine](goroutine.md) 小节。
 
-# 通道的概念和作用
+> Go 箴言: 不要通过共享内存来通信，而要通过通信来共享内存。
 
-最主要的作用是用于 goroutine 之间的通信。
+`goroutine` 是 Go 程序并发执行的实体，`channel (通道)` 则是它们之间的连接，用于多个 `goroutine` 之间互相通信。
+通道可以让一个 `goroutine` 发送特定类型值到另一个 `goroutine`，每一个通道可以发送数据类型称为通道的 `元素类型`。
 
 # 阻塞通道与非阻塞通道
 
 通过关键字 `chan` + `数据类型` 来表明通道数据类型，调用 `make()` 函数来初始化一个通道。
 `make()` 函数的第二个参数为通道长度，如果未指定或指定为 0，则该通道为非缓存通道 (阻塞通道),
 否则该通道为缓存通道 ([非阻塞通道](channel_buffer.md))。
+
+# 阻塞通道
+
+![https://stackoverflow.com/questions/39826692/what-are-channels-used-for](./images/channel_buffer.png)
 
 ## 例子
 

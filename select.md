@@ -1,30 +1,34 @@
 # 概述
+
 `select` 类似 `switch`, 包含一系列逻辑分支和一个可选的默认分支。每一个分支对应通道上的一次操作 (发送或接收)，
-可以将 `select` 理解为专门针对通道操作的 `switch` 语句。
+**可以将 `select` 理解为专门针对通道操作的 `switch` 语句**。
 
 # 语法规则
+
 ```go
 select {
-    case v1:= <- ch1:
-        // do something ...  
-    case v2:= <- ch2:
-        // do something ...
-    default: 
-        // do something ...
+case v1 := <- ch1:
+// do something ...  
+case v2 := <- ch2:
+// do something ...
+default:
+// do something ...
 }
 ```
 
 ## 执行顺序
+
 * 当同时存在多个满足条件的通道时，随机选择一个执行
 * 如果没有满足条件的通道时，检测是否存在 default 分支
-  * 如果存在则执行
-  * 否则阻塞等待
+    * 如果存在则执行
+    * 否则阻塞等待
 
 通常情况下，把含有 `default 分支` 的 `select` 操作称为 `无阻塞通道操作`。
 
 # 例子
 
 ## 随机执行一个
+
 ```go
 package main
 
@@ -66,14 +70,16 @@ func main() {
 	close(ch2)
 	close(done)
 }
+
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样, 多运行几次看看效果
 /**
-    ch1 msg = hello
+  ch1 msg = hello
 */
 ```
 
 ## default (无阻塞通道操作)
+
 ```go
 package main
 
@@ -118,15 +124,18 @@ func main() {
 	close(ch2)
 	close(done)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    default !
+  default !
 */
 ```
 
 ## 和 for 搭配使用
+
 通过在 `select` 外层加一个 `for` 循环，可以达到 `无限轮询` 的效果。
+
 ```go
 package main
 
@@ -181,18 +190,19 @@ func main() {
 	close(ch2)
 	close(done)
 }
+
 // $ go run main.go
 // 输出如下，你的输出顺序可能和这里的不一样
 /**
-    [done goroutine]
-    [ch2 goroutine]
-    [ch1 goroutine]
-    ch1 msg = hello
-    [done goroutine]
-    [ch2 goroutine]
-    ch2 msg = world
-    [done goroutine]
-    done !
+  [done goroutine]
+  [ch2 goroutine]
+  [ch1 goroutine]
+  ch1 msg = hello
+  [done goroutine]
+  [ch2 goroutine]
+  ch2 msg = world
+  [done goroutine]
+  done !
 */
 ```
 
