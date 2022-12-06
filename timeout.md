@@ -1,5 +1,6 @@
 # 概述
-利用 `channel` 加 `time.After()` 实现超时控制。
+
+利用 `channel (通道)` 和 `time.After()` 方法实现超时控制。
 
 # 例子
 
@@ -29,9 +30,10 @@ func main() {
 		fmt.Println("timeout!")
 	}
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    timeout!
+  timeout!
 */
 ```

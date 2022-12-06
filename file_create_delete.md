@@ -1,4 +1,5 @@
 # 概述
+
 调用 `os` 包即可。
 
 # 例子
@@ -18,7 +19,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	// 记得关闭文件句柄
 	defer func() {
 		err = file.Close()
@@ -29,14 +30,16 @@ func main() {
 
 	fmt.Printf("file name is %s\n", file.Name())
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    file name is /tmp/test_main.go
+  file name is /tmp/test_main.go
 */
 ```
 
 ## 删除文件
+
 ```go
 package main
 
@@ -68,10 +71,11 @@ func main() {
 		fmt.Printf("%s has been deleted\n", file.Name())
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    file name is /tmp/test_main.go.bak
-    /tmp/test_main.go.bak has been deleted
+  file name is /tmp/test_main.go.bak
+  /tmp/test_main.go.bak has been deleted
 */
 ```

@@ -1,4 +1,5 @@
 # 概述
+
 调用 `os/exec` 包即可。
 
 # 例子
@@ -24,11 +25,12 @@ func main() {
 	}
 	fmt.Printf("%s\n", out)
 }
+
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样
 /**
-    Thu Nov  3 08:14:57 CST 2022
+  Thu Nov  3 08:14:57 CST 2022
 
-    git version 2.30.1 (Apple Git-130)
+  git version 2.30.1 (Apple Git-130)
 */
 ```

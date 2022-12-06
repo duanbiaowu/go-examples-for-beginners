@@ -1,4 +1,5 @@
 # 概述
+
 调用 `os` 包即可。建议先阅读 [创建文件](file_create.md) 和 [写文件](file_write.md)。
 
 # 例子
@@ -21,18 +22,20 @@ func main() {
 
 	fmt.Printf("%s\n", code)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    package main
+  package main
 
-    func main() {
-        println("hello world")
-    }
+  func main() {
+      println("hello world")
+  }
 */
 ```
 
 ## 先获取文件句柄，然后读取
+
 ```go
 package main
 
@@ -64,15 +67,16 @@ func main() {
 	fmt.Printf("%d characters were successfully read\n", n)
 	fmt.Printf("%s\n", code)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    55 characters were successfully read
+  55 characters were successfully read
 
-    package main
-    
-    func main() {
-        println("hello world")
-    }
+  package main
+
+  func main() {
+      println("hello world")
+  }
 */
 ```

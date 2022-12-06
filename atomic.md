@@ -1,7 +1,9 @@
 # 概述
+
 调用 `sync/atomic` 包即可。
 
 # 错误的并发操作
+
 先来看一个错误的示例。
 
 通过启动 `1000 个 goroutine` 来模拟并发调用，在函数内部对变量 `number` 进行自增操作，
@@ -40,11 +42,12 @@ func main() {
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样，多试几次，会发现每次的结果都不一样
 /**
-    number = 971
+  number = 971
 */
 ```
 
 # 正确的并发操作
+
 ```go
 package main
 
@@ -75,6 +78,7 @@ func main() {
 
 	fmt.Printf("number = %d\n", number)
 }
+
 // $ go run main.go
 // 输出如下，多试几次，会发现结果都是一样的
 /**

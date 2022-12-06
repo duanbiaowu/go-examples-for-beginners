@@ -1,4 +1,5 @@
 # 概述
+
 `net/http` 包含了 HTTP 相关方法。
 
 # 例子
@@ -38,22 +39,23 @@ func main() {
 	fmt.Printf("Response body read = %d\n", n)
 	fmt.Printf("Response body = %s\n", body)
 }
+
 // $ go run main.go
-// 输出如下，你的输出可能和这里的不一样
+// 输出如下
 /**
-    Response status code = 200
-    Response content type = text/html
-    Response content length = 227
-    Response body read = 227
-    Response body = <html>
-    <head>
-            <script>
-                    location.replace(location.href.replace("https://","http://"));
-            </script>
-    </head>
-    <body>
-            <noscript><meta http-equiv="refresh" content="0;url=http://www.baidu.com/"></noscript>
-    </body>
-    </html>
+  Response status code = 200
+  Response content type = text/html
+  Response content length = 227
+  Response body read = 227
+  Response body = <html>
+  <head>
+          <script>
+                  location.replace(location.href.replace("https://","http://"));
+          </script>
+  </head>
+  <body>
+          <noscript><meta http-equiv="refresh" content="0;url=http://www.baidu.com/"></noscript>
+  </body>
+  </html>
 */
 ```

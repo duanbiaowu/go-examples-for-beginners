@@ -1,9 +1,11 @@
 # 概述
+
 调用 `regexp` 包即可。
 
 # 例子
 
 ## 是否匹配
+
 ```go
 package main
 
@@ -25,15 +27,17 @@ func main() {
 	}
 	fmt.Println(match)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    true
-    false
+  true
+  false
 */
 ```
 
 ## 匹配所有子字符串
+
 ```go
 package main
 
@@ -54,15 +58,17 @@ func main() {
 	res2 := c.FindAllString("hello world hi ha h1", -1)
 	fmt.Printf("res2 = %v\n", res2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    res = [he]
-    res2 = [he hi ha]
+  res = [he]
+  res2 = [he hi ha]
 */
 ```
 
 ## 替换所有子字符串
+
 ```go
 package main
 
@@ -83,15 +89,17 @@ func main() {
 	res2 := c.ReplaceAll([]byte("hello world hi ha h1"), []byte("?"))
 	fmt.Printf("res2 = %s\n", res2)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    res = ?llo world
-    res2 = ?llo world ? ? h1
+  res = ?llo world
+  res2 = ?llo world ? ? h1
 */
 ```
 
 ## 匹配中文
+
 ```go
 package main
 
@@ -113,10 +121,11 @@ func main() {
 	}
 	fmt.Println(match)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    false
-    true
+  false
+  true
 */
 ```

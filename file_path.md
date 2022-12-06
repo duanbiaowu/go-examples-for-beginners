@@ -1,4 +1,5 @@
 # 概述
+
 调用 `path/filepath` 包即可。
 
 # 例子
@@ -24,12 +25,13 @@ func main() {
 	path2 := filepath.Join("/tmp", "code", "test", "main.go")
 	fmt.Printf("build file path = %s\n", path2) // 获取构建的文件路径
 }
+
 // $ go run main.go
 // 输出如下，你的输出可能和这里的不一样
 /**
-    file abs path = /home/codes/Go-examples-for-beginners/main.go
-    file name = main.go
-    file ext = .go
-    build file path = /tmp/code/test/main.go
+  file abs path = /home/codes/Go-examples-for-beginners/main.go
+  file name = main.go
+  file ext = .go
+  build file path = /tmp/code/test/main.go
 */
 ```

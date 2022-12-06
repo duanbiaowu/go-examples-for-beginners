@@ -1,9 +1,11 @@
 # 概述
+
 调用 `net/url` 包即可。
 
 # 例子
 
 ## 构造 URL
+
 ```go
 package main
 
@@ -25,14 +27,16 @@ func main() {
 
 	fmt.Printf("URL = %s\n", u.String())
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    URL = https://go.dev/learn/doc?hello=world
+  URL = https://go.dev/learn/doc?hello=world
 */
 ```
 
 ## 解析 URL
+
 ```go
 package main
 
@@ -52,15 +56,17 @@ func main() {
 	fmt.Println(u.Scheme)
 	fmt.Println(u.Host)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    https
-    golang.org
+  https
+  golang.org
 */
 ```
 
 ## 解析 URL (带参数)
+
 ```go
 package main
 
@@ -82,12 +88,13 @@ func main() {
 
 	fmt.Printf("Param hello = %s\n", u.Query().Get("hello"))
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    https
-    go.dev
-    /learn/doc
-    Param hello = world
+  https
+  go.dev
+  /learn/doc
+  Param hello = world
 */
 ```

@@ -1,9 +1,11 @@
 # 概述
+
 调用 `os` 包即可。
 
 # 例子
 
-## 文件是否存在
+## 检测文件是否存在
+
 ```go
 package main
 
@@ -17,13 +19,15 @@ func main() {
 		fmt.Printf("%s\n", err)
 	}
 }
+
 // $ go run main.go
 /**
-    stat /tmp/not_found_main.go: no such file or directory
+  stat /tmp/not_found_main.go: no such file or directory
 */
 ```
 
-## 文件是否拥有权限
+## 检测是否拥有文件权限
+
 ```go
 package main
 
@@ -38,9 +42,10 @@ func main() {
 		fmt.Printf("%s\n", err)
 	}
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    open /root/passwd: permission denied
+  open /root/passwd: permission denied
 */
 ```

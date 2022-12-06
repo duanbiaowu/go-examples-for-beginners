@@ -1,4 +1,5 @@
 # 概述
+
 调用 `encoding/base64` 包即可。
 
 # 例子
@@ -27,7 +28,7 @@ func main() {
 // $ go run main.go
 // 输出如下
 /**
-    encode(`hello world`) = aGVsbG8gd29ybGQ=
-    decode(`aGVsbG8gd29ybGQ=`) = hello world
+  encode(`hello world`) = aGVsbG8gd29ybGQ=
+  decode(`aGVsbG8gd29ybGQ=`) = hello world
 */
 ```

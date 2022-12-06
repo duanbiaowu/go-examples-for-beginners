@@ -1,9 +1,11 @@
 # 概述
+
 调用 `os` 包即可。
 
 # 例子
 
 ## 获取参数个数, 遍历参数
+
 ```go
 package main
 
@@ -19,16 +21,17 @@ func main() {
 		fmt.Println(arg)
 	}
 }
+
 // $ go build main.go
 // $ ./main -a -b --c -d
 // 输出如下 
 /**
-    Number of args is 5
+  Number of args is 5
 
-    ./main
-    -a
-    -b
-    --c
-    -d
+  ./main
+  -a
+  -b
+  --c
+  -d
 */
 ```

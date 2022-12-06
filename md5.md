@@ -1,4 +1,5 @@
 # 概述
+
 调用 `crypto/md5` 包即可。
 
 # 例子
@@ -18,9 +19,10 @@ func main() {
 	res := h.Sum(nil)
 	fmt.Printf("md5(`hello world`) = %x\n", res)
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    md5(`hello world`) = 5eb63bbbe01eeed093cb22bb8f5acdc3
+  md5(`hello world`) = 5eb63bbbe01eeed093cb22bb8f5acdc3
 */
 ```

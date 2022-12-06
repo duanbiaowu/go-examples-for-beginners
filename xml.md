@@ -1,9 +1,11 @@
 # 概述
+
 `encoding/xml` 包含了 XML 相关处理方法。
 
 # 例子
 
 ## 结构体转为 XML 字符串
+
 调用 `xml.Marshal()` 方法完成。
 
 ```go
@@ -33,14 +35,16 @@ func main() {
 	}
 	fmt.Printf("xml.Marshal(tom) = %s\n", tomXml) // 从输出字符串中可以看到，并没有 addr 属性
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    xml.Marshal(tom) = <person><name>Tom</name><age>6</age></person>
+  xml.Marshal(tom) = <person><name>Tom</name><age>6</age></person>
 */
 ```
 
 ## XML 字符串转为结构体
+
 调用 `xml.Unmarshal()` 方法完成。
 
 ```go
@@ -75,14 +79,16 @@ func main() {
 	// 从输出字符串中可以看到，并没有为 addr 属性赋值
 	fmt.Printf("Tom's name is %s, age is %d, addr is %s\n", tom.Name, tom.Age, tom.addr)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    Tom's name is Tom, age is 6, addr is
+  Tom's name is Tom, age is 6, addr is
 */
 ```
 
 ## 输出格式化 XML 字符串
+
 调用 `xml.MarshalIndent()` 方法完成。
 
 ```go
@@ -118,21 +124,23 @@ func main() {
 
 	fmt.Printf("xml.MarshalIndent(tom) = \n%s\n", formatted)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    xml.MarshalIndent(tom) =
-    <person>
-        <name>Tom</name>
-        <age>6</age>
-        <hobby>reading</hobby>
-        <hobby>coding</hobby>
-        <hobby>movie</hobby>
-    </person>
+  xml.MarshalIndent(tom) =
+  <person>
+      <name>Tom</name>
+      <age>6</age>
+      <hobby>reading</hobby>
+      <hobby>coding</hobby>
+      <hobby>movie</hobby>
+  </person>
 */
 ```
 
 ## 属性值(版本号)
+
 通过 `attr` 关键字完成。
 
 ```go
@@ -163,17 +171,19 @@ func main() {
 
 	fmt.Printf("%s\n", formatted)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    <person version="1.0">
-        <name>Tom</name>
-        <age>6</age>
-    </person>
+  <person version="1.0">
+      <name>Tom</name>
+      <age>6</age>
+  </person>
 */
 ```
 
 ## 忽略零值
+
 通过 `omitempty` 关键字完成。
 
 ```go
@@ -220,18 +230,19 @@ func main() {
 
 	fmt.Printf("%s\n", formatted) // 从输出字符串中可以看到，有 money 属性
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    <person version="1.0">
-        <name>Tom</name>
-        <age>6</age>
-    </person>
+  <person version="1.0">
+      <name>Tom</name>
+      <age>6</age>
+  </person>
 
-    <person version="1.0">
-        <name>Tom</name>
-        <age>6</age>
-        <money>100</money>
-    </person>
+  <person version="1.0">
+      <name>Tom</name>
+      <age>6</age>
+      <money>100</money>
+  </person>
 */
 ```

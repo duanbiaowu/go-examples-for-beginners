@@ -1,4 +1,5 @@
 # 概述
+
 调用 `os` 包即可。建议先阅读 [创建文件](file_create.md)。
 
 # 例子
@@ -24,19 +25,21 @@ func main() {
 		panic(err)
 	}
 }
+
 // $ go run main.go
 // cat /tmp/test_main.go
 // 输出如下 
 /**
-    package main
+  package main
 
-    func main() {
-        println("hello world")
-    }
+  func main() {
+      println("hello world")
+  }
 */
 ```
 
 ## 先获取文件句柄，然后写入
+
 ```go
 package main
 
@@ -78,9 +81,10 @@ func main() {
 
 	fmt.Printf("%d characters were successfully written\n", n)
 }
+
 // $ go run main.go
 // 输出如下 
 /**
-    55 characters were successfully written
+  55 characters were successfully written
 */
 ```

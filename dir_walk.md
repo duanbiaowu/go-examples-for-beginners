@@ -1,4 +1,5 @@
 # 概述
+
 调用 `path/filepath` 包即可。`filepath.Walk()` 方法非常强大，无需递归，以非常简单的方式实现了整个目录遍历。
 
 建议先阅读 [创建, 删除目录](dir_create_delete.md)。
@@ -17,6 +18,8 @@ import (
 
 func main() {
 	dir := "/tmp/test_main_go_dir"
+	
+	// 创建一些测试目录和文件
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		subDir := filepath.Join(dir, "1", "2", "3")
 		err = os.MkdirAll(subDir, 0755) // 创建多级目录
@@ -24,7 +27,7 @@ func main() {
 			panic(err)
 		}
 
-		// 如果是程序创建的，则退出时删除
+		// 退出时删除目录
 		defer func() {
 			err = os.RemoveAll(dir)
 			if err != nil {
@@ -58,14 +61,15 @@ func main() {
 		panic(err)
 	}
 }
+
 // $ go run main.go
 // 输出如下
 /**
-    [Dir] /tmp/test_main_go_dir
-    [Dir] /tmp/test_main_go_dir/1
-    [Dir] /tmp/test_main_go_dir/1/2
-    [Dir] /tmp/test_main_go_dir/1/2/3
-    [File] /tmp/test_main_go_dir/1/2/3/4.log
-    [File] /tmp/test_main_go_dir/1/2/3/5.log
+  [Dir] /tmp/test_main_go_dir
+  [Dir] /tmp/test_main_go_dir/1
+  [Dir] /tmp/test_main_go_dir/1/2
+  [Dir] /tmp/test_main_go_dir/1/2/3
+  [File] /tmp/test_main_go_dir/1/2/3/4.log
+  [File] /tmp/test_main_go_dir/1/2/3/5.log
 */
 ```
