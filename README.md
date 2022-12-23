@@ -65,8 +65,8 @@
 ## 协程与通道
 
 - [goroutine](goroutine.md)
-- [缓冲通道](channel.md)
-- [非缓存通道](channel_buffer.md)
+- [非缓冲通道](channel.md)
+- [缓冲通道](channel_buffer.md)
 - [关闭通道](channel_close.md)
 - [通道方向](channel_direction.md)
 - [检测通道是否关闭](channel_close_check.md)

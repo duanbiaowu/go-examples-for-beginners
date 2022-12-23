@@ -20,9 +20,9 @@
 ## 例子
 
 ```go
-ch := make(chan string) // 缓冲通道
-ch := make(chan string, 0) // 缓冲通道
-ch := make(chan string, 10) // 非缓冲通道, 容量为 10
+ch := make(chan string) // 非缓冲通道
+ch := make(chan string, 0) // 非缓冲通道
+ch := make(chan string, 10) // 缓冲通道, 容量为 10
 ```
 
 # 3 种操作

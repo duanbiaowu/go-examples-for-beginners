@@ -58,6 +58,8 @@ func main() {
 
 ### 多个包之间引用初始化顺序
 
+新建一个目录 `A`, 并将如下代码写入 `A/a.go` 文件
+
 ```go
 // 定义包 A
 package A
@@ -66,6 +68,8 @@ func init() {
 	println("hello A")
 }
 ```
+
+新建一个目录 `B`, 并将如下代码写入 `B/b.go` 文件
 
 ```go
 // 定义包 B
@@ -77,6 +81,8 @@ func init() {
 	println("hello B")
 }
 ```
+
+将如下代码写入 `main.go` 文件
 
 ```go
 package main
