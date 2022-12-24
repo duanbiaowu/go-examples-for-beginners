@@ -1,6 +1,6 @@
 # 概述
 
-建议先阅读 [阻塞通道](channel.md), [非阻塞通道](channel_buffer.md), [关闭通道](channel_close.md),
+建议先阅读 [非缓冲通道](channel.md), [缓冲通道](channel_buffer.md), [关闭通道](channel_close.md),
 [通道方向](channel_direction.md)。
 
 **Go 语言没有提供函数或方法判断一个通道是否关闭**。因此只能使用一个变通的办法：接收通道元素，根据返回的布尔值确定通道是否关闭。

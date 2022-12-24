@@ -1,6 +1,6 @@
 # 概述
 
-建议先阅读 [range](range.md), [阻塞通道](channel.md), [非阻塞通道](channel_buffer.md)。
+建议先阅读 [range](range.md), [非缓冲通道](channel.md), [缓冲通道](channel_buffer.md)。
 
 `range` 除了可以遍历字符串、切片、数组等数据结构外，还可以遍历通道。
 
