@@ -106,8 +106,6 @@
 - [随机数](random.md)
 - [正则表达式](regexp.md)
 
-## 作者微信
+## 微信
 
-<p>
-<img width="300" src="./images/wechat_qrcode.jpg">
-</p>
+![微信公众号](images/wechat_accounts.png)
