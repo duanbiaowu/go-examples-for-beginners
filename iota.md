@@ -30,6 +30,8 @@ const (
     Saturday    // 6
 )
 
+println(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+
 // $ go run main.go
 // 输出如下 
 /**

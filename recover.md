@@ -6,7 +6,7 @@
 
 # 语法规则
 
-**`recover` 和 `defer` 必须配套使用, 如果 `recover` 在其他地方执行会返回 `nil`，不会产生任何效果。
+**`recover` 必须和 `defer` 配套使用, 如果 `recover` 在其他地方执行会返回 `nil`，不会产生任何效果。
 `defer` 必须在 `panic` 之前声明，否则 `panic` 会直接终止程序。**
 
 # 例子
