@@ -52,8 +52,3 @@
 # 扩展阅读
 1. [Show Your Work](https://book.douban.com/subject/25857796/)
 2. [Anything You Want](https://book.douban.com/subject/26979259/)
-
-# 作者微信
-<p>
-<img width="300" src="./images/wechat_qrcode.jpg">
-</p>
