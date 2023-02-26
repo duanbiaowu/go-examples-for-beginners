@@ -91,5 +91,5 @@ func main() {
 
 # 扩展阅读
 
-1. [类型比较]()
-2. [make VS new]()
+1. [类型比较](../introduction/type_comparison.md)
+2. [make VS new](../introduction/make_with_new.md)

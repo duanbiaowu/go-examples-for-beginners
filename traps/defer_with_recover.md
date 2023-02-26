@@ -422,9 +422,3 @@ func main() {
 - `os.Exit` 会直接退出程序，不用调用已经注册的 `defer` 函数
 - `recover` 必须在 `defer` 函数中调用且必须直接调用
 - 多个 `panic` 注册后，如果 `recover`, 那么只有 1 个 `panic` 会被捕获
-
-# 扩展阅读
-
-1. [defer 基础]()
-2. [panic 基础]()
-3. [recover 基础]()

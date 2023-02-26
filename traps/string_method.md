@@ -77,5 +77,5 @@ func main() {
 
 # 扩展阅读
 
-1. [Go 面向对象]
-2. [Go implements]
+- [Go 面向对象](../engineering/oop_in_go.md)
+- [Go implements](../engineering/implements.md)

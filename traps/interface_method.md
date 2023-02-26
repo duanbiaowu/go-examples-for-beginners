@@ -184,4 +184,4 @@ func main() {
 
 # 扩展阅读
 
-1. [Go 方法基础]()
+- [Go 方法基础](../introduction/methods.md)

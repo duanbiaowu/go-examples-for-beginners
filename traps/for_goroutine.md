@@ -102,8 +102,8 @@ func main() {
 
 # 扩展阅读
 
-1. [Go 并发编程 - 数据竞态]()
-2. [Go 陷阱 - goroutine 竞态](goroutine_race.md)
-3. [Go 原子操作]()
-4. [内存重排 - 维基百科](https://zh.wikipedia.org/zh-tw/%E5%86%85%E5%AD%98%E6%8E%92%E5%BA%8F)
-5. [内存屏障 - 维基百科](https://zh.wikipedia.org/wiki/%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C)
+- [Go 并发编程 - 数据竞态](../engineering/data_race.md)
+- [Go 陷阱 - goroutine 竞态](goroutine_race.md)
+- [Go 原子操作](../introduction/atomic.md)
+- [内存重排 - 维基百科](https://zh.wikipedia.org/zh-tw/%E5%86%85%E5%AD%98%E6%8E%92%E5%BA%8F)
+- [内存屏障 - 维基百科](https://zh.wikipedia.org/wiki/%E5%86%85%E5%AD%98%E5%B1%8F%E9%9A%9C)
