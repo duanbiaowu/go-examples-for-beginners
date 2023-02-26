@@ -4,11 +4,15 @@
 
 ## 工程化
 
+### 构建
+
 - [基础开发配置](engineering/base_config.md)
 - [命令工具必知必会](engineering/command.md)
 - [交叉编译](engineering/compiling_cross_platform.md)
 - [条件编译](engineering/conditional_compilation.md)
 - [upx 优化编译文件体积](engineering/upx.md)
+
+### 测试
 
 - [单元测试必知必会](engineering/test.md)
 - [单元测试覆盖率](engineering/test_cover.md)
@@ -18,12 +22,13 @@
 - [模糊测试-实践](engineering/test_fuzzing_practice.md)
 - [压力测试](engineering/test_performance.md)
 
+### 实践
+
 - [结构体使用技巧](engineering/struct.md)
 - [切片使用技巧](engineering/slice.md)
 - [JSON 使用技巧](engineering/json.md)
 - [embed 嵌入文件](engineering/embed.md)
 - [expvar 监控接口状态](engineering/expvar.md)
-
 - [Go 的面向对象编程](engineering/oop_in_go.md)
 - [如何实现 implements](engineering/implements.md)
 - [数据竞态](engineering/data_race.md)
