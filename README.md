@@ -34,6 +34,27 @@
 - [数据竞态](engineering/data_race.md)
 - [错误处理最佳实践](engineering/error_handle_gracefully.md)
 
+## 陷阱
+
+- [数组和切片参数传递差异](traps/array_with_map_in_params.md)
+- [byte 加减](traps/byte_operation.md)
+- [map](traps/map_struct_assign.md)
+- [copy 复制失败](traps/copy.md)
+- [缓冲区内容不输出](traps/buffer_flush.md)
+- [切片占用过多内存](traps/slice_occupy_memory.md)
+- [实现 String 方法陷入无限递归](traps/string_method.md)
+- [错误处理三剑客](traps/defer_with_recover.md)
+- [几个有趣的 defer 笔试题](traps/defer_exam.md)
+- [nil != nil ?](traps/nil_with_nil.md)
+- [nil 作为参数引发的问题](traps/nil_argument.md)
+- [for 循环赋值错误](traps/for_assign.md)
+- [for 循环调用函数](traps/for_func.md)
+- [for 循环 goroutine 执行顺序不一致](traps/for_goroutine.md)
+- [interface 方法调用规则](traps/interface_method.md)
+- [interface{} != *interface{} ?](traps/interface_error.md)
+- [goroutine 竞态](traps/goroutine_race.md)
+- [goroutine 泄漏](traps/channel_not_closed.md)
+
 ## 微信
 
 ![微信公众号](introduction/images/wechat_accounts.png)
