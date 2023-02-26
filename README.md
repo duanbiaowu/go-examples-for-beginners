@@ -4,6 +4,7 @@
 
 ## 环境安装
 
+- [合并版](install.md)
 - [Windows](windows.md)
 - [Mac](mac.md)
 - [Linux](linux.md)
