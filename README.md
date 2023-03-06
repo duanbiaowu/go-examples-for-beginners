@@ -1,8 +1,12 @@
-## 快速入门
+## 📖 简介
+
+帮助你快速入门、 进阶、熟练掌握 Go 语言编程。
+
+## 🚀 快速入门
 
 - [目录](introduction/README.md)
 
-## 工程化
+## 🛠️ 工程化
 
 ### 构建
 
@@ -34,7 +38,7 @@
 - [数据竞态](engineering/data_race.md)
 - [错误处理最佳实践](engineering/error_handle_gracefully.md)
 
-## 陷阱
+## ☹️ 陷阱
 
 - [数组和切片参数传递差异](traps/array_with_map_in_params.md)
 - [byte 加减](traps/byte_operation.md)
@@ -54,6 +58,8 @@
 - [interface{} != *interface{} ?](traps/interface_error.md)
 - [goroutine 竞态](traps/goroutine_race.md)
 - [goroutine 泄漏](traps/channel_not_closed.md)
+
+## ⚡ 高性能
 
 ## 微信
 
