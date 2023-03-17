@@ -61,6 +61,35 @@
 
 ## ⚡ 高性能
 
+## 📚 设计模式
+
+### 创建型模式
+
+- [构建](patterns/creational/builder.go)
+- [工厂](patterns/creational/factory.go)
+- [对象池](patterns/creational/object_pool.go)
+- [单例](patterns/creational/singleton.go)
+
+### 结构性模式
+
+- [适配器](patterns/structural/adapter.go)
+- [装饰者](patterns/structural/decorator.go)
+- [代理](patterns/structural/proxy.go)
+
+### 行为型模式
+
+- [责任链](patterns/behavioral/chain_of_responsibility.go)
+- [观察者](patterns/behavioral/observer.go)
+- [状态](patterns/behavioral/state.go)
+- [策略](patterns/behavioral/strategy.go)
+
+### 其他模式
+
+- [并发模式](patterns/concurrency/pipeline.go)
+- [常用模式](patterns/idiom/functional_options.go)
+- [K8S](patterns/k8s/visitor.go)
+- [MapReduce](patterns/mapreduce/real_world.go)
+
 ## 微信
 
 ![微信公众号](introduction/images/wechat_accounts.png)
