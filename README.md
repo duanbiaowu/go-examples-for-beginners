@@ -1,6 +1,6 @@
 ## 📖 简介
 
-帮助你快速入门、 进阶、熟练掌握 Go 语言编程。
+帮助你快速入门 & 进阶、熟练掌握 Go 语言编程。
 
 ## 🚀 快速入门
 
@@ -61,6 +61,32 @@
 
 ## ⚡ 高性能
 
+- [for](performance/for.md)
+- [切片预分配](performance/slice_pre_alloc.md)
+- [切片过滤器](performance/slice_filter.md)
+- [切片和数组](performance/slice_with_array.md)
+- [string 与 []byte 转换](performance/string_with_bytes.md)
+- [map 预分配](performance/map_pre_alloc.md)
+- [map key 类型](performance/map_key_type.md)
+- [map 重置和删除](performance/map_free.md)
+- [整数转字符串](performance/int_to_string.md)
+- [字符串拼接](performance/string_concat.md)
+- [截取中文字符串](performance/sub_cn_string.md)
+- [空结构体](performance/empty_struct.md)
+- [结构体切片](performance/struct_slice.md)
+- [timer](performance/timer.md)
+- [对象复用](performance/sync_pool.md)
+- [获取调用堆栈](performance/stack_dump.md)
+- [字节序优化](performance/binary_read_write.md)
+- [goroutine ID](performance/goroutineid.md)
+- [defer](performance/defer.md)
+- [channel 缓冲和非缓冲](performance/channel.md)
+- [互斥锁和读写锁](performance/mutex.md)
+- [内联](performance/inline.md)
+- [内存对齐](performance/memory_alignment.md)
+- [逃逸分析](performance/escape.md)
+- [singleflight](performance/singleflight.md)
+
 ## 📚 设计模式
 
 ### 创建型模式
@@ -85,8 +111,8 @@
 
 ### 其他模式
 
-- [并发模式](patterns/concurrency/pipeline.go)
-- [常用模式](patterns/idiom/functional_options.go)
+- [并发模式](patterns/concurrency/)
+- [常用模式](patterns/idiom/)
 - [K8S](patterns/k8s/visitor.go)
 - [MapReduce](patterns/mapreduce/real_world.go)
 
