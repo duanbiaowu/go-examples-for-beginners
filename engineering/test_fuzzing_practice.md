@@ -505,7 +505,3 @@ ok      example/fuzz  31.025s
 
 1. [原文](https://go.dev/doc/tutorial/fuzz)
 
-# 扩展阅读
-
-1. [字符串](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483701&idx=1&sn=34e3c80f5e89d3bc9a0a5af8b2fe6692&chksm=c02ab395f75d3a83a4803dc9729a3a96f2e0c1c9c3ff3c7ae5242229abcffb7932b4ca3a0e2b&token=2054740862&lang=zh_CN#rd)
-2. [字符切片](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483839&idx=2&sn=5e01e7b68c227b403cbd5f7fa04c6491&chksm=c02ab31ff75d3a09df523a421fe48ddaf2f2391f960e0947f032ea1c35da9775a01f6ebe6780&token=2054740862&lang=zh_CN#rd)

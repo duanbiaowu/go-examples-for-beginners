@@ -126,8 +126,3 @@ _PointerWithValue-8      1.00 ± 0%      1.00 ± 0%      ~     (all equal)
 
 当需要将多个相同类型的 `结构体` 变量存入一个 `切片` 时，请存储 `结构体` 变量的 `指针`。
 
-# 扩展阅读
-
-1. [单元测试覆盖率](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483918&idx=1&sn=33ab348ad2a6210b15c54b75a97684a6&chksm=c02ab0aef75d39b820ebaf45a2accdc4a37c4589d7475d52e1358c9b66e38dfd7e931ee3733e&token=1664433701&lang=zh_CN#rd)
-2. [基准测试数据分析](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483920&idx=1&sn=d32aa0b5ea303bbfab4b8548649a1807&chksm=c02ab0b0f75d39a6e5c8f298269b66b045d437d3b3577bf13415a97d60576b6727ac467a1fdd&token=1664433701&lang=zh_CN#rd)
-3. [基准测试](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483917&idx=1&sn=0d208de2d76ee04feb51cc982f21dca3&chksm=c02ab0adf75d39bb8e114635ba903417298a27fe99e2e4f86745fbec3ef450036a92bd321c15&token=1664433701&lang=zh_CN#rd)
