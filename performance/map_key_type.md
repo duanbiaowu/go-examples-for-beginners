@@ -1,6 +1,6 @@
 # 概述
 
-Map 的 `key` 支持很多数据类型，只要满足 [比较规则](https://mp.weixin.qq.com/s?__biz=Mzg5MzYyNjMxOQ==&mid=2247483856&idx=1&sn=71cb6a089f8118f5b273332bc6745433&chksm=c02ab370f75d3a6611c590439867a07ede7ad6efe23e83f79b0888f606cf25d388f649a873e1&token=1664433701&lang=zh_CN#rd) 即可，
+Map 的 `key` 支持很多数据类型，只要满足 [比较规则](../introduction/type_comparison.md) 即可，
 大多数场景下，我们使用到的是 `int` 和 `string` 两种数据类型，那么两者之间，哪个性能更高一些呢？
 
 # key 类型为 string
