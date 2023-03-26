@@ -28,6 +28,7 @@
 
 ### 实践
 
+- [channel 操作规则](engineering/channel.md)
 - [结构体使用技巧](engineering/struct.md)
 - [切片使用技巧](engineering/slice.md)
 - [JSON 使用技巧](engineering/json.md)
