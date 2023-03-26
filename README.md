@@ -39,7 +39,7 @@
 - [数据竞态](engineering/data_race.md)
 - [错误处理最佳实践](engineering/error_handle_gracefully.md)
 - [Gin 快速入门](engineering/gin)
-
+- [zap 快速入门](engineering/zap)
 
 ## ☹️ 陷阱
 
