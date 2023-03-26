@@ -42,6 +42,7 @@
 - [zap 快速入门](engineering/zap)
 - [wire 快速入门](engineering/wire)
 - [保留小数位数](engineering/util/math.go)
+- [格式化显示占用空间](engineering/util/file.go)
 
 ## ☹️ 陷阱
 
