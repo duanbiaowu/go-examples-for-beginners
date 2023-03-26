@@ -40,6 +40,7 @@
 - [错误处理最佳实践](engineering/error_handle_gracefully.md)
 - [Gin 快速入门](engineering/gin)
 - [zap 快速入门](engineering/zap)
+- [wire 快速入门](engineering/wire)
 
 ## ☹️ 陷阱
 
