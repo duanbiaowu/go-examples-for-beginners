@@ -15,7 +15,8 @@
  两个 接口值 进行比较时，先比较 Type，再比较 Value 接口值 与 非接口值 进行比较时，先将 非接口值 转换为 接口值，然后再进行比较  两个 nil 可能不相等 package main import ( &#34;fmt&#34; ) func main() { var p *int = nil var v interface{} = p // 赋值完成 	fmt.Println(v == p) // true 	fmt.Println(p == nil) // true 	fmt." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/nil_with_nil/" />
-
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
 <title>Nil With Nil | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -175,6 +176,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
+<hr>
 
 
 
@@ -351,6 +353,12 @@ https://github.com/alex-shpak/hugo-book
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>2023-05-28</span>
+    </a>
+  </div>
 
 
 

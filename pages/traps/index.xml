@@ -5,6 +5,7 @@
     <link>https://golang.dbwu.tech/traps/</link>
     <description>Recent content in Traps on Go 语言必知必会</description>
     <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://golang.dbwu.tech/traps/index.xml" rel="self" type="application/rss+xml" />
     
@@ -12,7 +13,7 @@
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/array_with_map_in_params/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/array_with_map_in_params/</guid>
       <description>概述 虽然切片的底层是数组，但是当切片和数组作为函数的参数时，规则是不一样的。
@@ -22,7 +23,7 @@
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/buffer_flush/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/buffer_flush/</guid>
       <description>概述 bufio 包实现了 缓冲 IO，它通过在内部封装一个 io.Reader 或 io.Writer 来实现具体的读写操作。 通过 缓冲 IO 可以大大提升 IO 操作的性能，但是有时候，缓冲区也会带来一些违反直觉的问题。
@@ -33,7 +34,7 @@
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/byte_operation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/byte_operation/</guid>
       <description>概述 标准库中的 byte 类型是 uint8 类型的别名，在所有方面都相当于 uint8，主要作用是用来区分字节类型和无符号整数类型。
@@ -44,7 +45,7 @@
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/channel_not_closed/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/channel_not_closed/</guid>
       <description>通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
@@ -56,7 +57,7 @@ package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main()
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/copy/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/copy/</guid>
       <description>概述 copy 函数可以将一个切片里面的元素拷贝至另外一个切片，函数的原型如下:
@@ -67,7 +68,7 @@ func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切�
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/defer_exam/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/defer_exam/</guid>
       <description>test-1 package main func foo(n int) (t int) { t = n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;
@@ -77,7 +78,7 @@ $ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t i
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/defer_with_recover/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/defer_with_recover/</guid>
       <description>defer defer 语句经常用于成对的操作，比如 打开文件/关闭文件 连接网络/断开网络, 合理地使用 defer 不仅可以提高代码可读性，也降低了忘记释放资源造成的泄漏等问题。
@@ -88,7 +89,7 @@ $ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t i
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/for_assign/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/for_assign/</guid>
       <description>循环赋值错误 错误的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, v := range number { v = i fmt.Printf(&amp;#34; %v&amp;#34;, v) } fmt.Println(&amp;#34;\n&amp;#34;, number) } // $ go run main.go // 输出如下 /** 0 1 2 3 4 [0 0 0 0 0] */ 错误的原因在于: 循环时的 v 变量是从当前元素复制出来的一个临时变量，修改它的值并不会影响到当前元素的值。
@@ -98,7 +99,7 @@ $ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t i
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/for_func/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/for_func/</guid>
       <description>循环调用 defer 错误 defer 在函数退出时才会执行，在循环中执行 defer 释放资源时，由于延迟可能会引发 资源泄露问题。
@@ -110,7 +111,7 @@ $ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t i
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/for_goroutine/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/for_goroutine/</guid>
       <description>循环中 goroutine 执行顺序不一致 错误的做法 package main import &amp;#34;sync&amp;#34; func main() { var wg sync.WaitGroup for i := 0; i &amp;lt; 5; i++ { wg.Add(1) go func(n int) { defer wg.Done() println(n) }(i) } wg.Wait() } // $ go run main.go // 输出如下，顺序是乱序的，你的输出可能和这里的不一样，可以多试几次，看看效果 /** 5 1 4 2 3 */ 错误的原因在于: 虽然 goroutine 是在循环中顺序启动的，但是其执行是并发的 (开始和结束时间不一定)，所以最终输出的结果中，也是乱序的。
@@ -121,7 +122,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/goroutine_race/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/goroutine_race/</guid>
       <description>main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。
@@ -132,7 +133,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/interface_error/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/interface_error/</guid>
       <description>概述 interface{} 类型可以表示任意数据类型，直觉上来看，当然也可以表示 *interface 类型。 那么两者之间可以直接转换吗？我们通过两个小例子来验证一下。
@@ -142,7 +143,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/interface_method/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/interface_method/</guid>
       <description>概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。
@@ -153,7 +154,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/map_struct_assign/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/map_struct_assign/</guid>
       <description>未初始化时导致的报错 当 map 声明后但是未初始时，可以获取元素 (虽然获取不到)，但是无法修改元素 (会导致报错)。
@@ -163,7 +164,7 @@ map 未初始化时导致的报错 package main import &amp;#34;fmt&amp;#34; fun
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/nil_argument/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/nil_argument/</guid>
       <description>概述 nil 可以作为函数参数传入，这意味着函数内部逻辑处理时，不能依赖于传入的实参 (有可能是 nil)， 一定要做必要的 零值 判断。
@@ -175,7 +176,7 @@ map 未初始化时导致的报错 package main import &amp;#34;fmt&amp;#34; fun
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/nil_with_nil/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/nil_with_nil/</guid>
       <description>概述 interface 类型数据结构内部实现包含 2 个字段， 类型 Type 和 值 Value。
@@ -187,7 +188,7 @@ map 未初始化时导致的报错 package main import &amp;#34;fmt&amp;#34; fun
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/slice_occupy_memory/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/slice_occupy_memory/</guid>
       <description>概述 切片的底层数据结构是数组，同样，切片的子切片会引用同样的数组。如果切片不主动不释放的话，那么底层的数组就会一直占用着内存。
@@ -200,7 +201,7 @@ package main import &amp;#34;fmt&amp;#34; func getFirstThreeNumber() []byte { da
     <item>
       <title></title>
       <link>https://golang.dbwu.tech/traps/string_method/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/traps/string_method/</guid>
       <description>概述 通常我们会对某个对象自定义一些方法，大多数情况下，这没有任何问题。但是有一种情况需要注意下，那就是自定义的 String 方法。

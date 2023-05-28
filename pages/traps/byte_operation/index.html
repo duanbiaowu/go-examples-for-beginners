@@ -13,7 +13,8 @@
 例子 错误的做法 package main import &#34;fmt&#34; func main() { a, b := &#39;a&#39;, &#39;b&#39; c := a &#43; b fmt.Printf(&#34;a type = %T, val = %v\n&#34;, a, a) fmt.Printf(&#34;b type = %T, val = %v\n&#34;, b, a) fmt.Printf(&#34;c type = %T, val = %v\n&#34;, c, c) } $ go run main.go # 输出如下 a type = int32, val = 97 b type = int32, val = 97 c type = int32, val = 195 通过输出结果可以看到，字符 a &#43; b 没有得到预料之中的结果 ab, 而是先分别将 a 和 b 转换为数字 97, 98，然后相加得到结果 195。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/byte_operation/" />
-
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
 <title>Byte Operation | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -173,6 +174,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
+<hr>
 
 
 
@@ -319,6 +321,12 @@ c type <span style="color:#f92672">=</span> string, val <span style="color:#f926
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>2023-05-28</span>
+    </a>
+  </div>
 
 
 

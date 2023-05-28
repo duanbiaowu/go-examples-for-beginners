@@ -13,7 +13,8 @@ func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切�
 错误的做法 package main import &#34;fmt&#34; func main() { var src, dst []int src = []int{1, 2, 3} n := copy(dst, src) fmt.Printf(&#34;the number of copied elements is %d\n&#34;, n) fmt.Printf(&#34;dst = %v\n&#34;, dst) } $ go run main.go # 输出如下 the number of copied elements is 0 dst = [] 从输出结果中看到，返回拷贝成功的元素数量为 0, 变量 dst 依然是一个空切片，错误的原因在于: 变量 dst 没有容量来存放变量 src 的元素。 接下来，我们修正这个错误。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/copy/" />
-
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
 <title>Copy | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -173,6 +174,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
+<hr>
 
 
 
@@ -298,6 +300,12 @@ dst <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><sp
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>2023-05-28</span>
+    </a>
+  </div>
 
 
 

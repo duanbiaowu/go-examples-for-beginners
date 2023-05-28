@@ -3,190 +3,203 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://golang.dbwu.tech/engineering/channel/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/embed/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/expvar/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/json/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/compiling_cross_platform/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/slice/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test_fixture/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test_cover/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test_performance/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/command/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/benchstat/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/math/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/base_config/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/format/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/struct/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/upx/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://golang.dbwu.tech/engineering/error_handle_gracefully/</loc>
-    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://golang.dbwu.tech/traps/array_with_map_in_params/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/buffer_flush/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/byte_operation/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/channel_not_closed/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/copy/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/defer_exam/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/defer_with_recover/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/for_assign/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/for_func/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/for_goroutine/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/goroutine_race/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/interface_error/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/interface_method/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/map_struct_assign/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/nil_argument/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/nil_with_nil/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/slice_occupy_memory/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/traps/string_method/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/channel/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/embed/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/expvar/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/json/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/compiling_cross_platform/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/slice/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fixture/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_cover/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_performance/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/command/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/benchstat/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/math/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/base_config/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/format/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/struct/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/upx/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/error_handle_gracefully/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
@@ -194,11 +207,17 @@
   </url>
   
   <url>
-    <loc>https://golang.dbwu.tech/tags/</loc>
+    <loc>https://golang.dbwu.tech/engineering/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://golang.dbwu.tech/traps/</loc>
+    <loc>https://golang.dbwu.tech/</loc>
+    <lastmod>2023-05-28T22:46:51+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/tags/</loc>
   </url>
   
 </urlset>

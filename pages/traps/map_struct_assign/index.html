@@ -11,7 +11,8 @@ map 未初始化时导致的报错 package main import &#34;fmt&#34; func main()
 map 未初始化时导致的报错 package main import &#34;fmt&#34; func main() { var m map[string]int // 获取元素不报错 	if v, ok := m[&#34;zero&#34;]; ok { fmt.Printf(&#34;v = %v\n&#34;, v) } else { fmt.Println(&#34;element not exist&#34;) } m[&#34;zero&#34;] = 0 // 修改元素报错 } // $ go run main.go // 输出如下 /** element not exist panic: assignment to entry in nil map ... ... exit status 2 */  最佳实践: 直接使用 make 声明并初始化 map 。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/map_struct_assign/" />
-
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
 <title>Map Struct Assign | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -171,6 +172,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 </ul>
+<hr>
 
 
 
@@ -385,6 +387,12 @@ https://github.com/alex-shpak/hugo-book
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+      <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>2023-05-28</span>
+    </a>
+  </div>
 
 
 
