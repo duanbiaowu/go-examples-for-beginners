@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta name="generator" content="Hugo 0.68.3" />
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="前言 主要内容 Go 工程化 Go 语言开发必备的小工具和命令行参数文档。  Go 常见陷阱 Go 语言开发中常见的陷阱和可能导致的 Bug , 以及如何规避这些问题。   Go 高性能 Go 语言如何写出高性能的代码，列举了常见的性能优化 Tips。  Go 设计模式 Go 语言如何实现常用的设计模式代码，以及如何写出符合 Go Style 的代码，这部分内容直接链接到仓库的代码。   目标读者 这是一本 Go 语言快速进阶手册，目标读者是已经了解 Go 语言基础语法，希望以最快的时间掌握 Go 语言开发中必备的工具和细节。
+互动与勘误 读者在阅读过程中遇到任何问题 (包括但不限于语法语病、错别字、文章结构、配图等)，直接向仓库提交 PR 或 Issues, 笔者会尽量在第一时间回复并处理， 最后欢迎大家关注我的公众号 :-)">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 语言必知必会" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://golang.dbwu.tech/" />
+<meta property="og:updated_time" content="2023-01-01T00:00:00+00:00" />
+<title>Go 语言必知必会 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.6c16a51877b5a90426dc723c4efbb064e11b44d5d8a0ec860b4126595ea48bc9.js" integrity="sha256-bBalGHe1qQQm3HI8TvuwZOEbRNXYoOyGC0EmWV6ki8k=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://golang.dbwu.tech/index.xml" title="Go 语言必知必会" />
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li><strong>构建</strong>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Go 语言必知必会</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#主要内容">主要内容</a></li>
+        <li><a href="#目标读者">目标读者</a></li>
+        <li><a href="#互动与勘误">互动与勘误</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="前言">前言</h1>
+<h2 id="主要内容">主要内容</h2>
+<div class="book-columns flex flex-wrap">
+
+  <div class="flex-even markdown-inner">
+    <h3 id="go-工程化">Go 工程化</h3>
+<p>Go 语言开发必备的小工具和命令行参数文档。
+  </div>
+
+  <div class="flex-even markdown-inner">
+    <h3 id="go-常见陷阱">Go 常见陷阱</h3>
+<p>Go 语言开发中常见的陷阱和可能导致的 Bug , 以及如何规避这些问题。
+  </div>
+
+</div>
+
+<div class="book-columns flex flex-wrap">
+
+  <div class="flex-even markdown-inner">
+    <h3 id="go-高性能">Go 高性能</h3>
+<p>Go 语言如何写出高性能的代码，列举了常见的性能优化 Tips。
+  </div>
+
+  <div class="flex-even markdown-inner">
+    <h3 id="go-设计模式">Go 设计模式</h3>
+<p>Go 语言如何实现常用的设计模式代码，以及如何写出符合 Go Style 的代码，这部分内容直接链接到仓库的代码。
+  </div>
+
+</div>
+
+<h2 id="目标读者">目标读者</h2>
+<p>这是一本 Go 语言快速进阶手册，目标读者是已经了解 Go 语言基础语法，希望以最快的时间掌握 Go 语言开发中必备的工具和细节。</p>
+<h2 id="互动与勘误">互动与勘误</h2>
+<p>读者在阅读过程中遇到任何问题 (包括但不限于语法语病、错别字、文章结构、配图等)，直接向仓库提交 PR 或 Issues, 笔者会尽量在第一时间回复并处理，
+<strong>最后欢迎大家关注我的公众号</strong> :-)</p>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/_index.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#主要内容">主要内容</a></li>
+        <li><a href="#目标读者">目标读者</a></li>
+        <li><a href="#互动与勘误">互动与勘误</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

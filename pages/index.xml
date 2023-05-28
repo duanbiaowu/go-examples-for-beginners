@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go 语言必知必会</title>
+    <link>https://golang.dbwu.tech/</link>
+    <description>Recent content on Go 语言必知必会</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://golang.dbwu.tech/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>开发环境配置</title>
+      <link>https://golang.dbwu.tech/engineering/base_config/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/engineering/base_config/</guid>
+      <description>概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。
+基础环境变量 GOROOT Go 源代码的安装目录，Mac 和 Windows 安装时会自动配置好，Linux 一般在 /usr/local/go 目录。
+# 查看 $GOROOT 目录 $ echo $GOROOT /usr/local/bin # 设置 $GOROOT 目录 $ export GOROOT=/usr/local/bin # 增加 go 相关命令到 PATH $ export PATH=$PATH:/usr/local/go/bin GOPATH 简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。
+# 查看 $GOPATH 目录 $ echo $GOPATH /home/codes/go # 设置 $GOPATH 目录 $ export GOPATH=/home/codes/go GOPROXY 安装包的下载代理地址，直接使用 七牛云 提供的代理地址 (https://goproxy.cn)，速度非常快！
+# 查看 $GOPROXY 代理地址 $ echo $GOPROXY https://goproxy.cn # 设置 $GOPROXY 目录 $ export GOPROXY=https://goproxy.</description>
+    </item>
+    
+  </channel>
+</rss>

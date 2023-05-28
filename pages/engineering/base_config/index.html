@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。
+基础环境变量 GOROOT Go 源代码的安装目录，Mac 和 Windows 安装时会自动配置好，Linux 一般在 /usr/local/go 目录。
+# 查看 $GOROOT 目录 $ echo $GOROOT /usr/local/bin # 设置 $GOROOT 目录 $ export GOROOT=/usr/local/bin # 增加 go 相关命令到 PATH $ export PATH=$PATH:/usr/local/go/bin GOPATH 简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。
+# 查看 $GOPATH 目录 $ echo $GOPATH /home/codes/go # 设置 $GOPATH 目录 $ export GOPATH=/home/codes/go GOPROXY 安装包的下载代理地址，直接使用 七牛云 提供的代理地址 (https://goproxy.cn)，速度非常快！
+# 查看 $GOPROXY 代理地址 $ echo $GOPROXY https://goproxy.cn # 设置 $GOPROXY 目录 $ export GOPROXY=https://goproxy.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="开发环境配置" />
+<meta property="og:description" content="概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。
+基础环境变量 GOROOT Go 源代码的安装目录，Mac 和 Windows 安装时会自动配置好，Linux 一般在 /usr/local/go 目录。
+# 查看 $GOROOT 目录 $ echo $GOROOT /usr/local/bin # 设置 $GOROOT 目录 $ export GOROOT=/usr/local/bin # 增加 go 相关命令到 PATH $ export PATH=$PATH:/usr/local/go/bin GOPATH 简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。
+# 查看 $GOPATH 目录 $ echo $GOPATH /home/codes/go # 设置 $GOPATH 目录 $ export GOPATH=/home/codes/go GOPROXY 安装包的下载代理地址，直接使用 七牛云 提供的代理地址 (https://goproxy.cn)，速度非常快！
+# 查看 $GOPROXY 代理地址 $ echo $GOPROXY https://goproxy.cn # 设置 $GOPROXY 目录 $ export GOPROXY=https://goproxy." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/base_config/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>开发环境配置 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.6c16a51877b5a90426dc723c4efbb064e11b44d5d8a0ec860b4126595ea48bc9.js" integrity="sha256-bBalGHe1qQQm3HI8TvuwZOEbRNXYoOyGC0EmWV6ki8k=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li><strong>构建</strong>
+<ul>
+<li>
+  <a href="/engineering/base_config/"class=active>开发环境配置</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>开发环境配置</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#基础环境变量">基础环境变量</a>
+      <ul>
+        <li><a href="#goroot">GOROOT</a></li>
+        <li><a href="#gopath">GOPATH</a></li>
+        <li><a href="#goproxy">GOPROXY</a></li>
+        <li><a href="#go111module">GO111MODULE</a></li>
+        <li><a href="#go-命令方法">Go 命令方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#modules">Modules</a>
+      <ul>
+        <li><a href="#初始化一个包">初始化一个包</a></li>
+        <li><a href="#安装依赖">安装依赖</a>
+          <ul>
+            <li><a href="#安装-spf13cast-包">安装 spf13/cast 包</a></li>
+          </ul>
+        </li>
+        <li><a href="#查看依赖">查看依赖</a></li>
+        <li><a href="#升级依赖">升级依赖</a></li>
+        <li><a href="#删除依赖">删除依赖</a></li>
+        <li><a href="#常用命令">常用命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#编辑器">编辑器</a>
+      <ul>
+        <li><a href="#goland">Goland</a></li>
+        <li><a href="#vscode">VSCode</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。</p>
+<h1 id="基础环境变量">基础环境变量</h1>
+<h2 id="goroot">GOROOT</h2>
+<p>Go 源代码的安装目录，<code>Mac</code> 和 <code>Windows</code>  安装时会自动配置好，<code>Linux</code> 一般在 <code>/usr/local/go</code> 目录。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 $GOROOT 目录</span>
+$ echo $GOROOT
+/usr/local/bin
+
+<span style="color:#75715e"># 设置 $GOROOT 目录</span>
+$ export GOROOT<span style="color:#f92672">=</span>/usr/local/bin
+
+<span style="color:#75715e"># 增加 go 相关命令到 PATH</span>
+$ export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
+</code></pre></div><h2 id="gopath">GOPATH</h2>
+<p>简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 $GOPATH 目录</span>
+$ echo $GOPATH
+/home/codes/go
+
+<span style="color:#75715e"># 设置 $GOPATH 目录</span>
+$ export GOPATH<span style="color:#f92672">=</span>/home/codes/go
+</code></pre></div><h2 id="goproxy">GOPROXY</h2>
+<p>安装包的下载代理地址，直接使用 <code>七牛云</code> 提供的代理地址 (<a href="https://goproxy.cn">https://goproxy.cn</a>)，速度非常快！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 $GOPROXY 代理地址</span> 
+$ echo $GOPROXY
+https://goproxy.cn
+
+<span style="color:#75715e"># 设置 $GOPROXY 目录</span>
+$ export GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn
+</code></pre></div><h2 id="go111module">GO111MODULE</h2>
+<p>是否开启了 <code>gomod</code>, 必须开启才可以使用 <code>Go Module</code> 。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 $GO111MODULE 模块开启情况</span> 
+$ echo $GO111MODULE
+on
+
+<span style="color:#75715e"># 设置 $GOPROXY 目录</span>
+$ export GO111MODULE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;on&#34;</span>
+</code></pre></div><p><strong>建议将刚才的配置写入 <code>~/.bashrc</code> 或者 <code>~/.zshrc</code> 文件，永久有效。</strong>
+到这里，我们第一步设置基础环境变量的工作就完成了，可以验证一下设置是否成功:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go env | grep -i -E <span style="color:#e6db74">&#34;root|path|goproxy|module&#34;</span>
+GO111MODULE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;on&#34;</span>
+GOPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/home/codes/go&#34;</span>
+GOPROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://goproxy.cn&#34;</span>
+GOROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/usr/local/go&#34;</span>
+</code></pre></div><p>通过输出结果可以看到，刚才的配置已经全部完成。</p>
+<h2 id="go-命令方法">Go 命令方法</h2>
+<p><code>env</code> 命令除了查看环境变量外，同样可以设置环境变量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 通过 go env 命令设置代理环境变量</span>
+$ go env -w GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct
+</code></pre></div><h1 id="modules">Modules</h1>
+<p>Go 从 1.12 版本开始，默认支持 <code>Go Modules</code>, 从此彻底告别配置 <code>GOPATH</code> 以及包下载及依赖导致的各种奇葩问题。</p>
+<h2 id="初始化一个包">初始化一个包</h2>
+<p>这里假设项目名称为 <code>HelloWorld</code> 。</p>
+<ul>
+<li>新建项目的目录，比如 <code>/home/codes/projects/HelloWorld</code></li>
+<li>切换到 <code>/home/codes/projects/HelloWorld</code> 目录</li>
+<li>执行命令 <code>go mod init helloworld</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 输出如下</span>
+go: creating new go.mod: module helloworld
+go: to add module requirements and sums:
+go mod tidy
+</code></pre></div><ul>
+<li>这时可以看到目录下多了一个 <code>go.mod</code> 文件，其中内容如下</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat go.mod
+module helloworld
+
+go 1.19  <span style="color:#75715e"># 版本号可能和你的不一样</span>
+</code></pre></div><h2 id="安装依赖">安装依赖</h2>
+<p>Go 的包名定义非常简单，就是一个普通的 URL (以域名打头)，可以是主流的代码仓库地址，也可以是自己搭建的代码仓库。
+下面的例子统一以 Github 演示。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 语法规则: 其中版本号可以是 git 分支或 tag</span>
+go get 包名@版本号
+<span style="color:#75715e"># 例: go get github.com/spf13/cast@v1.4.1</span>
+</code></pre></div><h3 id="安装-spf13cast-包">安装 spf13/cast 包</h3>
+<p><code>spf13/cast</code> 是一个数据类型转换包，可以非常简单地对常见数据类型互相转换，并且不会引发 <code>panic</code> 。</p>
+<ul>
+<li>执行命令:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go get github.com/spf13/cast@v1.4.1
+<span style="color:#75715e"># 输出如下</span>
+go: added github.com/spf13/cast v1.4.1
+</code></pre></div><ul>
+<li>打开 <code>go.mod</code> 文件，内容如下:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">module helloworld
+
+go 1.19
+
+require github.com/spf13/cast v1.4.1 // indirect
+</code></pre></div><ul>
+<li>在 <code>go.mod</code> 旁边多了一个 <code>go.sum</code> 文件，内容如下:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">github.com/davecgh/go-spew 
+...
+... 
+github.com/stretchr/testify 
+</code></pre></div><ul>
+<li>使用安装好的包</li>
+</ul>
+<p>将如下代码写入文件 <code>main.go</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/spf13/cast&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cast</span>.<span style="color:#a6e22e">ToString</span>(<span style="color:#ae81ff">1024</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s is a %T, val = %s\n&#34;</span>, <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">s</span>)
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+// 输出如下
+/**
+  s is a string, val <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>
+*/
+</code></pre></div><h2 id="查看依赖">查看依赖</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 列表输出</span>
+$ go list -m -m all
+<span style="color:#75715e"># # json 输出</span>
+$ go list -m -json all 
+
+<span style="color:#75715e"># 输出当前项目的 Module 名称以及依赖报名</span>
+helloworld
+...
+...
+github.com/spf13/cast v1.4.1
+... 
+... 
+</code></pre></div><h2 id="升级依赖">升级依赖</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 语法规则:</span> 
+<span style="color:#75715e"># 升级次级或补丁版本号</span>
+go get -u 包名@版本号
+<span style="color:#75715e"># 仅升级补丁版本号</span>
+go get -u<span style="color:#f92672">=</span>patch 包名@版本号
+</code></pre></div><p>这里，我们将 <code>spf13/cast</code> 包从 <code>v1.4.1</code> 升级到 <code>1.5.0</code>，执行如下命令:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go get -u github.com/spf13/cast@v1.5.0
+<span style="color:#75715e"># 输出如下</span>
+go: upgraded github.com/spf13/cast v1.4.1 <span style="color:#f92672">=</span>&gt; v1.5.0
+</code></pre></div><p>查看 <code>go.mod</code> 文件，内容已经更新为:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">module helloworld
+
+go 1.19
+
+require github.com/spf13/cast v1.5.0 // indirect
+</code></pre></div><h2 id="删除依赖">删除依赖</h2>
+<p>当前项目中有些包已经不再使用了，但是 <code>go.mod</code> 文件中依然定义了依赖关系，可以使用下面的命令<strong>自动整理优化</strong> <code>go.mod</code> 文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go mod tidy
+</code></pre></div><h2 id="常用命令">常用命令</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go mod init  <span style="color:#75715e"># 初始化</span>
+go mod tidy  <span style="color:#75715e"># 更新 (移除) 依赖文件</span>
+go mod download  <span style="color:#75715e"># 下载依赖文件</span>
+
+go mod vendor  <span style="color:#75715e"># 将依赖全部归档到 vendor 目录</span>
+go mod edit    <span style="color:#75715e"># 修改依赖文件</span>
+go mod graph   <span style="color:#75715e"># 打印依赖关系 图</span>
+go mod verify  <span style="color:#75715e"># 校验依赖</span>
+</code></pre></div><p>到这里，<code>Go Modules</code> 的基础配置及使用已经完成，我们可以快速导入成熟的第三方库来加速开发。</p>
+<h1 id="编辑器">编辑器</h1>
+<p><strong>工欲善其事，必先利其器。</strong> 现代化项目开发，一个高效的 IDE 必不可少，下面引入几篇编辑器相关的文档 (实在写不动了 ^_^)。</p>
+<h2 id="goland">Goland</h2>
+<ul>
+<li>
+  <a href="https://polarisxu.studygolang.com/posts/go/2022-dev-env/">安装及配置</a></li>
+<li>
+  <a href="https://strikefreedom.top/archives/jetbrains-open-source-license-for-free">如何获取免费的授权</a></li>
+</ul>
+<h2 id="vscode">VSCode</h2>
+<ul>
+<li>
+  <a href="https://mp.weixin.qq.com/s/J01LY7s6xMB8Lk10sxTFhg">安装及配置</a></li>
+<li>
+  <a href="https://colobu.com/2016/04/21/use-vscode-to-develop-go-programs">安装及配置 - 2</a></li>
+</ul>
+<h1 id="小结">小结</h1>
+<p>这篇文章主要围绕 <code>Go 环境变量</code>, <code>Go Modules</code>, <code>编辑器</code> 三个方面展开讲述，环境变量是基础配置以及 Modules 的基础，
+Module 是对包进行下载和更新等操作的管理工具，最后引入了几篇不错的文档讲解如何安装和配置主流的编辑器。
+到这里，读者应该搭建好自己的开发环境了，还在等什么呢？赶紧去开发一个自己的项目吧 :)</p>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/base_config.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#基础环境变量">基础环境变量</a>
+      <ul>
+        <li><a href="#goroot">GOROOT</a></li>
+        <li><a href="#gopath">GOPATH</a></li>
+        <li><a href="#goproxy">GOPROXY</a></li>
+        <li><a href="#go111module">GO111MODULE</a></li>
+        <li><a href="#go-命令方法">Go 命令方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#modules">Modules</a>
+      <ul>
+        <li><a href="#初始化一个包">初始化一个包</a></li>
+        <li><a href="#安装依赖">安装依赖</a>
+          <ul>
+            <li><a href="#安装-spf13cast-包">安装 spf13/cast 包</a></li>
+          </ul>
+        </li>
+        <li><a href="#查看依赖">查看依赖</a></li>
+        <li><a href="#升级依赖">升级依赖</a></li>
+        <li><a href="#删除依赖">删除依赖</a></li>
+        <li><a href="#常用命令">常用命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#编辑器">编辑器</a>
+      <ul>
+        <li><a href="#goland">Goland</a></li>
+        <li><a href="#vscode">VSCode</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
