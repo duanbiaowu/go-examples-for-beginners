@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 Go 从 1.18 版本开始在内置标准工具链中支持原生 模糊测试 OSS-Fuzz 。
+模糊测试 是一种自动化测试技术，它不断生成输入用以查找程序的 Bug。模糊测试 使用覆盖率报告智能地遍历被测试的代码，查找并向用户报告问题。 模糊测试 可以覆盖开发人员经常忽视的边缘场景，因此对于发现系统的安全漏洞和薄弱环节价值巨大。
+下面是一个模糊测试的例子，主要组成就是高亮部分:
+ 编写模糊测试 必要条件 模糊测试必须遵守下列规则:
+ 模糊测试必须是一个以 Fuzz 为前缀的函数，仅有一个类型为 *testing.F 的参数，并且没有返回值 模糊测试必须在 *_test.go 文件中才可以运行 模糊测试目标必须是调用 (*testing.F).Fuzz 函数，该函数第一个参数类型为 *testing.T, 后面跟模糊测试参数，没有返回值 每个模糊测试必须有一个目标 所有种子语料库条目的类型必须与模糊测试参数以及顺序相同，对于调用 (*testing.F).Add 和模糊测试的 testdata/fuzz 目录中的任何语料库文件都是如此 模糊参数只能是以下数据类型:  string, []byte int, int8, int16, int32/rune, int64 uint, uint8/byte, uint16, uint32, uint64 float32, float64 bool    建议 下面是一些帮助你充分利用模糊测试的建议:
+ 模糊测试目标应该是快速且确定的，这样模糊测试引擎才能高效工作，并且可以轻松复现新的故障和代码覆盖率 由于模糊测试目标是在多个 worker 之间以不确定的顺序运行的，因此 模糊测试目标的状态不应该持续到每次调用结束，并且模糊测试目标的行为不应该依赖全局状态  运行模糊测试 有两种运行模糊测试的方式：作为单元测试（默认 go test）或模糊测试（go test -fuzz=FuzzTestName）。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="模糊测试-理论" />
+<meta property="og:description" content="概述 Go 从 1.18 版本开始在内置标准工具链中支持原生 模糊测试 OSS-Fuzz 。
+模糊测试 是一种自动化测试技术，它不断生成输入用以查找程序的 Bug。模糊测试 使用覆盖率报告智能地遍历被测试的代码，查找并向用户报告问题。 模糊测试 可以覆盖开发人员经常忽视的边缘场景，因此对于发现系统的安全漏洞和薄弱环节价值巨大。
+下面是一个模糊测试的例子，主要组成就是高亮部分:
+ 编写模糊测试 必要条件 模糊测试必须遵守下列规则:
+ 模糊测试必须是一个以 Fuzz 为前缀的函数，仅有一个类型为 *testing.F 的参数，并且没有返回值 模糊测试必须在 *_test.go 文件中才可以运行 模糊测试目标必须是调用 (*testing.F).Fuzz 函数，该函数第一个参数类型为 *testing.T, 后面跟模糊测试参数，没有返回值 每个模糊测试必须有一个目标 所有种子语料库条目的类型必须与模糊测试参数以及顺序相同，对于调用 (*testing.F).Add 和模糊测试的 testdata/fuzz 目录中的任何语料库文件都是如此 模糊参数只能是以下数据类型:  string, []byte int, int8, int16, int32/rune, int64 uint, uint8/byte, uint16, uint32, uint64 float32, float64 bool    建议 下面是一些帮助你充分利用模糊测试的建议:
+ 模糊测试目标应该是快速且确定的，这样模糊测试引擎才能高效工作，并且可以轻松复现新的故障和代码覆盖率 由于模糊测试目标是在多个 worker 之间以不确定的顺序运行的，因此 模糊测试目标的状态不应该持续到每次调用结束，并且模糊测试目标的行为不应该依赖全局状态  运行模糊测试 有两种运行模糊测试的方式：作为单元测试（默认 go test）或模糊测试（go test -fuzz=FuzzTestName）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/test_fuzzing_theory/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>模糊测试-理论 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/"class=active>模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>模糊测试-理论</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#编写模糊测试">编写模糊测试</a>
+      <ul>
+        <li><a href="#必要条件">必要条件</a></li>
+        <li><a href="#建议">建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#运行模糊测试">运行模糊测试</a>
+      <ul>
+        <li><a href="#命令行输出">命令行输出</a></li>
+        <li><a href="#输入失败">输入失败</a></li>
+      </ul>
+    </li>
+    <li><a href="#自定义配置">自定义配置</a></li>
+    <li><a href="#语料库文件格式">语料库文件格式</a></li>
+    <li><a href="#资源">资源</a>
+      <ul>
+        <li><a href="#教程">教程</a></li>
+        <li><a href="#文档">文档</a></li>
+        <li><a href="#技术细节">技术细节</a></li>
+      </ul>
+    </li>
+    <li><a href="#术语表">术语表</a></li>
+    <li><a href="#反馈">反馈</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>Go 从 <code>1.18</code> 版本开始在内置标准工具链中支持原生 <code>模糊测试</code> 
+  <a href="https://google.github.io/oss-fuzz/getting-started/new-project-guide/go-lang/#native-go-fuzzing-support">OSS-Fuzz</a> 。</p>
+<p><code>模糊测试</code> 是一种自动化测试技术，它不断生成输入用以查找程序的 <code>Bug</code>。<code>模糊测试</code> 使用覆盖率报告智能地遍历被测试的代码，查找并向用户报告问题。
+<code>模糊测试</code> 可以覆盖开发人员经常忽视的边缘场景，因此对于发现系统的安全漏洞和薄弱环节价值巨大。</p>
+<p>下面是一个模糊测试的例子，主要组成就是高亮部分:</p>
+<p>
+  <img src="/images/test_fuzzing.png" alt="fuzzing" /></p>
+<h1 id="编写模糊测试">编写模糊测试</h1>
+<h2 id="必要条件">必要条件</h2>
+<p><strong>模糊测试必须遵守下列规则</strong>:</p>
+<ul>
+<li>模糊测试必须是一个以 <code>Fuzz</code> 为前缀的函数，仅有一个类型为 <code>*testing.F</code> 的参数，并且没有返回值</li>
+<li>模糊测试必须在 <code>*_test.go</code> 文件中才可以运行</li>
+<li>模糊测试目标必须是调用 <code>(*testing.F).Fuzz</code> 函数，该函数第一个参数类型为 <code>*testing.T</code>, 后面跟模糊测试参数，没有返回值</li>
+<li>每个模糊测试必须有一个目标</li>
+<li>所有种子语料库条目的类型必须与模糊测试参数以及顺序相同，对于调用 <code>(*testing.F).Add</code> 和模糊测试的 <code>testdata/fuzz</code> 目录中的任何语料库文件都是如此</li>
+<li>模糊参数只能是以下数据类型:
+<ul>
+<li><code>string, []byte</code></li>
+<li><code>int, int8, int16, int32/rune, int64</code></li>
+<li><code>uint, uint8/byte, uint16, uint32, uint64</code></li>
+<li><code>float32, float64</code></li>
+<li><code>bool</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="建议">建议</h2>
+<p>下面是一些帮助你充分利用模糊测试的建议:</p>
+<ul>
+<li><strong>模糊测试目标应该是快速且确定的</strong>，这样模糊测试引擎才能高效工作，并且可以轻松复现新的故障和代码覆盖率</li>
+<li>由于模糊测试目标是在多个 <code>worker</code> 之间以不确定的顺序运行的，因此 <strong>模糊测试目标的状态不应该持续到每次调用结束</strong>，并且模糊测试目标的行为不应该依赖全局状态</li>
+</ul>
+<h1 id="运行模糊测试">运行模糊测试</h1>
+<p>有两种运行模糊测试的方式：作为单元测试（默认 <code>go test</code>）或模糊测试（<code>go test -fuzz=FuzzTestName</code>）。</p>
+<p>默认情况下，模糊测试的运行方式与单元测试非常相似。每个种子语料库条目都将针对模糊测试目标进行测试，如果有失败的测试，会在退出前报告。</p>
+<p>要启用模糊测试，请使用 <code>-fuzz</code> 标志运行 <code>go test</code>，参数为匹配模糊测试函数名的正则表达式。默认情况下，该包中的所有其他测试都将在模糊测试开始之前运行。</p>
+<p>默认情况下，模糊测试发生错误时会停止运行，如果没有发生错误，可能会无限运行下去，这时可以使用参数 <code>-fuzztime</code> 来设置运行时间，例如 <code>go test -fuzz=Fuzz -fuzztime=10s .</code>。</p>
+<p>注意：<strong>模糊测试应该在支持覆盖检测的平台（目前是 <code>AMD64</code> 和 <code>ARM64</code>）上运行</strong>，这样语料库可以在运行时有意义地增长，并且可以在模糊测试时覆盖更多代码。</p>
+<h2 id="命令行输出">命令行输出</h2>
+<p>在进行模糊测试时，模糊测试引擎会生成新的输入，并运行提供的模糊测试目标。默认情况下，它会一直运行，直到发现输入失败或用户取消测试过程（例如使用 <code>Ctrl+C</code>）。</p>
+<p>输出格式大致如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -fuzz FuzzFoo
+fuzz: elapsed: 0s, gathering baseline coverage: 0/192 completed
+fuzz: elapsed: 0s, gathering baseline coverage: 192/192 completed, now fuzzing with <span style="color:#ae81ff">8</span> workers
+fuzz: elapsed: 3s, execs: <span style="color:#ae81ff">325017</span> <span style="color:#f92672">(</span>108336/sec<span style="color:#f92672">)</span>, new interesting: <span style="color:#ae81ff">11</span> <span style="color:#f92672">(</span>total: 202<span style="color:#f92672">)</span>
+fuzz: elapsed: 6s, execs: <span style="color:#ae81ff">680218</span> <span style="color:#f92672">(</span>118402/sec<span style="color:#f92672">)</span>, new interesting: <span style="color:#ae81ff">12</span> <span style="color:#f92672">(</span>total: 203<span style="color:#f92672">)</span>
+fuzz: elapsed: 9s, execs: <span style="color:#ae81ff">1039901</span> <span style="color:#f92672">(</span>119895/sec<span style="color:#f92672">)</span>, new interesting: <span style="color:#ae81ff">19</span> <span style="color:#f92672">(</span>total: 210<span style="color:#f92672">)</span>
+fuzz: elapsed: 12s, execs: <span style="color:#ae81ff">1386684</span> <span style="color:#f92672">(</span>115594/sec<span style="color:#f92672">)</span>, new interesting: <span style="color:#ae81ff">21</span> <span style="color:#f92672">(</span>total: 212<span style="color:#f92672">)</span>
+PASS
+ok      foo 12.692s
+</code></pre></div><p>第一行表示在模糊测试开始之前收集了 <code>基线覆盖率</code>。</p>
+<p>为了收集 <code>基线覆盖率</code>，模糊引擎执行种子语料库和生成的语料库，以确保没有错误发生，并了解现有语料库已经提供的代码覆盖率。</p>
+<p>下面几行是对主动执行模糊测试的说明:</p>
+<ul>
+<li><strong>elapsed</strong>: 模糊测试运行时间</li>
+<li><strong>execs</strong>: 针对模糊测试目标运行的输入总数（自上一条日志行以来的平均 execs/sec）</li>
+<li><strong>new</strong> interesting: 在此模糊执行期间添加到生成的语料库中的“有趣”输入的总数（整个语料库的总大小）</li>
+</ul>
+<h2 id="输入失败">输入失败</h2>
+<p>模糊测试可能会因为下列原因失败:</p>
+<ul>
+<li>代码或测试中发生 <code>panic</code></li>
+<li>模糊测试目标直接或间接通过 <code>t.Error</code> 或 <code>t.Fatal</code> 调用了 <code>t.Fail</code> 方法</li>
+<li>发生了不可恢复的错误，例如 <code>os.Exit</code> 或堆栈溢出</li>
+<li>模糊测试目标花费的时间太长，导致无法完成。目前执行模糊测试目标的超时时间为 <code>1 秒</code>，这可能会因为死锁、无限循环、代码中的预期行为而失败， 这也是为什么建议模糊测试目标运行要尽可能地快的原因之一</li>
+</ul>
+<p>如果发生错误，模糊引擎将尝试将输入最小化为最小可能和最易读的值，这仍然会产生错误。请参阅 
+  <a href="/#%e8%87%aa%e5%ae%9a%e4%b9%89%e9%85%8d%e7%bd%ae">自定义配置</a> 部分。</p>
+<p>最小化完成后，将记录错误消息，输出将以如下内容结尾：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> Failing input written to testdata/fuzz/FuzzFoo/a878c3134fe0404d44eb1e662e5d8d4a24beb05c3d68354903670ff65513ff49
+    To re-run:
+    go test -run<span style="color:#f92672">=</span>FuzzFoo/a878c3134fe0404d44eb1e662e5d8d4a24beb05c3d68354903670ff65513ff49
+FAIL
+exit status <span style="color:#ae81ff">1</span>
+FAIL    foo 0.839s
+</code></pre></div><p>模糊引擎将这个失败的输入写入该模糊测试的种子语料库，现在它将默认运行 <code>go test</code>，一旦错误被修复，它就会作为回归测试。</p>
+<p>下一步是诊断问题、修复错误、通过重新运行 <code>go test</code> 来验证修复，并提交带有新测试数据文件的补丁作为您的回归测试。</p>
+<h1 id="自定义配置">自定义配置</h1>
+<p>默认的 go 命令适用于大多数模糊测试用例。所以典型的一个模糊化运行命令应该是这样的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -fuzz<span style="color:#f92672">={</span>FuzzTestName<span style="color:#f92672">}</span>
+</code></pre></div><p><code>go 命令</code> 提供了一些设置来运行模糊测试，具体的文档请参考 
+  <a href="https://pkg.go.dev/cmd/go">cmd/go</a>。</p>
+<p>重点说几个:</p>
+<ul>
+<li><strong>-fuzztime</strong>: 模糊测试目标在退出前执行的总时间或迭代次数，默认是无限执行</li>
+<li><strong>-fuzzminimizetime</strong>: 在每次最小化尝试期间模糊目标将执行的时间或迭代次数，默认 <code>60 秒</code>，可以通过参数 <code>-fuzzminimizetime=0</code> 禁用</li>
+<li><strong>-parallel</strong>: 同时运行的模糊测试进程数，默认为 <code>$GOMAXPROCS</code>，目前，在模糊测试期间设置 <code>-cpu</code> 无效</li>
+</ul>
+<h1 id="语料库文件格式">语料库文件格式</h1>
+<p>语料库文件以特殊格式编码，种子语料库和生成的语料库都是相同的格式。</p>
+<p>下面是一个典型的语料库文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test fuzz v1
+<span style="color:#f92672">[]</span>byte<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello\\xbd\\xb2=\\xbc ⌘&#34;</span><span style="color:#f92672">)</span>
+int64<span style="color:#f92672">(</span>572293<span style="color:#f92672">)</span>
+</code></pre></div><p>以下每一行都是构成语料库条目的值，如果需要，可以直接复制到 Go 代码中。</p>
+<p>在上面的示例中，我们有一个 <code>[]byte</code> 后跟一个 <code>int64</code>。这些类型必须按顺序与模糊测试参数完全匹配。这些类型的模糊测试目标如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">f.Fuzz<span style="color:#f92672">(</span>func<span style="color:#f92672">(</span>*testing.T, <span style="color:#f92672">[]</span>byte, int64<span style="color:#f92672">)</span> <span style="color:#f92672">{})</span>
+</code></pre></div><p>指定自己的种子语料库值，最简单方法是使用 <code>(*testing.F).Add</code> 方法。例如像这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">f.Add<span style="color:#f92672">([]</span>byte<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hello\\xbd\\xb2=\\xbc ⌘&#34;</span><span style="color:#f92672">)</span>, int64<span style="color:#f92672">(</span>572293<span style="color:#f92672">))</span>
+</code></pre></div><p>但是，对于大型二进制文件，不希望将其作为代码复制到测试中，而是作为单独的种子语料库条目保留在 testdata/fuzz/{FuzzTestName} 目录中。
+<code>file2fuzz</code> 工具可用于将这些二进制文件转换为编码为 []byte 的语料库文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 安装和使用 file2fuzz</span>
+$ go install golang.org/x/tools/cmd/file2fuzz@latest
+$ file2fuzz
+</code></pre></div><h1 id="资源">资源</h1>
+<h2 id="教程">教程</h2>
+<ul>
+<li>
+  <a href="https://go.dev/doc/tutorial/fuzz">Tutorial: Getting started with fuzzing</a></li>
+</ul>
+<h2 id="文档">文档</h2>
+<ul>
+<li>
+  <a href="https://pkg.go.dev//testing#hdr-Fuzzing">testing 包</a> 描述了编写模糊测试时使用的 testing.F 类型</li>
+<li>
+  <a href="https://pkg.go.dev/cmd/go">cmd/go 包</a> 描述与模糊测试相关的标志</li>
+</ul>
+<h2 id="技术细节">技术细节</h2>
+<ul>
+<li>
+  <a href="https://golang.org/s/draft-fuzzing-design">设计方案</a></li>
+<li>
+  <a href="https://golang.org/issue/44551">提案</a></li>
+</ul>
+<h1 id="术语表">术语表</h1>
+<ul>
+<li>corpus entry: 在模糊测试时使用的 <code>语料库输入条目</code>，可以是特殊格式的文件，或者调用 <code>(*testing.F).Add</code> 添加</li>
+<li>coverage guidance: <code>一种模糊测试方法</code>，它使用代码覆盖范围的扩展来确定哪些语料库条目值得保留，以备将来使用</li>
+<li>failing input: 失败的输入是 <code>一个语料库条目</code>，在针对模糊测试目标运行时会导致错误或恐慌</li>
+<li>fuzz target: 在模糊测试时对语料库条目和生成的值 <code>执行模糊测试的函数</code>。它通过将函数传递给 (*testing.F).Fuzz 来提供给模糊测试</li>
+<li>fuzz test: 一个格式为 <code>func FuzzXxx(*testing.F)</code> 并且在 <code>test 文件中的函数</code>，用于模糊测试</li>
+<li>fuzzing: <code>一种自动测试类型</code>，它不断地修改程序的输入，以发现代码可能易受影响的问题，如错误或漏洞</li>
+<li>fuzzing arguments: <code>传递到模糊目标的类型</code>，并且可以被 mutator 修改变异</li>
+<li>fuzzing engine: <code>一种管理模糊测试的工具</code>，包括维护语料库、调用修改器、识别新覆盖范围和报告失败</li>
+<li>generated corpus: <code>由模糊引擎随时间维护的语料库</code>，以跟踪进度。它存储在 <code>$GOCACHE/fuzz</code> 中，这些条目仅在模糊测试时使用</li>
+<li>mutator: <code>模糊测试时使用的一种工具</code>，在将语料库条目传递给模糊测试目标之前，<code>随机操作语料库条目</code></li>
+<li>package: 同一目录中一起编译的源文件的集合</li>
+<li>seed corpus: <code>用户提供的模糊测试语料库</code>，可用于指导模糊引擎。它由 fuzz 测试中的 f.Add 调用提供的语料库条目和包内
+testdata/fuzz/{FuzzTestName} 目录中的文件组成。这些条目默认使用 go test 运行，无论是否进行模糊测试</li>
+<li>test file: xxx_test.go 格式的文件，可能包含功能测试、基准测试、示例、模糊测试</li>
+<li>vulnerability: 代码中可被攻击者利用的薄弱环节</li>
+</ul>
+<h1 id="反馈">反馈</h1>
+<p>如果您遇到任何问题或对某个功能有想法，
+  <a href="https://github.com/golang/go/issues/new?&amp;labels=fuzz">请提出问题</a>。</p>
+<p>有关该功能的讨论和一般反馈，您还可以参与 <code>Gophers Slack</code> 中的 
+  <a href="https://gophers.slack.com/archives/CH5KV1AKE">#fuzzing 频道</a>。</p>
+<h1 id="reference">Reference</h1>
+<ol>
+<li>
+  <a href="https://go.dev/security/fuzz/">原文</a></li>
+</ol>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/test_fuzzing_theory.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#编写模糊测试">编写模糊测试</a>
+      <ul>
+        <li><a href="#必要条件">必要条件</a></li>
+        <li><a href="#建议">建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#运行模糊测试">运行模糊测试</a>
+      <ul>
+        <li><a href="#命令行输出">命令行输出</a></li>
+        <li><a href="#输入失败">输入失败</a></li>
+      </ul>
+    </li>
+    <li><a href="#自定义配置">自定义配置</a></li>
+    <li><a href="#语料库文件格式">语料库文件格式</a></li>
+    <li><a href="#资源">资源</a>
+      <ul>
+        <li><a href="#教程">教程</a></li>
+        <li><a href="#文档">文档</a></li>
+        <li><a href="#技术细节">技术细节</a></li>
+      </ul>
+    </li>
+    <li><a href="#术语表">术语表</a></li>
+    <li><a href="#反馈">反馈</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

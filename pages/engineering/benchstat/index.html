@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述  Benchstat 命令用来计算和比较基准测试的统计数据。
+ 安装 benchstat $ go install golang.org/x/perf/cmd/benchstat@latest # 输出如下 go: downloading golang.org/x/perf v0.0.0-20220920022801-e8d778a60d07 go: downloading github.com/google/safehtml v0.0.2 # 安装完成 # 查看使用帮助 $ benchstat -h usage: benchstat [options] old.txt [new.txt] [more.txt ...] options: -alpha α consider change significant if p &lt; α (default 0.05) ... ... -split labels split benchmarks by labels (default &#34;pkg,goos,goarch&#34;) 参数规则  当参数是单个文件时，打印该文件中的 Benchmark 统计结果 当参数是两个文件时，打印两个文件的 Benchmark 统计结果以及比较信息 当参数是两个以上文件时，分别打印所有文件的 Benchmark 统计结果  例子 这里以一个 求和函数 的小例子作为演示，首先实现一个较慢的版本，接着在这个基础上进行优化，最后使用 benchstat 比较两者差异。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="基准测试数据分析" />
+<meta property="og:description" content="概述  Benchstat 命令用来计算和比较基准测试的统计数据。
+ 安装 benchstat $ go install golang.org/x/perf/cmd/benchstat@latest # 输出如下 go: downloading golang.org/x/perf v0.0.0-20220920022801-e8d778a60d07 go: downloading github.com/google/safehtml v0.0.2 # 安装完成 # 查看使用帮助 $ benchstat -h usage: benchstat [options] old.txt [new.txt] [more.txt ...] options: -alpha α consider change significant if p &lt; α (default 0.05) ... ... -split labels split benchmarks by labels (default &#34;pkg,goos,goarch&#34;) 参数规则  当参数是单个文件时，打印该文件中的 Benchmark 统计结果 当参数是两个文件时，打印两个文件的 Benchmark 统计结果以及比较信息 当参数是两个以上文件时，分别打印所有文件的 Benchmark 统计结果  例子 这里以一个 求和函数 的小例子作为演示，首先实现一个较慢的版本，接着在这个基础上进行优化，最后使用 benchstat 比较两者差异。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/benchstat/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>基准测试数据分析 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/"class=active>基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>基准测试数据分析</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#安装-benchstat">安装 benchstat</a></li>
+    <li><a href="#参数规则">参数规则</a></li>
+    <li><a href="#例子">例子</a>
+      <ul>
+        <li><a href="#较慢的函数">较慢的函数</a></li>
+        <li><a href="#较快的函数">较快的函数</a></li>
+        <li><a href="#benchstat-比较差异">benchstat 比较差异</a>
+          <ul>
+            <li><a href="#-alpha-参数">-alpha 参数</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<blockquote>
+<p>Benchstat 命令用来计算和比较基准测试的统计数据。</p>
+</blockquote>
+<h1 id="安装-benchstat">安装 benchstat</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go install golang.org/x/perf/cmd/benchstat@latest
+<span style="color:#75715e"># 输出如下</span>
+go: downloading golang.org/x/perf v0.0.0-20220920022801-e8d778a60d07
+go: downloading github.com/google/safehtml v0.0.2
+
+<span style="color:#75715e"># 安装完成</span>
+<span style="color:#75715e"># 查看使用帮助</span>
+$ benchstat -h
+
+usage: benchstat <span style="color:#f92672">[</span>options<span style="color:#f92672">]</span> old.txt <span style="color:#f92672">[</span>new.txt<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>more.txt ...<span style="color:#f92672">]</span>
+options:
+  -alpha α
+        consider change significant <span style="color:#66d9ef">if</span> p &lt; α <span style="color:#f92672">(</span>default 0.05<span style="color:#f92672">)</span>
+  ...
+  ...
+  -split labels
+        split benchmarks by labels <span style="color:#f92672">(</span>default <span style="color:#e6db74">&#34;pkg,goos,goarch&#34;</span><span style="color:#f92672">)</span>
+
+</code></pre></div><h1 id="参数规则">参数规则</h1>
+<ul>
+<li>当参数是单个文件时，打印该文件中的 <code>Benchmark</code> 统计结果</li>
+<li>当参数是两个文件时，打印两个文件的 <code>Benchmark</code> 统计结果以及比较信息</li>
+<li>当参数是两个以上文件时，分别打印所有文件的 <code>Benchmark</code> 统计结果</li>
+</ul>
+<h1 id="例子">例子</h1>
+<p>这里以一个 <code>求和函数</code> 的小例子作为演示，首先实现一个较慢的版本，接着在这个基础上进行优化，最后使用 <code>benchstat</code> 比较两者差异。</p>
+<h2 id="较慢的函数">较慢的函数</h2>
+<p>将如下代码写入 <code>main.go</code> 文件中:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#75715e">// 求和函数 (较慢的版本)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">total</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">total</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">i</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">total</span>
+}
+</code></pre></div><p>将如下代码写入 <code>main_test.go</code> 文件中:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">100</span>)
+	}
+}
+</code></pre></div><p>运行基准测试，并将测试结果写入 <code>slow.txt</code> 文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 因为函数实现过于简单，设置运行次数为 1000 万</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000000x  &gt; slow.txt
+
+<span style="color:#75715e"># 查看基准测试结果</span>
+$ cat slow.txt 
+
+goos: linux
+goarch: amd64
+pkg: helloworld
+cpu: Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-8300H CPU @ 2.30GHz
+Benchmark_sum-8         <span style="color:#ae81ff">10000000</span>                34.10 ns/op
+PASS
+ok      helloworld      0.345s
+</code></pre></div><p>从输出文件结果中可以看到，函数每次执行耗时 34.10 纳秒。</p>
+<h2 id="较快的函数">较快的函数</h2>
+<p>在较慢的函数基础上，使用 <code>高斯公式</code> 进行优化，将如下代码写入 <code>main.go</code> 文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#75715e">// 求和函数 (优化后版本)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">return</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">n</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e">// 高斯公式
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>运行基准测试，并将测试结果写入 <code>fast.txt</code> 文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 因为函数实现过于简单，设置运行次数为 1000 万</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000000x  &gt; fast.txt
+
+<span style="color:#75715e"># 查看基准测试结果</span>
+$ cat fast.txt 
+
+goos: linux
+goarch: amd64
+pkg: helloworld
+cpu: Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-8300H CPU @ 2.30GHz
+Benchmark_sum-8         <span style="color:#ae81ff">10000000</span>                 0.2653 ns/op
+PASS
+ok      helloworld      0.006s
+</code></pre></div><p>从输出文件结果中可以看到，函数每次执行耗时 0.2653 纳秒，<strong>优化后的性能非常高！</strong></p>
+<h2 id="benchstat-比较差异">benchstat 比较差异</h2>
+<p>最后，使用 <code>benchstat</code> 命令来比较较慢版本和高斯公式版本的差别:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat slow.txt fast.txt
+<span style="color:#75715e"># 输出结果如下</span>
+name    old time/op  new time/op  delta
+_sum-8  34.1ns ± 0%   0.3ns ± 0%   ~     <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+<span style="color:#75715e"># 第 1 列: 基准测试函数名称</span> 
+<span style="color:#75715e"># 第 2 列: 较慢函数基准测试统计</span>
+<span style="color:#75715e"># 第 3 列: 高斯公式基准测试统计</span>
+<span style="color:#75715e"># 第 4 列: 优化比例</span>
+</code></pre></div><h3 id="-alpha-参数">-alpha 参数</h3>
+<p>从刚才 <code>benchstat</code> 命令的输出结果中可以看到，高斯公式优化的比例非常大，但是为什么 <code>delta</code> 列却显示的是 <code>~</code> 呢？
+这是因为 <code>benchstat</code> 有一个 <code>-alpha</code> 参数用来表示 <code>重大变化的考虑因素</code>，默认值为 0.05 (
+虽然笔者也没查到这个值的具体计算方式)，
+但是这里不妨先把这个值设置的大一些，看看是否可以输出 <code>delta</code> 列的数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 将 -alpha 参数设置为 100</span>
+$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> slow.txt fast.txt
+<span style="color:#75715e"># 输出如下</span>
+name    old time/op  new time/op  delta
+_sum-8  34.1ns ± 0%   0.3ns ± 0%  -99.22%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+</code></pre></div><p>可以对结果简单地进行验证: <code>( 34.10 - 0.2653 ) / 34.10 = 0.9922199....</code>，这下和 <code>delta</code> 列数据对应上了。</p>
+<blockquote>
+<p>Tips: 对于优化空间非常大的基准测试结果，比较时应该加上 -alpha 参数。</p>
+</blockquote>
+<h1 id="小结">小结</h1>
+<p>本小节主要介绍了 <code>benchstat</code> 命令的基本应用，使用一个求和函数作为示例，并将两个实现方案 (普通累计和高斯公式) 进行对比，
+因为优化的空间非常大，最后使用 -alpha 参数才输出了 <code>delta</code> 列的数据。</p>
+<blockquote>
+<p>题外话：示例直观地表现出了算法优化的威力，而算法的基础是数学。据说高斯公式是高斯在 8 岁的时候提出来的，数学王子的美誉名不虚传。</p>
+</blockquote>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/benchstat.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#安装-benchstat">安装 benchstat</a></li>
+    <li><a href="#参数规则">参数规则</a></li>
+    <li><a href="#例子">例子</a>
+      <ul>
+        <li><a href="#较慢的函数">较慢的函数</a></li>
+        <li><a href="#较快的函数">较快的函数</a></li>
+        <li><a href="#benchstat-比较差异">benchstat 比较差异</a>
+          <ul>
+            <li><a href="#-alpha-参数">-alpha 参数</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

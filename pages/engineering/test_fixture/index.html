@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:
+ 测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接 测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件  这种 被共享且状态变化次数很少的值 称为测试的 基境，最佳实践是将测试代码中可以复用的部分 放入 基境。
+TestMain TestMain 函数运行在主 goroutine 中 , 可以在调用 m.Run 前后设置 钩子 函数。 如果测试文件中包含 TestMain(*testing.M) 函数， 所有测试方法必须调用参数的 Run 方法触发，如果不调用该方法，直接运行 go test 没有任何效果。 可以利用这一特性， 在 Run 方法执行前后分别挂载 钩子 函数实现 基境 功能。在 TestMain 函数末尾，应该使用 m.Run 的返回值作为参数去调用 os.Exit。
+示例 首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 基境 演示，方法内部并不会去实现具体的功能。
+CURD 方法 将如下代码写入 main.go 文件中:
+package main func create() { println(&#34;create internal&#34;) } func update() { println(&#34;update internal&#34;) } func get() { println(&#34;get internal&#34;) } func delete() { println(&#34;delete internal&#34;) } func main() { } 测试基境 将如下代码写入 main_test.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="单元测试基境" />
+<meta property="og:description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:
+ 测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接 测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件  这种 被共享且状态变化次数很少的值 称为测试的 基境，最佳实践是将测试代码中可以复用的部分 放入 基境。
+TestMain TestMain 函数运行在主 goroutine 中 , 可以在调用 m.Run 前后设置 钩子 函数。 如果测试文件中包含 TestMain(*testing.M) 函数， 所有测试方法必须调用参数的 Run 方法触发，如果不调用该方法，直接运行 go test 没有任何效果。 可以利用这一特性， 在 Run 方法执行前后分别挂载 钩子 函数实现 基境 功能。在 TestMain 函数末尾，应该使用 m.Run 的返回值作为参数去调用 os.Exit。
+示例 首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 基境 演示，方法内部并不会去实现具体的功能。
+CURD 方法 将如下代码写入 main.go 文件中:
+package main func create() { println(&#34;create internal&#34;) } func update() { println(&#34;update internal&#34;) } func get() { println(&#34;get internal&#34;) } func delete() { println(&#34;delete internal&#34;) } func main() { } 测试基境 将如下代码写入 main_test." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/test_fixture/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>单元测试基境 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/"class=active>单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>单元测试基境</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#testmain">TestMain</a></li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#curd-方法">CURD 方法</a></li>
+        <li><a href="#测试基境">测试基境</a></li>
+        <li><a href="#运行测试">运行测试</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>编写测试代码时，最繁琐的部分之一是将一些 <code>公共的状态变量</code> 设置为某个特定的状态。比如常见的场景:</p>
+<ul>
+<li>测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接</li>
+<li>测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件</li>
+</ul>
+<p>这种 <strong>被共享且状态变化次数很少的值</strong> 称为测试的 <code>基境</code>，<strong>最佳实践是将测试代码中可以复用的部分</strong> 放入 <code>基境</code>。</p>
+<h1 id="testmain">TestMain</h1>
+<p><code>TestMain</code> 函数运行在主 <code>goroutine</code> 中 , 可以在调用 <code>m.Run</code> 前后设置 <code>钩子</code> 函数。
+如果测试文件中包含 <code>TestMain(*testing.M)</code> 函数，
+所有测试方法必须调用参数的 <code>Run</code> 方法触发，如果不调用该方法，直接运行 <code>go test</code> 没有任何效果。 可以利用这一特性，
+在 <code>Run</code> 方法执行前后分别挂载 <code>钩子</code> 函数实现 <code>基境</code> 功能。在 <code>TestMain</code> 函数末尾，应该使用 <code>m.Run</code>
+的返回值作为参数去调用 <code>os.Exit</code>。</p>
+<h1 id="示例">示例</h1>
+<p>首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 <code>基境</code> 演示，方法内部并不会去实现具体的功能。</p>
+<h2 id="curd-方法">CURD 方法</h2>
+<p>将如下代码写入 <code>main.go</code> 文件中:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">create</span>() {
+	println(<span style="color:#e6db74">&#34;create internal&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">update</span>() {
+	println(<span style="color:#e6db74">&#34;update internal&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">get</span>() {
+	println(<span style="color:#e6db74">&#34;get internal&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> delete() {
+	println(<span style="color:#e6db74">&#34;delete internal&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+
+}
+</code></pre></div><h2 id="测试基境">测试基境</h2>
+<p>将如下代码写入 <code>main_test.go</code> 文件中:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;os&#34;</span>
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#75715e">// 基境初始化操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setup</span>() {
+	<span style="color:#75715e">// 模拟数据库建立连接操作
+</span><span style="color:#75715e"></span>	println(<span style="color:#e6db74">&#34;database connected&#34;</span>)
+}
+
+<span style="color:#75715e">// 基境释放资源操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">tearDown</span>() {
+	<span style="color:#75715e">// 模拟数据库断开连接操作
+</span><span style="color:#75715e"></span>	println(<span style="color:#e6db74">&#34;database closed&#34;</span>)
+}
+
+<span style="color:#75715e">// 注意参数是 *testing.M, 而非 *testing.T
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestMain</span>(<span style="color:#a6e22e">m</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">M</span>) {
+	<span style="color:#a6e22e">setup</span>()
+	<span style="color:#a6e22e">code</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">Run</span>() <span style="color:#75715e">// 调用 m.Run() 触发所有 Test_* 测试函数
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tearDown</span>()
+	<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#a6e22e">code</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_create</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+	<span style="color:#a6e22e">create</span>() <span style="color:#75715e">// 演示专用，内部不做任何测试
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_update</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+	<span style="color:#a6e22e">update</span>() <span style="color:#75715e">// 演示专用，内部不做任何测试
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_get</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+	<span style="color:#a6e22e">get</span>() <span style="color:#75715e">// 演示专用，内部不做任何测试
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_delete</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+	<span style="color:#a6e22e">remove</span>() <span style="color:#75715e">// 演示专用，内部不做任何测试
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>在上面的代码中，4 个数据库操作函数，因为每个操作都必须持有一个数据库连接对象 (这里只是模拟， 并没有真正去实现代码)，
+所以这里可以将 <code>数据库的连接和断开两个操作</code> 提取为 <code>基境</code>。 接着将 <code>基境</code> 放入 <code>setup</code> 和 <code>tearDown</code> 两个 <code>钩子</code> 函数，
+分别对应数据库的连接和断开操作，最后将两个函数挂载到了 <code>m.Run()</code> 执行的前后，这样就可以自动化运行 <code>基境</code> 操作了。</p>
+<h2 id="运行测试">运行测试</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$go test -v -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> . 
+<span style="color:#75715e"># 输出如下</span> 
+database connected
+<span style="color:#f92672">===</span> RUN   Test_create        
+create internal
+--- PASS: Test_create <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+<span style="color:#f92672">===</span> RUN   Test_update        
+update internal
+--- PASS: Test_update <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+<span style="color:#f92672">===</span> RUN   Test_get
+get internal
+--- PASS: Test_get <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>   
+<span style="color:#f92672">===</span> RUN   Test_delete        
+remove internal
+--- PASS: Test_delete <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+PASS
+database closed
+ok      helloworld      0.002s
+</code></pre></div><p>从输出的结果中可以看到，第一行输出了数据库连接操作，最后一行输出了数据库断开连接操作，中间部分是 4 个测试函数。</p>
+<h1 id="小结">小结</h1>
+<p>本小节主要介绍了单元测试中 <code>基境</code> 的场景和基本用法，实际开发过程中，<code>基境</code> 的代码不会像示例代码中这么简单，会随着测试代码量的增加而增长，
+比较好的实践是: <strong>合理切分包、单个文件的功能和大小，将不同的测试函数进行分类，在这个基础上提取 <code>基境</code> 函数功能</strong>。</p>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/test_fixture.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#testmain">TestMain</a></li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#curd-方法">CURD 方法</a></li>
+        <li><a href="#测试基境">测试基境</a></li>
+        <li><a href="#运行测试">运行测试</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

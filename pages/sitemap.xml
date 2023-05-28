@@ -18,7 +18,32 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fixture/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_cover/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_performance/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/command/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/benchstat/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -29,6 +54,16 @@
   
   <url>
     <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
