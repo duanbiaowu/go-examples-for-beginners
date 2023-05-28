@@ -2,6 +2,8 @@
 
 帮助你快速入门 & 进阶、熟练掌握 Go 语言编程。
 
+- [在线阅读](https://golang.dbwu.tech/)
+
 ## 🚀 快速入门
 
 - [目录](introduction/README.md)

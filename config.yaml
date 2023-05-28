@@ -1,9 +1,11 @@
 # hugo server --minify --themesDir ... --baseURL=http://0.0.0.0:1313/theme/hugo-book/
 
-baseURL: https://example.com/
-title: Go 语言快速进阶
+baseURL: https://golang.dbwu.tech/
+title: Go 语言必知必会
 theme: hugo-book
 publishDir: pages
+
+defaultContentLanguage: zh
 
 # Book configuration
 disablePathToLower: true
@@ -22,18 +24,18 @@ markup:
 # See https://gohugo.io/content-management/multilingual/#translation-by-filename
 # And https://gohugo.io/content-management/multilingual/#translation-by-content-directory
 languages:
-  en:
-    languageName: English
+  zh:
+    languageName: zh
     contentDir: content
     weight: 1
-#  ru:
-#    languageName: Russian
-#    contentDir: content.ru
-#    weight: 2
+#  en:
+#    languageName: English
+#    contentDir: content.en
+#    weight: 1
 #  zh:
 #    languageName: Chinese
-#    contentDir: content.zh
-#    weight: 3
+#    contentDir: content
+#    weight: 1
 
 menu:
   # before: []
@@ -70,7 +72,7 @@ params:
 
   # Set source repository location.
   # Used for 'Last Modified' and 'Edit this page' links.
-  BookRepo: https://github.com/duanbiaowu/go-examples-for-beginnersq
+  BookRepo: https://github.com/duanbiaowu/go-examples-for-beginners
 
   # (Optional, default 'commit') Specifies commit portion of the link to the page's last modified
   # commit hash for 'doc' page type.
@@ -82,7 +84,7 @@ params:
   # Enable "Edit this page" links for 'doc' page type.
   # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
   # Edit path must point to root directory of repo.
-  BookEditPath: edit/main/exampleSite
+  BookEditPath: /../
 
   # Configure the date format used on the pages
   # - In git information
@@ -92,7 +94,7 @@ params:
   # (Optional, default true) Enables search function with flexsearch,
   # Index is built on fly, therefore it might slowdown your website.
   # Configuration for indexing can be adjusted in i18n folder per language.
-  BookSearch: true
+  BookSearch: false
 
   # (Optional, default true) Enables comments template on pages
   # By default partals/docs/comments.html includes Disqus template
