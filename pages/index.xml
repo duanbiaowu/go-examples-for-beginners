@@ -11,6 +11,33 @@
     
     
     <item>
+      <title>交叉编译</title>
+      <link>https://golang.dbwu.tech/engineering/compiling_cross_platform/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/engineering/compiling_cross_platform/</guid>
+      <description>概述 交叉编译，也称跨平台编译，就是在一个平台上编译源代码，生成结果为另一个平台上的可执行代码。 这里的平台包含两个概念：体系架构 (如 AMD, ARM) 和 操作系统 (如 Linux, Windows）。 同一个体系架构可以运行不同的操作系统，反过来，同一个操作系统也可以运行在不同的体系架构上。
+ Go 实现跨平台编译的思想其实很简单：通过保存可以生成最终机器码的多份翻译代码， 在编译时根据 GOARCH=体系架构 和GOOS=操作系统参数进行初始化设置， 最终调用对应平台编写的特定方法来生成机器码，从而实现跨平台编译。
+ 例子 下面的例子统一以 amd64 作为体系架构参数，读者请根据自己的环境更换对应参数，比如 386。
+Mac 编译为 Linux 代码 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go # 也可以是 386 平台 # CGO_ENABLED=0 GOOS=linux GOARCH=386 go build main.go 编译为 Windows 代码 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go Linux 编译为 Mac 代码 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go 编译为 Windows 代码 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.</description>
+    </item>
+    
+    <item>
+      <title>命令行工具</title>
+      <link>https://golang.dbwu.tech/engineering/command/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/engineering/command/</guid>
+      <description>概述  工欲善其事，必先利其器。
+ 优秀的工具配合熟练的使用，往往可以让开发效率大幅度提升，本小节介绍 Go 里面经常使用到的命令行工具。
+install  go install 命令编译并安装指定的包以及对应的依赖包。
+ # 安装 golint 包 $ go install golang.org/x/lint/golint@latest # go: downloading golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7 # 一般会直接将命令放入 $GOPATH/bin $ which golint # /home/codes/go/bin/golint get  go get 命令将指定的包以及对应的依赖包加入到当前 module。
+ go get 和 go install 主要区别在于: install 是命令的全局安装，不会将包及其依赖加入到当前 module。
+需要注意的一点是: 每个包都有对应的 Go 版本以及其他包依赖，如果指定了包的版本号，但是当前 Go 版本或者依赖包的版本不满足条件，将无法安装。
+添加最新可用包 # 获取 golint 包, -u 参数表示获取指定的包的依赖项，以便在包有新的版本可用时使用 # 如果包名称后面不加 `@版本号`，则默认为 `latest` 最新可用的 $ go get -u golang.</description>
+    </item>
+    
+    <item>
       <title>开发环境配置</title>
       <link>https://golang.dbwu.tech/engineering/base_config/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
@@ -21,6 +48,33 @@
 # 查看 $GOROOT 目录 $ echo $GOROOT /usr/local/bin # 设置 $GOROOT 目录 $ export GOROOT=/usr/local/bin # 增加 go 相关命令到 PATH $ export PATH=$PATH:/usr/local/go/bin GOPATH 简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。
 # 查看 $GOPATH 目录 $ echo $GOPATH /home/codes/go # 设置 $GOPATH 目录 $ export GOPATH=/home/codes/go GOPROXY 安装包的下载代理地址，直接使用 七牛云 提供的代理地址 (https://goproxy.cn)，速度非常快！
 # 查看 $GOPROXY 代理地址 $ echo $GOPROXY https://goproxy.cn # 设置 $GOPROXY 目录 $ export GOPROXY=https://goproxy.</description>
+    </item>
+    
+    <item>
+      <title>条件编译</title>
+      <link>https://golang.dbwu.tech/engineering/conditional_compilation/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/engineering/conditional_compilation/</guid>
+      <description>概述 条件编译 是指针对不同的平台，在编译期间选择性地编译特定的程序代码。 Go 通过引入 build tag 实现了条件编译。
+例子 条件编译 一个常见的场景是: 针对同一个方法，在不同的环境中 (开发|测试|生产)，希望能输出不同等级的日志。
+下面通过一个小例子来演示刚才描述的这种场景。
+go.mod $ cat go.mod # 输出如下 module helloworld go 1.19 foo 包 新建一个 foo 目录，并在目录下面建立 3 个文件: debug.go, prod.go, main.go。
+debug.go 将如下代码写入 debug.go 文件中。
+//go:build debug  package foo func Mode() { println(&amp;#34;Debug Mode&amp;#34;) } prod.go 将如下代码写入 prod.go 文件中。
+//go:build !debug  package foo func Mode() { println(&amp;#34;Production Mode&amp;#34;) } main.go 将如下代码写入 main.go 文件中。
+package main import &amp;#34;helloworld/foo&amp;#34; func main() { foo.</description>
+    </item>
+    
+    <item>
+      <title>编译文件体积优化</title>
+      <link>https://golang.dbwu.tech/engineering/upx/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/engineering/upx/</guid>
+      <description>概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。
+实验过程 我们以一个 文件基础操作 代码进行演示。
+代码 package main import ( &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; ) func fileBaseOperate(name string) (err error) { // 创建文件 	file, err := os.Create(name) if err != nil { return } defer func() { // 关闭文件 	err = file.Close() if err != nil { return } // 删除文件 	err = os.Remove(name) }() // 向文件写入一些字符 	_, err = file.WriteString(&amp;#34;hello world&amp;#34;) if err != nil { return } str := make([]byte, 1024) // 从文件读取一些字符 	_, err = file.</description>
     </item>
     
   </channel>

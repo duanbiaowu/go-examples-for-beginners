@@ -13,7 +13,27 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/compiling_cross_platform/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/command/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/base_config/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/upx/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。
+实验过程 我们以一个 文件基础操作 代码进行演示。
+代码 package main import ( &#34;log&#34; &#34;os&#34; ) func fileBaseOperate(name string) (err error) { // 创建文件 	file, err := os.Create(name) if err != nil { return } defer func() { // 关闭文件 	err = file.Close() if err != nil { return } // 删除文件 	err = os.Remove(name) }() // 向文件写入一些字符 	_, err = file.WriteString(&#34;hello world&#34;) if err != nil { return } str := make([]byte, 1024) // 从文件读取一些字符 	_, err = file.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="编译文件体积优化" />
+<meta property="og:description" content="概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。
+实验过程 我们以一个 文件基础操作 代码进行演示。
+代码 package main import ( &#34;log&#34; &#34;os&#34; ) func fileBaseOperate(name string) (err error) { // 创建文件 	file, err := os.Create(name) if err != nil { return } defer func() { // 关闭文件 	err = file.Close() if err != nil { return } // 删除文件 	err = os.Remove(name) }() // 向文件写入一些字符 	_, err = file.WriteString(&#34;hello world&#34;) if err != nil { return } str := make([]byte, 1024) // 从文件读取一些字符 	_, err = file." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/upx/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>编译文件体积优化 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.6c16a51877b5a90426dc723c4efbb064e11b44d5d8a0ec860b4126595ea48bc9.js" integrity="sha256-bBalGHe1qQQm3HI8TvuwZOEbRNXYoOyGC0EmWV6ki8k=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li><strong>构建</strong>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/"class=active>编译文件体积优化</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>编译文件体积优化</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#实验过程">实验过程</a>
+      <ul>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#默认编译">默认编译</a></li>
+        <li><a href="#消除符号表">消除符号表</a></li>
+        <li><a href="#upx">upx</a>
+          <ul>
+            <li><a href="#安装">安装</a></li>
+            <li><a href="#使用">使用</a></li>
+            <li><a href="#原理">原理</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。
+接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。</p>
+<h1 id="实验过程">实验过程</h1>
+<p>我们以一个 <code>文件基础操作</code> 代码进行演示。</p>
+<h2 id="代码">代码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fileBaseOperate</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+	<span style="color:#75715e">// 创建文件
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">name</span>)    
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#75715e">// 关闭文件
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Close</span>()
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span>
+		}
+		<span style="color:#75715e">// 删除文件
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#a6e22e">name</span>)
+	}()
+
+	<span style="color:#75715e">// 向文件写入一些字符
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;hello world&#34;</span>)   
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">1024</span>)
+	
+	<span style="color:#75715e">// 从文件读取一些字符
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">str</span>)
+
+	<span style="color:#66d9ef">return</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fileBaseOperate</span>(<span style="color:#e6db74">&#34;/tmp/error_handle.log&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">err</span>)
+	}
+}
+</code></pre></div><h2 id="默认编译">默认编译</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go build main.go
+$ ls -sh main
+  1.9M main
+</code></pre></div><p>默认编译完成的可执行文件大小是 1.9M。</p>
+<h2 id="消除符号表">消除符号表</h2>
+<p>默认编译完成的可执行文件会带有符号表和调试信息，发布生产时可以删除调试信息，减小可执行文件体积。</p>
+<ul>
+<li>-s：忽略符号表和调试信息。</li>
+<li>-w：忽略DWARFv3调试信息，使用该选项后将无法使用gdb进行调试。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go build -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> main.go
+$ ls -sh main
+  1.3M main
+</code></pre></div><p>可以看到，经过 <code>消除符号表</code> 优化，编译后的文件体积已经降到了 <code>1.3M</code>, 优化了 <code>31%</code>。接下来，我们继续探索其他优化方案。</p>
+<h2 id="upx">upx</h2>
+<p><code>upx</code> 是一个常用的压缩动态库和可执行文件的工具，通常可减少 50-70% 的文件体积。</p>
+<h3 id="安装">安装</h3>
+<p>这里以 <code>MacOS</code> 为例，其他平台请参照 
+  <a href="https://github.com/upx/upx/releases/">upx Github</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ brew install upx
+$ upx --version
+  upx 3.94
+</code></pre></div><h3 id="使用">使用</h3>
+<p><code>upx</code> 有很多参数，最重要的是压缩率，<code>1 - 9</code>，1 代表最低压缩率，9 代表最高压缩率。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go build -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span>  main.go <span style="color:#f92672">&amp;&amp;</span> upx -9 main <span style="color:#75715e"># 使用最高压缩率</span>
+$ ls -sh main
+  552K main
+</code></pre></div><p>可以看到，经过 <code>upx</code> 优化，编译后的文件体积已经降到了 <code>552KB</code>, 比最初的文件体积优化超过 <code>70%</code>。</p>
+<h3 id="原理">原理</h3>
+<p><code>upx</code> 压缩后的程序和压缩前的程序一样，无需解压仍然能够正常运行，这种压缩方法称之为带壳压缩，压缩包含两个部分：</p>
+<ul>
+<li>在程序开头或其他合适的地方插入解压代码</li>
+<li>将程序的其他部分压缩</li>
+</ul>
+<p>程序执行时，也包含两个部分：</p>
+<ul>
+<li>首先执行的是程序开头的插入的解压代码，将原来的程序在内存中解压出来</li>
+<li>再执行解压后的程序，也就是说，<code>upx</code> 在程序执行时，会有额外的解压动作，不过这个耗时几乎可以忽略</li>
+</ul>
+<h1 id="小结">小结</h1>
+<p>通过对示例代码的编译过程不断优化，生成的可执行文件从最开始的 <code>1.9M</code> 一直压缩到 <code>552K</code>, 压缩率超过了 <code>70%</code>，
+主要是通过 <strong>两个方法</strong> 来实现的:</p>
+<ol>
+<li>编译参数 <code>-ldflags=&quot;-s -w&quot;</code></li>
+<li>upx</li>
+</ol>
+<h1 id="reference">Reference</h1>
+<ol>
+<li>
+  <a href="https://github.com/upx/upx/releases/">upx Github</a></li>
+<li>
+  <a href="https://geektutu.com/post/hpg-reduce-size.html">极客兔兔</a></li>
+</ol>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/upx.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#实验过程">实验过程</a>
+      <ul>
+        <li><a href="#代码">代码</a></li>
+        <li><a href="#默认编译">默认编译</a></li>
+        <li><a href="#消除符号表">消除符号表</a></li>
+        <li><a href="#upx">upx</a>
+          <ul>
+            <li><a href="#安装">安装</a></li>
+            <li><a href="#使用">使用</a></li>
+            <li><a href="#原理">原理</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

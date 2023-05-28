@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述  工欲善其事，必先利其器。
+ 优秀的工具配合熟练的使用，往往可以让开发效率大幅度提升，本小节介绍 Go 里面经常使用到的命令行工具。
+install  go install 命令编译并安装指定的包以及对应的依赖包。
+ # 安装 golint 包 $ go install golang.org/x/lint/golint@latest # go: downloading golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7 # 一般会直接将命令放入 $GOPATH/bin $ which golint # /home/codes/go/bin/golint get  go get 命令将指定的包以及对应的依赖包加入到当前 module。
+ go get 和 go install 主要区别在于: install 是命令的全局安装，不会将包及其依赖加入到当前 module。
+需要注意的一点是: 每个包都有对应的 Go 版本以及其他包依赖，如果指定了包的版本号，但是当前 Go 版本或者依赖包的版本不满足条件，将无法安装。
+添加最新可用包 # 获取 golint 包, -u 参数表示获取指定的包的依赖项，以便在包有新的版本可用时使用 # 如果包名称后面不加 `@版本号`，则默认为 `latest` 最新可用的 $ go get -u golang.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="命令行工具" />
+<meta property="og:description" content="概述  工欲善其事，必先利其器。
+ 优秀的工具配合熟练的使用，往往可以让开发效率大幅度提升，本小节介绍 Go 里面经常使用到的命令行工具。
+install  go install 命令编译并安装指定的包以及对应的依赖包。
+ # 安装 golint 包 $ go install golang.org/x/lint/golint@latest # go: downloading golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7 # 一般会直接将命令放入 $GOPATH/bin $ which golint # /home/codes/go/bin/golint get  go get 命令将指定的包以及对应的依赖包加入到当前 module。
+ go get 和 go install 主要区别在于: install 是命令的全局安装，不会将包及其依赖加入到当前 module。
+需要注意的一点是: 每个包都有对应的 Go 版本以及其他包依赖，如果指定了包的版本号，但是当前 Go 版本或者依赖包的版本不满足条件，将无法安装。
+添加最新可用包 # 获取 golint 包, -u 参数表示获取指定的包的依赖项，以便在包有新的版本可用时使用 # 如果包名称后面不加 `@版本号`，则默认为 `latest` 最新可用的 $ go get -u golang." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/command/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>命令行工具 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.6c16a51877b5a90426dc723c4efbb064e11b44d5d8a0ec860b4126595ea48bc9.js" integrity="sha256-bBalGHe1qQQm3HI8TvuwZOEbRNXYoOyGC0EmWV6ki8k=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li><strong>构建</strong>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/"class=active>命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>命令行工具</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#install">install</a></li>
+    <li><a href="#get">get</a>
+      <ul>
+        <li><a href="#添加最新可用包">添加最新可用包</a></li>
+        <li><a href="#添加指定可用包">添加指定可用包</a></li>
+      </ul>
+    </li>
+    <li><a href="#mod">mod</a>
+      <ul>
+        <li><a href="#子命令">子命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#clean">clean</a></li>
+    <li><a href="#list">list</a>
+      <ul>
+        <li><a href="#示例">示例</a></li>
+      </ul>
+    </li>
+    <li><a href="#fix">fix</a></li>
+    <li><a href="#格式化">格式化</a>
+      <ul>
+        <li><a href="#goimports">goimports</a></li>
+      </ul>
+    </li>
+    <li><a href="#文档">文档</a>
+      <ul>
+        <li><a href="#go-doc">go doc</a></li>
+        <li><a href="#godoc">godoc</a></li>
+        <li><a href="#swaggo">swaggo</a></li>
+      </ul>
+    </li>
+    <li><a href="#lint">lint</a>
+      <ul>
+        <li><a href="#golangci-lint">golangci-lint</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<blockquote>
+<p>工欲善其事，必先利其器。</p>
+</blockquote>
+<p>优秀的工具配合熟练的使用，往往可以让开发效率大幅度提升，本小节介绍 Go 里面经常使用到的命令行工具。</p>
+<h1 id="install">install</h1>
+<blockquote>
+<p><code>go install</code> 命令编译并安装指定的包以及对应的依赖包。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 安装 golint 包</span>
+$ go install golang.org/x/lint/golint@latest
+<span style="color:#75715e"># go: downloading golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7</span>
+
+<span style="color:#75715e"># 一般会直接将命令放入 $GOPATH/bin</span>
+$ which golint
+<span style="color:#75715e"># /home/codes/go/bin/golint</span>
+</code></pre></div><h1 id="get">get</h1>
+<blockquote>
+<p><code>go get</code> 命令将指定的包以及对应的依赖包加入到当前 <code>module</code>。</p>
+</blockquote>
+<p><code>go get</code> 和 <code>go install</code> 主要区别在于: <code>install</code> 是命令的全局安装，不会将包及其依赖加入到当前 <code>module</code>。</p>
+<p><strong>需要注意的一点是: 每个包都有对应的 Go 版本以及其他包依赖，如果指定了包的版本号，但是当前 Go 版本或者依赖包的版本不满足条件，将无法安装</strong>。</p>
+<h2 id="添加最新可用包">添加最新可用包</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 获取 golint 包, -u 参数表示获取指定的包的依赖项，以便在包有新的版本可用时使用</span>
+<span style="color:#75715e"># 如果包名称后面不加 `@版本号`，则默认为 `latest` 最新可用的</span>
+$ go get -u golang.org/x/lint/golint
+<span style="color:#75715e"># go: added golang.org/x/lint v0.0.0-20210508222113-6edffad5e616</span>
+<span style="color:#75715e"># go: added golang.org/x/tools v0.3.0</span>
+
+<span style="color:#75715e"># go.mod 中依赖项已经更新</span> 
+$ cat go.mod
+
+<span style="color:#75715e"># 输出如下:</span>
+module helloworld
+
+go 1.19
+
+require <span style="color:#f92672">(</span>
+        golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
+        golang.org/x/tools v0.3.0 // indirect
+<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="添加指定可用包">添加指定可用包</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 指定包的版本号为 @v1.4.1</span> 
+$ go get -u github.com/spf13/cast@v1.4.1 
+<span style="color:#75715e"># go: added github.com/spf13/cast v1.4.1</span>
+
+<span style="color:#75715e"># go.mod 中依赖项已经更新</span> 
+$ cat go.mod
+
+<span style="color:#75715e"># 输出如下:</span>
+module helloworld
+
+go 1.19
+
+require <span style="color:#f92672">(</span>
+	github.com/spf13/cast v1.4.1 // indirect
+	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
+	golang.org/x/tools v0.3.0 // indirect
+<span style="color:#f92672">)</span>
+</code></pre></div><h1 id="mod">mod</h1>
+<p><code>go mod</code> 命令管理 <code>module</code> 相关操作。</p>
+<h2 id="子命令">子命令</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go mod init  <span style="color:#75715e"># 初始化</span>
+go mod tidy  <span style="color:#75715e"># 更新 (移除) 依赖文件</span>
+go mod download  <span style="color:#75715e"># 下载依赖文件</span>
+
+go mod vendor  <span style="color:#75715e"># 将依赖全部归档到 vendor 目录</span>
+go mod edit    <span style="color:#75715e"># 修改依赖文件</span>
+go mod graph   <span style="color:#75715e"># 打印依赖关系 图</span>
+go mod verify  <span style="color:#75715e"># 校验依赖</span>
+</code></pre></div><h1 id="clean">clean</h1>
+<blockquote>
+<p><code>go clean</code> 命令删除执行其他命令时产生的目标和缓存文件。</p>
+</blockquote>
+<h1 id="list">list</h1>
+<blockquote>
+<p><code>go list</code> 命令展示 <code>module</code> 或包的信息。</p>
+</blockquote>
+<h2 id="示例">示例</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 不带参数，展示 module</span>
+$ go list
+<span style="color:#75715e"># helloworld</span>
+
+<span style="color:#75715e"># 展示某个包的信息</span>
+$ go list golang.org/x/lint/golint
+<span style="color:#75715e"># 默认只输出包名</span>
+<span style="color:#75715e"># golang.org/x/lint/golint</span>
+
+<span style="color:#75715e"># 获取详细信息，并以 json 格式输出</span>
+$ go list -json golang.org/x/lint/golint
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;Dir&#34;</span>: <span style="color:#e6db74">&#34;/home/codes/go/pkg/mod/golang.org/x/lint@v0.0.0-20210508222113-6edffad5e616/golint&#34;</span>,
+    <span style="color:#e6db74">&#34;ImportPath&#34;</span>: <span style="color:#e6db74">&#34;golang.org/x/lint/golint&#34;</span>,
+    <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;main&#34;</span>,
+  ...
+  ...
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 获取包的路径</span>
+$ go list -f <span style="color:#e6db74">&#39;{{.Dir}}&#39;</span> golang.org/x/lint/golint
+<span style="color:#75715e"># /home/codes/go/pkg/mod/golang.org/x/lint@v0.0.0-20210508222113-6edffad5e616/golint</span>
+
+<span style="color:#75715e"># 切换路径到包的目录</span>
+$ cd <span style="color:#66d9ef">$(</span>go list -f <span style="color:#e6db74">&#39;{{.Dir}}&#39;</span> golang.org/x/lint/golint<span style="color:#66d9ef">)</span>
+
+$ pwd
+<span style="color:#75715e"># /home/codes/go/pkg/mod/golang.org/x/lint@v0.0.0-20210508222113-6edffad5e616/golint</span>
+</code></pre></div><h1 id="fix">fix</h1>
+<blockquote>
+<p><code>go fix</code> 命令将指定代码包里面所有的 Go 标准库函数从低版本升级到高版本，自动实现兼容性。</p>
+</blockquote>
+<p>笔者没有使用过这个命令，感兴趣的读者可以找一个第三方包的低级版本，然后尝试一下使用 <code>go fix</code> 升级。</p>
+<h1 id="格式化">格式化</h1>
+<h2 id="goimports">goimports</h2>
+<blockquote>
+<p><code>goimports</code> 命令可以对代码格式化，同时，它可以自动更新导入包的 <code>路径和顺序</code>，并且自动删除未使用的包。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 安装 goimports</span>
+$ go install golang.org/x/tools/cmd/goimports@latest
+
+<span style="color:#75715e"># 格式化单个文件</span>
+$ goimports -w main.go
+
+<span style="color:#75715e"># 格式化整个目录</span>
+$ goimports -w foo
+</code></pre></div><h1 id="文档">文档</h1>
+<h2 id="go-doc">go doc</h2>
+<blockquote>
+<p><code>go doc</code> 命令可以查看包的文档。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 time.Now() 方法文档</span>
+$ go doc time.Now
+<span style="color:#75715e"># 输出如下</span> 
+package time // import <span style="color:#e6db74">&#34;time&#34;</span>
+
+func Now<span style="color:#f92672">()</span> Time
+    Now returns the current local time.
+    
+    
+<span style="color:#75715e"># 查看 fmt.Printf() 方法文档</span>
+$ go doc fmt.Printf
+<span style="color:#75715e"># 输出如下</span>
+package fmt // import <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+func Printf<span style="color:#f92672">(</span>format string, a ...any<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>n int, err error<span style="color:#f92672">)</span>
+    Printf formats according to a format specifier and writes to standard
+    output. It returns the number of bytes written and any write error
+    encountered.
+</code></pre></div><p>除此之外，也可以直接查看某个包的文档</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go doc strconv
+<span style="color:#75715e"># 输出省略</span>
+package strconv // import <span style="color:#e6db74">&#34;strconv&#34;</span>
+...
+...
+func Unquote<span style="color:#f92672">(</span>s string<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>string, error<span style="color:#f92672">)</span>
+func UnquoteChar<span style="color:#f92672">(</span>s string, quote byte<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>value rune, multibyte bool, tail string, err error<span style="color:#f92672">)</span>
+type NumError struct<span style="color:#f92672">{</span> ... <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="godoc">godoc</h2>
+<blockquote>
+<p>godoc 用来 <code>提取和生成</code> 文档，而且还有一个很强大的功能: 将文档在浏览器内打开，实现离线文档的效果。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 浏览器访问 Go 文档</span>
+$ godoc -http<span style="color:#f92672">=</span>localhost:6060
+<span style="color:#75715e"># 打开浏览器，访问 localhost:6060，可以看到 Go 所有包的文档</span> 
+</code></pre></div><p>
+  <img src="/images/godoc_http.png" alt="godoc 浏览器文档" /></p>
+<p>关于 <code>提取文档</code> 的功能，限于篇幅，笔者这里不再做介绍，感兴趣的读者可以自行查阅 <code>godoc</code> 文档。</p>
+<h2 id="swaggo">swaggo</h2>
+<blockquote>
+<p>Swag 通过 Go 代码注释生成标准 Swagger 文档，通过其内置的插件，可以快速与现有项目集成。</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 安装</span>
+$ go install github.com/swaggo/swag/cmd/swag@latest
+<span style="color:#75715e"># 查看版本</span>
+$ swag version 
+<span style="color:#75715e"># swag version v1.8.7</span>
+</code></pre></div><p>限于篇幅，具体的使用方法笔者这里不再做介绍，读者可以参考 
+  <a href="/">附录 2</a> 的 Github 主页文档，下面是一个生成的文档页面:</p>
+<p>
+  <img src="/images/swagger-image.png" alt="swag" /></p>
+<h1 id="lint">lint</h1>
+<h2 id="golangci-lint">golangci-lint</h2>
+<blockquote>
+<p>golangci-lint 是一个快速的 Go linters 运行器，可以并行运行 linters 并使用缓存，支持 yaml 配置与主流 IDE 集成，包含了数十个
+linters 。</p>
+</blockquote>
+<p>这是官网的介绍, 简单来说，<code>golangci-lint</code> 是 <code>静态分析工具集大成者</code>，包含了几乎所有的主流分析工具，
+如 <code>errcheck</code>, <code>govet</code>, <code>statischeck</code>, <code>unused</code> 等，也就是说: 静态分析工具，有这一个就够了。</p>
+<p>限于篇幅，具体的使用方法笔者这里不再做介绍，读者可以参考 
+  <a href="/">附录 4</a> 的官方文档。</p>
+<h1 id="小结">小结</h1>
+<p>本小节主要介绍了常用的 Go 内置命令行工具，此外，顺带着介绍了文档生成工具 <code>swaggo</code>, 静态分析工具 <code>golangci-lint</code>,
+这些都是日常开发必备工具，建议读者参照文档多加练习，做到熟练掌握。</p>
+<h1 id="reference">Reference</h1>
+<ol>
+<li>
+  <a href="https://github.com/rakyll/hey">hey</a></li>
+<li>
+  <a href="https://github.com/swaggo/swag/">swag</a></li>
+<li>
+  <a href="https://github.com/golangci/golangci-lint">golangci-lint</a></li>
+<li>
+  <a href="https://golangci-lint.run/">golangci-lint 官网</a></li>
+</ol>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/command.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#install">install</a></li>
+    <li><a href="#get">get</a>
+      <ul>
+        <li><a href="#添加最新可用包">添加最新可用包</a></li>
+        <li><a href="#添加指定可用包">添加指定可用包</a></li>
+      </ul>
+    </li>
+    <li><a href="#mod">mod</a>
+      <ul>
+        <li><a href="#子命令">子命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#clean">clean</a></li>
+    <li><a href="#list">list</a>
+      <ul>
+        <li><a href="#示例">示例</a></li>
+      </ul>
+    </li>
+    <li><a href="#fix">fix</a></li>
+    <li><a href="#格式化">格式化</a>
+      <ul>
+        <li><a href="#goimports">goimports</a></li>
+      </ul>
+    </li>
+    <li><a href="#文档">文档</a>
+      <ul>
+        <li><a href="#go-doc">go doc</a></li>
+        <li><a href="#godoc">godoc</a></li>
+        <li><a href="#swaggo">swaggo</a></li>
+      </ul>
+    </li>
+    <li><a href="#lint">lint</a>
+      <ul>
+        <li><a href="#golangci-lint">golangci-lint</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
