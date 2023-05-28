@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。
+例子 临时忽略某个字段 比如在接口中输出用户信息时，希望过滤掉密码字段。
+package main import ( &#34;encoding/json&#34; &#34;fmt&#34; ) type User struct { UserName string `json:&#34;userName&#34;` Email string `json:&#34;email&#34;` Password string `json:&#34;password&#34;` } func main() { u := &amp;User{ UserName: &#34;root&#34;, Email: &#34;root@gmail.com&#34;, Password: &#34;123456&#34;, } data, err := json.Marshal(struct { *User // 使用一个内嵌的字段覆盖掉原字段 	Password string `json:&#34;password,omitempty&#34;` }{ User: u, }) if err !">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="JSON 使用技巧" />
+<meta property="og:description" content="概述 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。
+例子 临时忽略某个字段 比如在接口中输出用户信息时，希望过滤掉密码字段。
+package main import ( &#34;encoding/json&#34; &#34;fmt&#34; ) type User struct { UserName string `json:&#34;userName&#34;` Email string `json:&#34;email&#34;` Password string `json:&#34;password&#34;` } func main() { u := &amp;User{ UserName: &#34;root&#34;, Email: &#34;root@gmail.com&#34;, Password: &#34;123456&#34;, } data, err := json.Marshal(struct { *User // 使用一个内嵌的字段覆盖掉原字段 	Password string `json:&#34;password,omitempty&#34;` }{ User: u, }) if err !" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/json/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>JSON 使用技巧 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/"class=active>JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>JSON 使用技巧</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#例子">例子</a>
+      <ul>
+        <li><a href="#临时忽略某个字段">临时忽略某个字段</a></li>
+        <li><a href="#临时添加字段">临时添加字段</a></li>
+        <li><a href="#字符串和数字转换">字符串和数字转换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>在 
+  <a href="/">Go 快速入门指南 - JSON</a> 讲解了 <code>JSON</code> 的常用方法，但是除此之外，<code>JSON</code> 还有一些鲜为人知的使用技巧，
+可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 <code>接口输出</code> 和 <code>第三发接口对接</code> 业务场景中非常有帮助。
+这篇做一个补充，两篇文章涉及到的 <code>JSON</code> 知识点，应该足够大部分开发场景的使用了。</p>
+<h1 id="例子">例子</h1>
+<h2 id="临时忽略某个字段">临时忽略某个字段</h2>
+<p>比如在接口中输出用户信息时，希望过滤掉密码字段。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserName</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userName&#34;`</span>
+	<span style="color:#a6e22e">Email</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email&#34;`</span>
+	<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+		<span style="color:#a6e22e">UserName</span>: <span style="color:#e6db74">&#34;root&#34;</span>,
+		<span style="color:#a6e22e">Email</span>:    <span style="color:#e6db74">&#34;root@gmail.com&#34;</span>,
+		<span style="color:#a6e22e">Password</span>: <span style="color:#e6db74">&#34;123456&#34;</span>,
+	}
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#66d9ef">struct</span> {
+		<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>
+		<span style="color:#75715e">// 使用一个内嵌的字段覆盖掉原字段
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password,omitempty&#34;`</span>
+	}{
+		<span style="color:#a6e22e">User</span>: <span style="color:#a6e22e">u</span>,
+	})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s\n&#34;</span>, <span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下 
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  {&#34;userName&#34;:&#34;root&#34;,&#34;email&#34;:&#34;root@gmail.com&#34;}
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><h2 id="临时添加字段">临时添加字段</h2>
+<p>比如在接口中输出用户信息时，希望添加一个 Token 字段。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserName</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userName&#34;`</span>
+	<span style="color:#a6e22e">Email</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email&#34;`</span>
+	<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+		<span style="color:#a6e22e">UserName</span>: <span style="color:#e6db74">&#34;root&#34;</span>,
+		<span style="color:#a6e22e">Email</span>:    <span style="color:#e6db74">&#34;root@gmail.com&#34;</span>,
+		<span style="color:#a6e22e">Password</span>: <span style="color:#e6db74">&#34;123456&#34;</span>,
+	}
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#66d9ef">struct</span> {
+		<span style="color:#f92672">*</span><span style="color:#a6e22e">User</span>
+		<span style="color:#75715e">// 使用一个内嵌的字段覆盖掉原字段
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password,omitempty&#34;`</span>
+		<span style="color:#75715e">// 新增一个字段
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">Token</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
+	}{
+		<span style="color:#a6e22e">User</span>:  <span style="color:#a6e22e">u</span>,
+		<span style="color:#a6e22e">Token</span>: <span style="color:#e6db74">&#34;askdhfh2oyy43423#14$$asdssxxx11&#34;</span>,
+	})
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s\n&#34;</span>, <span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下 
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  {&#34;userName&#34;:&#34;root&#34;,&#34;email&#34;:&#34;root@gmail.com&#34;,&#34;token&#34;:&#34;askdhfh2oyy43423#14$$asdssxxx11&#34;}
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><h2 id="字符串和数字转换">字符串和数字转换</h2>
+<p>接口对接时，可能会存在双方字段名称一样，但是类型不一样的的情况。比如同一个字段，A 方用 <code>int</code> 类型，
+B 方用 <code>string</code> 类型，下面的例子演示如何解决这个 <code>数据类型冲突问题</code> 。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserName</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userName&#34;`</span>
+	<span style="color:#a6e22e">Email</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email&#34;`</span>
+	<span style="color:#a6e22e">Password</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;password&#34;`</span>
+	<span style="color:#75715e">// 字段是 int 类型， JSON 输出 string 类型
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Age</span>      <span style="color:#66d9ef">int</span>    <span style="color:#e6db74">`json:&#34;age,string&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">User</span>{
+		<span style="color:#a6e22e">UserName</span>: <span style="color:#e6db74">&#34;root&#34;</span>,
+		<span style="color:#a6e22e">Email</span>:    <span style="color:#e6db74">&#34;root@gmail.com&#34;</span>,
+		<span style="color:#a6e22e">Password</span>: <span style="color:#e6db74">&#34;123456&#34;</span>,
+		<span style="color:#a6e22e">Age</span>:      <span style="color:#ae81ff">100</span>,
+	}
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">u</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		panic(<span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s\n&#34;</span>, <span style="color:#a6e22e">data</span>)
+}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下 
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  {&#34;userName&#34;:&#34;root&#34;,&#34;email&#34;:&#34;root@gmail.com&#34;,&#34;password&#34;:&#34;123456&#34;,&#34;age&#34;:&#34;100&#34;}
+</span><span style="color:#75715e">*/</span>
+</code></pre></div></article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/engineering/json.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#例子">例子</a>
+      <ul>
+        <li><a href="#临时忽略某个字段">临时忽略某个字段</a></li>
+        <li><a href="#临时添加字段">临时添加字段</a></li>
+        <li><a href="#字符串和数字转换">字符串和数字转换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

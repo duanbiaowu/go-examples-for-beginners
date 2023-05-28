@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/channel/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/embed/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/expvar/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
@@ -13,7 +28,17 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/json/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/compiling_cross_platform/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/slice/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -48,12 +73,22 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/math/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/base_config/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/format/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -68,7 +103,17 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/engineering/struct/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/engineering/upx/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/error_handle_gracefully/</loc>
     <lastmod>2023-01-01T00:00:00+00:00</lastmod>
   </url>
   
