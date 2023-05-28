@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/compiling_cross_platform/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/command/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/base_config/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/conditional_compilation/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/engineering/upx/</loc>
+    <lastmod>2023-01-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/tags/"
+                />
+  </url>
+  
+</urlset>

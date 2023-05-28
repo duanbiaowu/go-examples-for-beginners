@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://golang.dbwu.tech/zh/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/zh/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/zh/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://golang.dbwu.tech/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://golang.dbwu.tech/ru/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://golang.dbwu.tech/zh/tags/"
+                />
+  </url>
+  
+</urlset>
