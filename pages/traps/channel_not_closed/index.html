@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
+ 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
+ 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
+package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&#34;goroutine ending&#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&#34;range broken&#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
+ 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
+ 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
+package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&#34;goroutine ending&#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&#34;range broken&#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/traps/channel_not_closed/" />
+
+<title>Channel Not Closed | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">☹️ 陷阱</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map</a></li>
+<li>
+  <a href="/traps/copy/">copy 复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">实现 String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/"class=active>goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Channel Not Closed</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#通道为-nil-造成-goroutine-泄漏">通道为 nil 造成 goroutine 泄漏</a>
+      <ul>
+        <li><a href="#接收造成的泄漏">接收造成的泄漏</a></li>
+        <li><a href="#发送造成的泄漏">发送造成的泄漏</a></li>
+      </ul>
+    </li>
+    <li><a href="#遍历未关闭通道时造成-goroutine-泄漏">遍历未关闭通道时造成 goroutine 泄漏</a>
+      <ul>
+        <li><a href="#遍历无缓冲并且未关闭的通道">遍历无缓冲并且未关闭的通道</a>
+          <ul>
+            <li><a href="#错误的做法">错误的做法</a></li>
+            <li><a href="#正确的做法">正确的做法</a></li>
+          </ul>
+        </li>
+        <li><a href="#遍历缓冲并且未关闭的通道">遍历缓冲并且未关闭的通道</a>
+          <ul>
+            <li><a href="#错误的做法-1">错误的做法</a></li>
+            <li><a href="#正确的做法-1">正确的做法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="通道为-nil-造成-goroutine-泄漏">通道为 nil 造成 goroutine 泄漏</h1>
+<p>在 <code>nil 通道</code> 上发送和接收操作将永久阻塞，造成 <code>goroutine 泄漏</code>。</p>
+<blockquote>
+<p>最佳实践: 1. 永远不要对 <code>nil 通道</code> 进行任何操作，2. 直接使用 <code>make()</code> 初始化通道。</p>
+</blockquote>
+<h2 id="接收造成的泄漏">接收造成的泄漏</h2>
+<p>示例代码只是为了演示，没有任何实际意义。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 不会执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>)
+		}
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 执行不到这里
+</span><span style="color:#75715e"></span>	}()
+	
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 没有任何输出，goroutine 泄漏
+</span></code></pre></div><h2 id="发送造成的泄漏">发送造成的泄漏</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 不会执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 执行不到这里
+</span><span style="color:#75715e"></span>	}()
+
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 没有任何输出，goroutine 泄漏
+</span></code></pre></div><h1 id="遍历未关闭通道时造成-goroutine-泄漏">遍历未关闭通道时造成 goroutine 泄漏</h1>
+<p>遍历 <code>无缓冲 (阻塞) 并且未关闭</code> 的通道时，如果通道一直未关闭， 将会永久阻塞，造成 <code>goroutine 泄漏</code>。</p>
+<p>遍历 <code>缓冲 (非阻塞) 并且未关闭</code> 的通道时，将通道内的所有缓存数据接收完毕后， 如果通道一直未关闭，将会永久阻塞，造成 <code>goroutine 泄漏</code>。</p>
+<blockquote>
+<p>最佳实践: 1. 确保 <code>通道</code> 可以正常关闭，2. 确保 <code>goroutine</code> 可以正常退出。</p>
+</blockquote>
+<h2 id="遍历无缓冲并且未关闭的通道">遍历无缓冲并且未关闭的通道</h2>
+<p>示例代码只是为了演示，没有任何实际意义。</p>
+<h3 id="错误的做法">错误的做法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 不会执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>)
+			<span style="color:#66d9ef">break</span>
+		}
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 执行不到这里
+</span><span style="color:#75715e"></span>	}()
+
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 没有任何输出，goroutine 泄漏
+</span></code></pre></div><h3 id="正确的做法">正确的做法</h3>
+<p>参照最佳实践，对代码进行以下调整: 在 <code>goroutine</code> 外部关闭通道，防止 <code>goroutine</code> 内部遍历陷入无限阻塞。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 正常执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 正常输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> { <span style="color:#75715e">// 外部关闭通道后，for 循环结束
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 可以执行到这里
+</span><span style="color:#75715e"></span>	}()
+
+	close(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">// 关闭通道，内存遍历循环立即结束
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  range broken
+</span><span style="color:#75715e">  goroutine ending
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><h2 id="遍历缓冲并且未关闭的通道">遍历缓冲并且未关闭的通道</h2>
+<p>示例代码只是为了演示，没有任何实际意义。</p>
+<h3 id="错误的做法-1">错误的做法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>, <span style="color:#ae81ff">3</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 不会执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>)
+		}
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 执行不到这里
+</span><span style="color:#75715e"></span>	}()
+
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">false</span>
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">true</span>
+
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  true
+</span><span style="color:#75715e">  false
+</span><span style="color:#75715e">  true
+</span><span style="color:#75715e">  // 接收完缓冲区的 3 个值后, 后面不再有任何输出，goroutine 泄漏
+</span><span style="color:#75715e">*/</span>
+</code></pre></div><h3 id="正确的做法-1">正确的做法</h3>
+<p>参照最佳实践，对代码进行以下调整: 在 <code>goroutine</code> 外部关闭通道，防止 <code>goroutine</code> 内部遍历陷入无限阻塞。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">bool</span>)
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// defer 正常执行
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;goroutine ending&#34;</span>) <span style="color:#75715e">// 正常输出
+</span><span style="color:#75715e"></span>		}()
+
+		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> { <span style="color:#75715e">// 外部关闭通道后，for 循环结束
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>) <span style="color:#75715e">// 不会输出
+</span><span style="color:#75715e"></span>		}
+
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;range broken&#34;</span>) <span style="color:#75715e">// 可以执行到这里
+</span><span style="color:#75715e"></span>	}()
+
+	close(<span style="color:#a6e22e">ch</span>) <span style="color:#75715e">// 关闭通道，内存遍历循环立即结束
+</span><span style="color:#75715e"></span>
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 假设主程序 1 秒后退出
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// $ go run main.go
+</span><span style="color:#75715e">// 输出如下
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e">  true
+</span><span style="color:#75715e">  false
+</span><span style="color:#75715e">  true
+</span><span style="color:#75715e">  range broken
+</span><span style="color:#75715e">  goroutine ending
+</span><span style="color:#75715e">*/</span>
+</code></pre></div></article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/traps/channel_not_closed.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#通道为-nil-造成-goroutine-泄漏">通道为 nil 造成 goroutine 泄漏</a>
+      <ul>
+        <li><a href="#接收造成的泄漏">接收造成的泄漏</a></li>
+        <li><a href="#发送造成的泄漏">发送造成的泄漏</a></li>
+      </ul>
+    </li>
+    <li><a href="#遍历未关闭通道时造成-goroutine-泄漏">遍历未关闭通道时造成 goroutine 泄漏</a>
+      <ul>
+        <li><a href="#遍历无缓冲并且未关闭的通道">遍历无缓冲并且未关闭的通道</a>
+          <ul>
+            <li><a href="#错误的做法">错误的做法</a></li>
+            <li><a href="#正确的做法">正确的做法</a></li>
+          </ul>
+        </li>
+        <li><a href="#遍历缓冲并且未关闭的通道">遍历缓冲并且未关闭的通道</a>
+          <ul>
+            <li><a href="#错误的做法-1">错误的做法</a></li>
+            <li><a href="#正确的做法-1">正确的做法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

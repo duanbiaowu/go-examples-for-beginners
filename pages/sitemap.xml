@@ -118,11 +118,87 @@
   </url>
   
   <url>
+    <loc>https://golang.dbwu.tech/traps/array_with_map_in_params/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/buffer_flush/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/byte_operation/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/channel_not_closed/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/copy/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/defer_exam/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/defer_with_recover/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/for_assign/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/for_func/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/for_goroutine/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/goroutine_race/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/interface_error/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/interface_method/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/map_struct_assign/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/nil_argument/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/nil_with_nil/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/slice_occupy_memory/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/string_method/</loc>
+  </url>
+  
+  <url>
     <loc>https://golang.dbwu.tech/categories/</loc>
   </url>
   
   <url>
     <loc>https://golang.dbwu.tech/tags/</loc>
+  </url>
+  
+  <url>
+    <loc>https://golang.dbwu.tech/traps/</loc>
   </url>
   
 </urlset>
