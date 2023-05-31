@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。
-具体的规则:
- 接收者为值的方法，可以通过值类型变量调用 接收者为值的方法，可以通过指针类型变量调用，因为指针可以被解引用得到值类型 接收者为指针的方法，可以通过指针类型变量调用 接收者为指针的方法，不可以通过值类型变量调用  示例 接收者和调用方都是值类型 package main import ( &#34;fmt&#34; ) type Person interface { Name() string Age() int } type Martian struct { } // 接收者为值类型 func (m Martian) Name() string { return &#34;martian&#34; } // 接收者为值类型 func (m Martian) Age() int { return 0 } func main() { var m Person = Martian{} // 调用方为值类型 	fmt.Printf(&#34;name is %s, age is = %d\n&#34;, m.">
+<meta name="description" content="概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之 interface 方法调用规则" />
-<meta property="og:description" content="概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。
-具体的规则:
- 接收者为值的方法，可以通过值类型变量调用 接收者为值的方法，可以通过指针类型变量调用，因为指针可以被解引用得到值类型 接收者为指针的方法，可以通过指针类型变量调用 接收者为指针的方法，不可以通过值类型变量调用  示例 接收者和调用方都是值类型 package main import ( &#34;fmt&#34; ) type Person interface { Name() string Age() int } type Martian struct { } // 接收者为值类型 func (m Martian) Name() string { return &#34;martian&#34; } // 接收者为值类型 func (m Martian) Age() int { return 0 } func main() { var m Person = Martian{} // 调用方为值类型 	fmt.Printf(&#34;name is %s, age is = %d\n&#34;, m." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 陷阱之 interface 方法调用规则" />
+<meta property="og:description" content="概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/interface_method/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -535,7 +531,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 陷阱之 interface 方法调用规则"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

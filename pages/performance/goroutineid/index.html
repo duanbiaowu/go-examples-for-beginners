@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。
-下面介绍两种获取 goroutine ID 的方法，一种是通过标准库中的堆栈相关方法获取，一种是通过第三方库 (汇编实现) 获取。
-通过堆栈调用获取 测试代码 package performance import ( &#34;bytes&#34; &#34;errors&#34; &#34;runtime&#34; &#34;strconv&#34; &#34;testing&#34; ) func getGoroutineId() (int64, error) { // 堆栈结果中需要消除的前缀符 	var goroutineSpace = []byte(&#34;goroutine &#34;) bs := make([]byte, 128) bs = bs[:runtime.Stack(bs, false)] bs = bytes.TrimPrefix(bs, goroutineSpace) i := bytes.IndexByte(bs, &#39; &#39;) if i &lt; 0 { return -1, errors.New(&#34;get current goroutine id failed&#34;) } return strconv.">
+<meta name="description" content="概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之获取 goroutine ID" />
-<meta property="og:description" content="概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。
-下面介绍两种获取 goroutine ID 的方法，一种是通过标准库中的堆栈相关方法获取，一种是通过第三方库 (汇编实现) 获取。
-通过堆栈调用获取 测试代码 package performance import ( &#34;bytes&#34; &#34;errors&#34; &#34;runtime&#34; &#34;strconv&#34; &#34;testing&#34; ) func getGoroutineId() (int64, error) { // 堆栈结果中需要消除的前缀符 	var goroutineSpace = []byte(&#34;goroutine &#34;) bs := make([]byte, 128) bs = bs[:runtime.Stack(bs, false)] bs = bytes.TrimPrefix(bs, goroutineSpace) i := bytes.IndexByte(bs, &#39; &#39;) if i &lt; 0 { return -1, errors.New(&#34;get current goroutine id failed&#34;) } return strconv." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之获取 goroutine ID" />
+<meta property="og:description" content="概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/performance/goroutineid/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -438,7 +434,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 高性能之获取 goroutine ID"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

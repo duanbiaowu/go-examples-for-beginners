@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。
-map 实现 set 这里假设 Set 元素类型为 int, 那么我们就以 int 作为 map 的键类型，以 bool 作为 map 的值类型 (之所以选择 bool 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 byte 类型，其大小同样是 1 个字节)。
-package main import &#34;fmt&#34; // Set 类型定义 type set map[int]bool // 初始化一个新的 Set func newSet() set { return make(set) } // 元素是否存在于与集合中 func (s set) contains(ele int) bool { _, ok := s[ele] return ok } // 添加元素到集合 func (s set) add(ele int) { s[ele] = true } // 从集合中删除某个元素 func (s set) remove(ele int) { delete(s, ele) } func main() { s := newSet() fmt.">
+<meta name="description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之空结构体" />
-<meta property="og:description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。
-map 实现 set 这里假设 Set 元素类型为 int, 那么我们就以 int 作为 map 的键类型，以 bool 作为 map 的值类型 (之所以选择 bool 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 byte 类型，其大小同样是 1 个字节)。
-package main import &#34;fmt&#34; // Set 类型定义 type set map[int]bool // 初始化一个新的 Set func newSet() set { return make(set) } // 元素是否存在于与集合中 func (s set) contains(ele int) bool { _, ok := s[ele] return ok } // 添加元素到集合 func (s set) add(ele int) { s[ele] = true } // 从集合中删除某个元素 func (s set) remove(ele int) { delete(s, ele) } func main() { s := newSet() fmt." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之空结构体" />
+<meta property="og:description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/performance/empty_struct/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -541,7 +537,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 高性能之空结构体"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

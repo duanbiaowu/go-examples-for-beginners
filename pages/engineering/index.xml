@@ -24,9 +24,7 @@
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/embed/</guid>
-      <description>概述 Go 编译后是一个 二进制可执行文件，部署非常简单。 在 1.16 版本之后， Go 提供了 embed 包支持编译时嵌入静态文件， 这样就可以直接在程序中访问静态文件的内容了。 结合这两个特性，可以将应用整体打包进一个二进制可执行文件。
-常见应用场景  将音频、视频文件嵌入小工具内，比如笔者曾经做过一个后台下载小工具，在下载成功/失败时会有对应的提示语音 网站的静态资源，比如网站只有少量的静态资源 (icon, 图片，图表等) 文件，可以将这些文件打包进可执行文件 应用配置文件直接打包进可执行文件 自定义的静态文件服务  例子 测试文件  新建两个文件并写入一些字符串用作演示 新建一个 server.log 文件，写入如下内容  [Server] [Server] [Server]  新建一个 client.log 文件，写入如下内容  [Client] [Client] [Client] 单个文件的内容嵌入到字符串 注意 embed 注解的写法。
-package main import ( _ &amp;#34;embed&amp;#34; &amp;#34;fmt&amp;#34; ) //go:embed server.log var log string func main() { fmt.Printf(&amp;#34;%s\n&amp;#34;, log) } // $ go run main.go // 输出如下 /** [Server] [Server] [Server] */ 嵌入文件系统 FS FS: 表示只读的文件句柄集合</description>
+      <description>概述 Go 编译后是一个 二进制可执行文件，部署非常简单。 在 1.</description>
     </item>
     
     <item>
@@ -35,9 +33,7 @@ package main import ( _ &amp;#34;embed&amp;#34; &amp;#34;fmt&amp;#34; ) //go:emb
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/expvar/</guid>
-      <description>概述 expvar 包为公共变量提供了一个标准化的接口，如服务接口中的访问计数器。 包提供了 HTTP 接口并以 JSON 格式输出这些变量，接口的 URL 路由是 /debug/vars 。
-最重要的是，操作这些公共变量是原子的，这意味着我们不需要考虑并发带来的问题。
-例子 接口状态码计数器 package main import ( &amp;#34;expvar&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;log&amp;#34; &amp;#34;math/rand&amp;#34; &amp;#34;net/http&amp;#34; &amp;#34;time&amp;#34; ) var ( ok = expvar.NewInt(&amp;#34;200&amp;#34;) // 200 计算器 	notFound = expvar.NewInt(&amp;#34;404&amp;#34;) // 404 计数器 	serverError = expvar.NewInt(&amp;#34;500&amp;#34;) // 500 计数器 ) func helloWorld(w http.ResponseWriter, r *http.Request) { _, err := fmt.Fprintf(w, &amp;#34;hello world&amp;#34;) if err != nil { log.Fatal(err) } ok.Add(1) // 增加 200 计数器 } // 为了模拟 404, 500 错误 // 随机返回 Http Code [200, 404, 500] func random(w http.</description>
+      <description>概述 expvar 包为公共变量提供了一个标准化的接口，如服务接口中的访问计数器。 包提供了 HTTP 接口并以 JSON 格式输出这些变量，接口的 URL 路由是 /debug/vars 。</description>
     </item>
     
     <item>
@@ -46,9 +42,7 @@ package main import ( _ &amp;#34;embed&amp;#34; &amp;#34;fmt&amp;#34; ) //go:emb
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/json/</guid>
-      <description>概述 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。
-例子 临时忽略某个字段 比如在接口中输出用户信息时，希望过滤掉密码字段。
-package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; ) type User struct { UserName string `json:&amp;#34;userName&amp;#34;` Email string `json:&amp;#34;email&amp;#34;` Password string `json:&amp;#34;password&amp;#34;` } func main() { u := &amp;amp;User{ UserName: &amp;#34;root&amp;#34;, Email: &amp;#34;root@gmail.com&amp;#34;, Password: &amp;#34;123456&amp;#34;, } data, err := json.Marshal(struct { *User // 使用一个内嵌的字段覆盖掉原字段 	Password string `json:&amp;#34;password,omitempty&amp;#34;` }{ User: u, }) if err !</description>
+      <description>概述 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。</description>
     </item>
     
     <item>
@@ -57,10 +51,7 @@ package main import ( &amp;#34;encoding/json&amp;#34; &amp;#34;fmt&amp;#34; ) ty
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/compiling_cross_platform/</guid>
-      <description>概述 交叉编译，也称跨平台编译，就是在一个平台上编译源代码，生成结果为另一个平台上的可执行代码。 这里的平台包含两个概念：体系架构 (如 AMD, ARM) 和 操作系统 (如 Linux, Windows）。 同一个体系架构可以运行不同的操作系统，反过来，同一个操作系统也可以运行在不同的体系架构上。
- Go 实现跨平台编译的思想其实很简单：通过保存可以生成最终机器码的多份翻译代码， 在编译时根据 GOARCH=体系架构 和GOOS=操作系统参数进行初始化设置， 最终调用对应平台编写的特定方法来生成机器码，从而实现跨平台编译。
- 例子 下面的例子统一以 amd64 作为体系架构参数，读者请根据自己的环境更换对应参数，比如 386。
-Mac 编译为 Linux 代码 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go # 也可以是 386 平台 # CGO_ENABLED=0 GOOS=linux GOARCH=386 go build main.go 编译为 Windows 代码 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.go Linux 编译为 Mac 代码 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build main.go 编译为 Windows 代码 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build main.</description>
+      <description>概述 交叉编译，也称跨平台编译，就是在一个平台上编译源代码，生成结果为另一个平台上的可执行代码。 这里的平台包含两个概念：体系架构 (如 AMD, ARM) 和 操作系统 (如 Linux, Windows）。 同一个体系架构可以运行不同的操作系统，反过来，同一个操作系统也可以运行在不同的体系架构上。</description>
     </item>
     
     <item>
@@ -69,8 +60,7 @@ Mac 编译为 Linux 代码 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.g
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/slice/</guid>
-      <description>概述 Go 内置的 append() 和 copy() 两个函数非常强大，通过配合 slice 组合操作， 可以实现大多数 容器类 数据结构和基础算法，例如 栈, 队列 的常规操作。
-例子 追加元素 package main import ( &amp;#34;fmt&amp;#34; ) func main() { a := make([]int, 10) for i := range a { a[i] = i + 1 } fmt.Println(a) a = append(a, 11) fmt.Println(a) } // $ go run main.go // 输出如下 /** [1 2 3 4 5 6 7 8 9 10] [1 2 3 4 5 6 7 8 9 10 11] */ 追加 N 个元素 package main import ( &amp;#34;fmt&amp;#34; ) func main() { a := make([]int, 10) for i := range a { a[i] = i + 1 } fmt.</description>
+      <description>概述 Go 内置的 append() 和 copy() 两个函数非常强大，通过配合 slice 组合操作， 可以实现大多数 容器类 数据结构和基础算法，例如 栈, 队列 的常规操作。</description>
     </item>
     
     <item>
@@ -79,12 +69,7 @@ Mac 编译为 Linux 代码 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.g
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test_fixture/</guid>
-      <description>概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:
- 测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接 测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件  这种 被共享且状态变化次数很少的值 称为测试的 基境，最佳实践是将测试代码中可以复用的部分 放入 基境。
-TestMain TestMain 函数运行在主 goroutine 中 , 可以在调用 m.Run 前后设置 钩子 函数。 如果测试文件中包含 TestMain(*testing.M) 函数， 所有测试方法必须调用参数的 Run 方法触发，如果不调用该方法，直接运行 go test 没有任何效果。 可以利用这一特性， 在 Run 方法执行前后分别挂载 钩子 函数实现 基境 功能。在 TestMain 函数末尾，应该使用 m.Run 的返回值作为参数去调用 os.Exit。
-示例 首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 基境 演示，方法内部并不会去实现具体的功能。
-CURD 方法 将如下代码写入 main.go 文件中:
-package main func create() { println(&amp;#34;create internal&amp;#34;) } func update() { println(&amp;#34;update internal&amp;#34;) } func get() { println(&amp;#34;get internal&amp;#34;) } func delete() { println(&amp;#34;delete internal&amp;#34;) } func main() { } 测试基境 将如下代码写入 main_test.</description>
+      <description>概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:</description>
     </item>
     
     <item>
@@ -93,12 +78,7 @@ package main func create() { println(&amp;#34;create internal&amp;#34;) } func u
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test/</guid>
-      <description>概述 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。
- go test 命令用来对程序进行测试。
- 规则 在一个目录中，以 _test.go 结尾的文件是 go test 编译的目标，go build 将会自动忽略。 go test 工具扫描以 _test.go 结尾的文件来寻找特殊函数，并生成一个临时的 main 包来编译和运行，最后清除过程中产生的临时文件。
-常用规则:  运行当前目录对应的包下面某个测试用例: go test run=&#39;^Pattern$&#39;，其中单引号中为正则表达式 运行当前目录下的测试用例: go test . 运行子目录下的测试用例: go test ./package_name 运行当前目录以及所有子目录下的测试用例: go test ./...  四种函数 在以 _test.go 结尾的文件中，一共有 4 种类型的函数:
- 功能测试函数: Test 前缀命名，用来测试程序逻辑的正确性 基准测试函数: Benchmark 前缀命名，用来测试程序的性能 示例函数: Example 前缀命名，用来提供文档 模糊测试函数: Fuzz 前缀命名，用来提供自动化测试技术  功能测试 为了简化演示代码的复杂性，这里直接将测试函数写在 main.go 文件。
-普通测试方法 测试未通过 首先写一个空方法，不实现具体的功能，来演示 测试未通过。</description>
+      <description>概述 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。</description>
     </item>
     
     <item>
@@ -107,12 +87,7 @@ package main func create() { println(&amp;#34;create internal&amp;#34;) } func u
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test_cover/</guid>
-      <description>概念  测试覆盖率是指被测试对象被覆盖到的测试比例。
- 这里的测试对象包括程序中的语句、判定、分支、函数、对象，包等等。 语句覆盖率 是指部分语句在一次程序运行中至少执行过一次，是最简单且广泛使用的方法之一。 为了缩短篇幅，直奔主题，本小节的代码示例只演示 语句覆盖率，对测试理论感兴趣的读者可以参考 附录3 的链接。
-cover  Go 内置的 cover 工具用来衡量语句覆盖率并帮助标识测试之间的明显差别，已经集成到了 go test 命令中。
- $ go tool cover Usage of &amp;#39;go tool cover&amp;#39;: Given a coverage profile produced by &amp;#39;go test&amp;#39;: go test -coverprofile=c.out ... ... Only one of -html, -func, or -mode may be set. 通过输出信息可以看到，将测试结果存入一个文件中，可以使用 go tool cover 命令可视化查看生成的代码测试覆盖率。
-示例 测试覆盖率 - 1 这里写一个简单的函数，作为示例，将如下代码写入 main.go 文件中:
-package main // 根据成绩给出对应学术水平等级 // 95 - 100: A // 85 - 94: B // 70 - 84: C // 60 - 69: D // 0 - 59: E func getLevel(score int) byte { switch { case score &amp;gt;= 95: return &amp;#39;A&amp;#39; case score &amp;gt;= 85: return &amp;#39;B&amp;#39; case score &amp;gt;= 70: return &amp;#39;C&amp;#39; case score &amp;gt;= 60: return &amp;#39;D&amp;#39; default: return &amp;#39;E&amp;#39; } } func main() { } 将如下的测试代码写入 main_test.</description>
+      <description>概念  测试覆盖率是指被测试对象被覆盖到的测试比例。</description>
     </item>
     
     <item>
@@ -121,8 +96,7 @@ package main // 根据成绩给出对应学术水平等级 // 95 - 100: A // 85 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test_performance/</guid>
-      <description>概念  在软件测试中：压力测试（Stress Test），也称为强度测试、负载测试。压力测试是模拟实际应用的软硬件环境及用户使用过程的系统负荷，长时间或超大负荷地运行测试软件，来测试被测系统的性能、可靠性、稳定性等。
- 目的  通过压测 (模拟真实用户的行为)，测算出机器的性能 (单台机器的 QPS)，从而推算出系统在承受指定用户数 (例如 100W) 时，需要多少资源 在上线前为了应对未来可能达到的用户数量的一次预估(提前演练)，压测以后通过优化程序的性能或准备充足的机器，来保证用户的体验  类型          压力测试 (Stress Testing) 通过强负载(大数据、高并发) 测试系统所能承受的最大压力   并发测试 (Concurrency Testing) 通过模拟很多用户同一时刻访问系统或对系统某一个功能进行操作，来测试系统的性能并从中发现问题(并发读写、线程控制、资源争抢)   耐久性测试 (Configuration Testing) 通过让系统在超负载状态长时间运行发现问题(内存泄漏、数据库连接池不释放、资源不回收)    名词          并发 (Concurrency) 一个处理器逻辑上同时处理多个任务   并行 (Parallel) 多个处理器物理上同时处理多个任务   QPS (Query Per Second) 服务器每秒钟处理请求数量   TPS (Transaction Per Second) 服务器每秒钟处理事务数量   请求成功数 (Request Success Number) 请求成功的数量，一般条件是 statusCode == 200   请求失败数 (Request Failures Number) 请求失败的数量，一般条件是 statusCode !</description>
+      <description>概念  在软件测试中：压力测试（Stress Test），也称为强度测试、负载测试。压力测试是模拟实际应用的软硬件环境及用户使用过程的系统负荷，长时间或超大负荷地运行测试软件，来测试被测系统的性能、可靠性、稳定性等。</description>
     </item>
     
     <item>
@@ -131,13 +105,7 @@ package main // 根据成绩给出对应学术水平等级 // 95 - 100: A // 85 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/command/</guid>
-      <description>概述  工欲善其事，必先利其器。
- 优秀的工具配合熟练的使用，往往可以让开发效率大幅度提升，本小节介绍 Go 里面经常使用到的命令行工具。
-install  go install 命令编译并安装指定的包以及对应的依赖包。
- # 安装 golint 包 $ go install golang.org/x/lint/golint@latest # go: downloading golang.org/x/tools v0.0.0-20200130002326-2f3ba24bd6e7 # 一般会直接将命令放入 $GOPATH/bin $ which golint # /home/codes/go/bin/golint get  go get 命令将指定的包以及对应的依赖包加入到当前 module。
- go get 和 go install 主要区别在于: install 是命令的全局安装，不会将包及其依赖加入到当前 module。
-需要注意的一点是: 每个包都有对应的 Go 版本以及其他包依赖，如果指定了包的版本号，但是当前 Go 版本或者依赖包的版本不满足条件，将无法安装。
-添加最新可用包 # 获取 golint 包, -u 参数表示获取指定的包的依赖项，以便在包有新的版本可用时使用 # 如果包名称后面不加 `@版本号`，则默认为 `latest` 最新可用的 $ go get -u golang.</description>
+      <description>概述  工欲善其事，必先利其器。</description>
     </item>
     
     <item>
@@ -146,8 +114,7 @@ install  go install 命令编译并安装指定的包以及对应的依赖包。
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/benchstat/</guid>
-      <description>概述  Benchstat 命令用来计算和比较基准测试的统计数据。
- 安装 benchstat $ go install golang.org/x/perf/cmd/benchstat@latest # 输出如下 go: downloading golang.org/x/perf v0.0.0-20220920022801-e8d778a60d07 go: downloading github.com/google/safehtml v0.0.2 # 安装完成 # 查看使用帮助 $ benchstat -h usage: benchstat [options] old.txt [new.txt] [more.txt ...] options: -alpha α consider change significant if p &amp;lt; α (default 0.05) ... ... -split labels split benchmarks by labels (default &amp;#34;pkg,goos,goarch&amp;#34;) 参数规则  当参数是单个文件时，打印该文件中的 Benchmark 统计结果 当参数是两个文件时，打印两个文件的 Benchmark 统计结果以及比较信息 当参数是两个以上文件时，分别打印所有文件的 Benchmark 统计结果  例子 这里以一个 求和函数 的小例子作为演示，首先实现一个较慢的版本，接着在这个基础上进行优化，最后使用 benchstat 比较两者差异。</description>
+      <description>概述  Benchstat 命令用来计算和比较基准测试的统计数据。</description>
     </item>
     
     <item>
@@ -156,8 +123,7 @@ install  go install 命令编译并安装指定的包以及对应的依赖包。
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/math/</guid>
-      <description>保留两位小数 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; ) func RoundFloat(val float64, precision int) float64 { ratio := math.Pow(10, float64(precision)) return math.Round(val*ratio) / ratio } func main() { fmt.Println(RoundFloat(3.1415926, 2)) fmt.Println(RoundFloat(1024.2325, 1)) } 运行代码输出如下
-$ go run main.go 3.14 1024.2 </description>
+      <description>保留两位小数 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; ) func RoundFloat(val float64, precision int) float64 { ratio := math.</description>
     </item>
     
     <item>
@@ -166,11 +132,7 @@ $ go run main.go 3.14 1024.2 </description>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/base_config/</guid>
-      <description>概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。
-基础环境变量 GOROOT Go 源代码的安装目录，Mac 和 Windows 安装时会自动配置好，Linux 一般在 /usr/local/go 目录。
-# 查看 $GOROOT 目录 $ echo $GOROOT /usr/local/bin # 设置 $GOROOT 目录 $ export GOROOT=/usr/local/bin # 增加 go 相关命令到 PATH $ export PATH=$PATH:/usr/local/go/bin GOPATH 简单来说，就是存放 Go 第三方库的源代码以及构建后可执行程序的目录，建议设置为独立的目录并且不要存放其他文件。
-# 查看 $GOPATH 目录 $ echo $GOPATH /home/codes/go # 设置 $GOPATH 目录 $ export GOPATH=/home/codes/go GOPROXY 安装包的下载代理地址，直接使用 七牛云 提供的代理地址 (https://goproxy.cn)，速度非常快！
-# 查看 $GOPROXY 代理地址 $ echo $GOPROXY https://goproxy.cn # 设置 $GOPROXY 目录 $ export GOPROXY=https://goproxy.</description>
+      <description>概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。</description>
     </item>
     
     <item>
@@ -179,14 +141,7 @@ $ go run main.go 3.14 1024.2 </description>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/conditional_compilation/</guid>
-      <description>概述 条件编译 是指针对不同的平台，在编译期间选择性地编译特定的程序代码。 Go 通过引入 build tag 实现了条件编译。
-例子 条件编译 一个常见的场景是: 针对同一个方法，在不同的环境中 (开发|测试|生产)，希望能输出不同等级的日志。
-下面通过一个小例子来演示刚才描述的这种场景。
-go.mod $ cat go.mod # 输出如下 module helloworld go 1.19 foo 包 新建一个 foo 目录，并在目录下面建立 3 个文件: debug.go, prod.go, main.go。
-debug.go 将如下代码写入 debug.go 文件中。
-//go:build debug  package foo func Mode() { println(&amp;#34;Debug Mode&amp;#34;) } prod.go 将如下代码写入 prod.go 文件中。
-//go:build !debug  package foo func Mode() { println(&amp;#34;Production Mode&amp;#34;) } main.go 将如下代码写入 main.go 文件中。
-package main import &amp;#34;helloworld/foo&amp;#34; func main() { foo.</description>
+      <description>概述 条件编译 是指针对不同的平台，在编译期间选择性地编译特定的程序代码。 Go 通过引入 build tag 实现了条件编译。</description>
     </item>
     
     <item>
@@ -195,8 +150,7 @@ package main import &amp;#34;helloworld/foo&amp;#34; func main() { foo.</descrip
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/format/</guid>
-      <description>格式化显示空间使用 package main import ( &amp;#34;fmt&amp;#34; ) func ByteCountToReadable(b uint64) string { const unit = 1024 if b &amp;lt; unit { return fmt.Sprintf(&amp;#34;%d B&amp;#34;, b) } div, exp := uint64(unit), 0 for n := b / unit; n &amp;gt;= unit; n /= unit { div *= unit exp++ } return fmt.Sprintf(&amp;#34;%.1f %cB&amp;#34;, float64(b)/float64(div), &amp;#34;KMGTPE&amp;#34;[exp]) } func main() { fmt.Println(ByteCountToReadable(1024 * 1024 * 1024)) fmt.Println(ByteCountToReadable(256 * 1024)) } 运行代码输出如下
-$ go run main.</description>
+      <description>格式化显示空间使用 package main import ( &amp;#34;fmt&amp;#34; ) func ByteCountToReadable(b uint64) string { const unit = 1024 if b &amp;lt; unit { return fmt.</description>
     </item>
     
     <item>
@@ -205,15 +159,7 @@ $ go run main.</description>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</guid>
-      <description>概述 这篇文章将介绍 模糊测试 的基础知识。通过模糊测试，随机数据会针对测试运行并试图找到漏洞或导致程序异常退出的输入数据。 可以通过 模糊测试 发现的漏洞类型包括 SQL 注入, 缓冲区溢出攻击, DOS 和 CSRF。
-我们通过一个小例子来学习，先为一个简单的函数编写模糊测试，然后运行、调试和修复代码中存在的问题。文章中涉及到 模糊测试 的名词和前置条件， 在 模糊测试-理论 一文中已经讲过，这里就不再赘述了。
-通过示例程序学习分为以下几个步骤:
- 创建一个目录用于保存代码 编写代码并进行测试 添加单元测试 添加模糊测试 修复两个 Bug 学习更多资源  创建一个目录用于保存代码 Linux/Mac:
-$ mkdir fuzz $ cd fuzz Windows:
-C:\&amp;gt; cd %HOMEPATH% mkdir fuzz cd fuzz 创建目录完成后，创建 module:
-$ go mod init example/fuzz go: creating new go.mod: module example/fuzz 编写代码并进行测试 编写一个函数，实现功能: 反转字符串。
-将如下代码写入 main.go 文件:
-package main import &amp;#34;fmt&amp;#34; func Reverse(s string) string { b := []byte(s) for i, j := 0, len(b)-1; i &amp;lt; len(b)/2; i, j = i+1, j-1 { b[i], b[j] = b[j], b[i] } return string(b) } func main() { input := &amp;#34;The quick brown fox jumped over the lazy dog&amp;#34; rev := Reverse(input) doubleRev := Reverse(rev) fmt.</description>
+      <description>概述 这篇文章将介绍 模糊测试 的基础知识。通过模糊测试，随机数据会针对测试运行并试图找到漏洞或导致程序异常退出的输入数据。 可以通过 模糊测试 发现的漏洞类型包括 SQL 注入, 缓冲区溢出攻击, DOS 和 CSRF。</description>
     </item>
     
     <item>
@@ -222,12 +168,7 @@ package main import &amp;#34;fmt&amp;#34; func Reverse(s string) string { b := [
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</guid>
-      <description>概述 Go 从 1.18 版本开始在内置标准工具链中支持原生 模糊测试 OSS-Fuzz 。
-模糊测试 是一种自动化测试技术，它不断生成输入用以查找程序的 Bug。模糊测试 使用覆盖率报告智能地遍历被测试的代码，查找并向用户报告问题。 模糊测试 可以覆盖开发人员经常忽视的边缘场景，因此对于发现系统的安全漏洞和薄弱环节价值巨大。
-下面是一个模糊测试的例子，主要组成就是高亮部分:
- 编写模糊测试 必要条件 模糊测试必须遵守下列规则:
- 模糊测试必须是一个以 Fuzz 为前缀的函数，仅有一个类型为 *testing.F 的参数，并且没有返回值 模糊测试必须在 *_test.go 文件中才可以运行 模糊测试目标必须是调用 (*testing.F).Fuzz 函数，该函数第一个参数类型为 *testing.T, 后面跟模糊测试参数，没有返回值 每个模糊测试必须有一个目标 所有种子语料库条目的类型必须与模糊测试参数以及顺序相同，对于调用 (*testing.F).Add 和模糊测试的 testdata/fuzz 目录中的任何语料库文件都是如此 模糊参数只能是以下数据类型:  string, []byte int, int8, int16, int32/rune, int64 uint, uint8/byte, uint16, uint32, uint64 float32, float64 bool    建议 下面是一些帮助你充分利用模糊测试的建议:
- 模糊测试目标应该是快速且确定的，这样模糊测试引擎才能高效工作，并且可以轻松复现新的故障和代码覆盖率 由于模糊测试目标是在多个 worker 之间以不确定的顺序运行的，因此 模糊测试目标的状态不应该持续到每次调用结束，并且模糊测试目标的行为不应该依赖全局状态  运行模糊测试 有两种运行模糊测试的方式：作为单元测试（默认 go test）或模糊测试（go test -fuzz=FuzzTestName）。</description>
+      <description>概述 Go 从 1.</description>
     </item>
     
     <item>
@@ -236,11 +177,7 @@ package main import &amp;#34;fmt&amp;#34; func Reverse(s string) string { b := [
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/struct/</guid>
-      <description>概述 Go 语言中，结构体和它所包含的数据在内存中是以连续块的形式存在的，即使结构体中嵌套有其他的结构体，这在性能上带来了很大的优势。 不像 Java 中的引用类型，一个对象和它里面包含的对象可能会在不同的内存空间中，和 Go 语言中的指针很像。 下面的例子清晰地说明了这些情况：
-type Point struct {X, Y int} type Rect1 struct {Min, Max Point } type Rect2 struct {Min, Max *Point }  强制字面量方式创建结构体 在一个结构体中定义一个非导出的零大小字段，编译器将会禁止使用非字面量 (不指明字段名称) 来创建结构体。 备注: 该方法仅针对包外调用，包内调用不受影响。
-编译失败 新建 foo/person.go 文件, 将如下代码写入:
-package foo type Person struct { _ [0]int Name string Age int } 新建 main.go 文件, 将如下代码写入:
-package main import &amp;#34;helloworld/foo&amp;#34; func main() { _ = foo.Person{[0]int{}, &amp;#34;bar&amp;#34;, 123} } $ go run main.</description>
+      <description>概述 Go 语言中，结构体和它所包含的数据在内存中是以连续块的形式存在的，即使结构体中嵌套有其他的结构体，这在性能上带来了很大的优势。 不像 Java 中的引用类型，一个对象和它里面包含的对象可能会在不同的内存空间中，和 Go 语言中的指针很像。 下面的例子清晰地说明了这些情况：</description>
     </item>
     
     <item>
@@ -249,9 +186,7 @@ package main import &amp;#34;helloworld/foo&amp;#34; func main() { _ = foo.Perso
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/upx/</guid>
-      <description>概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。
-实验过程 我们以一个 文件基础操作 代码进行演示。
-代码 package main import ( &amp;#34;log&amp;#34; &amp;#34;os&amp;#34; ) func fileBaseOperate(name string) (err error) { // 创建文件 	file, err := os.Create(name) if err != nil { return } defer func() { // 关闭文件 	err = file.Close() if err != nil { return } // 删除文件 	err = os.Remove(name) }() // 向文件写入一些字符 	_, err = file.WriteString(&amp;#34;hello world&amp;#34;) if err != nil { return } str := make([]byte, 1024) // 从文件读取一些字符 	_, err = file.</description>
+      <description>概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。</description>
     </item>
     
     <item>
@@ -260,9 +195,7 @@ package main import &amp;#34;helloworld/foo&amp;#34; func main() { _ = foo.Perso
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/engineering/error_handle_gracefully/</guid>
-      <description>错误必须被处理 调用函数时，有很多函数总是成功返回，比如常见的 println() len(), 但是还有很多函数，因为各种不受控的影响 (比如 网络中断, IO 错误 等), 可能会调用失败甚至报错。 因此，处理错误是程序中最重要的部分之一。
-Go 使用特定的类型 error 来标识错误，这和一些使用 异常 (Exception) 的编程语言不同。当调用函数发生错误时，一个约定俗成的做法是将 错误值 作为函数的最后一个返回值。 如果函数返回一个错误时，调用方必须处理该错误，而不能想当然地认为函数执行成功，忽略错误。
-错误没有被处理导致的报错 错误的做法 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;net/http&amp;#34; ) func main() { // 模拟发起一个错误请求 	// 并且没有处理错误 	resp, _ := http.Get(&amp;#34;localhost:3306&amp;#34;) defer resp.Body.Close() code := resp.StatusCode fmt.Printf(&amp;#34;Http Code = %d\n&amp;#34;, code) ct := resp.Header.Get(&amp;#34;Content-Type&amp;#34;) fmt.Printf(&amp;#34;Content-Type = %s\n&amp;#34;, ct) } // $ go run main.go // 输出如下 /** panic: runtime error: invalid memory address or nil pointer dereference .</description>
+      <description>错误必须被处理 调用函数时，有很多函数总是成功返回，比如常见的 println() len(), 但是还有很多函数，因为各种不受控的影响 (比如 网络中断, IO 错误 等), 可能会调用失败甚至报错。 因此，处理错误是程序中最重要的部分之一。</description>
     </item>
     
   </channel>

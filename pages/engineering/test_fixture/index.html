@@ -3,20 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:
- 测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接 测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件  这种 被共享且状态变化次数很少的值 称为测试的 基境，最佳实践是将测试代码中可以复用的部分 放入 基境。
-TestMain TestMain 函数运行在主 goroutine 中 , 可以在调用 m.Run 前后设置 钩子 函数。 如果测试文件中包含 TestMain(*testing.M) 函数， 所有测试方法必须调用参数的 Run 方法触发，如果不调用该方法，直接运行 go test 没有任何效果。 可以利用这一特性， 在 Run 方法执行前后分别挂载 钩子 函数实现 基境 功能。在 TestMain 函数末尾，应该使用 m.Run 的返回值作为参数去调用 os.Exit。
-示例 首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 基境 演示，方法内部并不会去实现具体的功能。
-CURD 方法 将如下代码写入 main.go 文件中:
-package main func create() { println(&#34;create internal&#34;) } func update() { println(&#34;update internal&#34;) } func get() { println(&#34;get internal&#34;) } func delete() { println(&#34;delete internal&#34;) } func main() { } 测试基境 将如下代码写入 main_test.">
+<meta name="description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="单元测试基境" />
-<meta property="og:description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:
- 测试开始时，打开一个数据库连接，测试过程中所有测试用例共享这个连接，测试结束时关闭这个连接 测试开始时，创建一个临时文件，测试过程中所有测试用例共享这个文件句柄，测试结束时关闭并删除这个文件  这种 被共享且状态变化次数很少的值 称为测试的 基境，最佳实践是将测试代码中可以复用的部分 放入 基境。
-TestMain TestMain 函数运行在主 goroutine 中 , 可以在调用 m.Run 前后设置 钩子 函数。 如果测试文件中包含 TestMain(*testing.M) 函数， 所有测试方法必须调用参数的 Run 方法触发，如果不调用该方法，直接运行 go test 没有任何效果。 可以利用这一特性， 在 Run 方法执行前后分别挂载 钩子 函数实现 基境 功能。在 TestMain 函数末尾，应该使用 m.Run 的返回值作为参数去调用 os.Exit。
-示例 首先写 4 个数据库的基础操作方法: 创建、更新、读取、删除，这里只是作为 基境 演示，方法内部并不会去实现具体的功能。
-CURD 方法 将如下代码写入 main.go 文件中:
-package main func create() { println(&#34;create internal&#34;) } func update() { println(&#34;update internal&#34;) } func get() { println(&#34;get internal&#34;) } func delete() { println(&#34;delete internal&#34;) } func main() { } 测试基境 将如下代码写入 main_test." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="单元测试基境" />
+<meta property="og:description" content="概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/engineering/test_fixture/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -465,7 +455,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="单元测试基境"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

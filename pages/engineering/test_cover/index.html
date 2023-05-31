@@ -3,20 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概念  测试覆盖率是指被测试对象被覆盖到的测试比例。
- 这里的测试对象包括程序中的语句、判定、分支、函数、对象，包等等。 语句覆盖率 是指部分语句在一次程序运行中至少执行过一次，是最简单且广泛使用的方法之一。 为了缩短篇幅，直奔主题，本小节的代码示例只演示 语句覆盖率，对测试理论感兴趣的读者可以参考 附录3 的链接。
-cover  Go 内置的 cover 工具用来衡量语句覆盖率并帮助标识测试之间的明显差别，已经集成到了 go test 命令中。
- $ go tool cover Usage of &#39;go tool cover&#39;: Given a coverage profile produced by &#39;go test&#39;: go test -coverprofile=c.out ... ... Only one of -html, -func, or -mode may be set. 通过输出信息可以看到，将测试结果存入一个文件中，可以使用 go tool cover 命令可视化查看生成的代码测试覆盖率。
-示例 测试覆盖率 - 1 这里写一个简单的函数，作为示例，将如下代码写入 main.go 文件中:
-package main // 根据成绩给出对应学术水平等级 // 95 - 100: A // 85 - 94: B // 70 - 84: C // 60 - 69: D // 0 - 59: E func getLevel(score int) byte { switch { case score &gt;= 95: return &#39;A&#39; case score &gt;= 85: return &#39;B&#39; case score &gt;= 70: return &#39;C&#39; case score &gt;= 60: return &#39;D&#39; default: return &#39;E&#39; } } func main() { } 将如下的测试代码写入 main_test.">
+<meta name="description" content="概念  测试覆盖率是指被测试对象被覆盖到的测试比例。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="单元测试覆盖率" />
-<meta property="og:description" content="概念  测试覆盖率是指被测试对象被覆盖到的测试比例。
- 这里的测试对象包括程序中的语句、判定、分支、函数、对象，包等等。 语句覆盖率 是指部分语句在一次程序运行中至少执行过一次，是最简单且广泛使用的方法之一。 为了缩短篇幅，直奔主题，本小节的代码示例只演示 语句覆盖率，对测试理论感兴趣的读者可以参考 附录3 的链接。
-cover  Go 内置的 cover 工具用来衡量语句覆盖率并帮助标识测试之间的明显差别，已经集成到了 go test 命令中。
- $ go tool cover Usage of &#39;go tool cover&#39;: Given a coverage profile produced by &#39;go test&#39;: go test -coverprofile=c.out ... ... Only one of -html, -func, or -mode may be set. 通过输出信息可以看到，将测试结果存入一个文件中，可以使用 go tool cover 命令可视化查看生成的代码测试覆盖率。
-示例 测试覆盖率 - 1 这里写一个简单的函数，作为示例，将如下代码写入 main.go 文件中:
-package main // 根据成绩给出对应学术水平等级 // 95 - 100: A // 85 - 94: B // 70 - 84: C // 60 - 69: D // 0 - 59: E func getLevel(score int) byte { switch { case score &gt;= 95: return &#39;A&#39; case score &gt;= 85: return &#39;B&#39; case score &gt;= 70: return &#39;C&#39; case score &gt;= 60: return &#39;D&#39; default: return &#39;E&#39; } } func main() { } 将如下的测试代码写入 main_test." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="单元测试覆盖率" />
+<meta property="og:description" content="概念  测试覆盖率是指被测试对象被覆盖到的测试比例。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/engineering/test_cover/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -555,7 +545,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="单元测试覆盖率"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

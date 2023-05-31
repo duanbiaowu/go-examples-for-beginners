@@ -3,18 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。
-接下来，我们先通过一个示例来了解下 内联。
-示例 // 原代码: package main func max(x, y int) int { if x &gt; y { return x } return y } func main() { z := max(1, 2) println(z) } 内联后代码猜测 上面的代码，内联之后展开成类似下面的代码:
-package main func main() { var z int if 1 &gt; 2 { z = 1 } else { z = 2 } println(z) } 当然，因为这个程序实在过于简单，编译器可以直接优化为:
-// 最终优化后代码 package main func main() { println(2) } 直接优化为一行代码， 编译器真的有这么强大吗？ 接下来我们通过构建和反汇编代码一起来验证一下。">
+<meta name="description" content="概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之内联优化" />
-<meta property="og:description" content="概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。
-接下来，我们先通过一个示例来了解下 内联。
-示例 // 原代码: package main func max(x, y int) int { if x &gt; y { return x } return y } func main() { z := max(1, 2) println(z) } 内联后代码猜测 上面的代码，内联之后展开成类似下面的代码:
-package main func main() { var z int if 1 &gt; 2 { z = 1 } else { z = 2 } println(z) } 当然，因为这个程序实在过于简单，编译器可以直接优化为:
-// 最终优化后代码 package main func main() { println(2) } 直接优化为一行代码， 编译器真的有这么强大吗？ 接下来我们通过构建和反汇编代码一起来验证一下。" />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之内联优化" />
+<meta property="og:description" content="概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/performance/inline/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -539,7 +531,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 高性能之内联优化"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

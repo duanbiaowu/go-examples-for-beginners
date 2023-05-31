@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="操作规则    操作 nil 已关闭的 channel 未关闭有缓冲区的 channel 未关闭无缓冲区的 channel     关闭 panic panic 成功关闭，然后可以读取缓冲区的值，读取完之后，继续读取到的是 channel 类型的默认值 成功关闭，之后读取到的是 channel 类型的默认值   接收 阻塞 不阻塞，读取到的是 channel 类型的默认值 不阻塞，正常读取值 阻塞   发送 阻塞 panic 不阻塞，正常写入值 阻塞    编译规则    操作       接收 只写 channel 编译错误   发送 只读 channel 编译错误   关闭 只读 channel 编译错误    ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="channel 规则" />
+<meta name="color-scheme" content="light"><meta property="og:title" content="channel 规则" />
 <meta property="og:description" content="操作规则    操作 nil 已关闭的 channel 未关闭有缓冲区的 channel 未关闭无缓冲区的 channel     关闭 panic panic 成功关闭，然后可以读取缓冲区的值，读取完之后，继续读取到的是 channel 类型的默认值 成功关闭，之后读取到的是 channel 类型的默认值   接收 阻塞 不阻塞，读取到的是 channel 类型的默认值 不阻塞，正常读取值 阻塞   发送 阻塞 panic 不阻塞，正常写入值 阻塞    编译规则    操作       接收 只写 channel 编译错误   发送 只读 channel 编译错误   关闭 只读 channel 编译错误    " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/engineering/channel/" />
@@ -405,7 +405,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="channel 规则"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

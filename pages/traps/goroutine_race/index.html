@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。
-错误的做法 package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { for i := 0; i &lt; 3; i&#43;&#43; { go func() { defer func() { fmt.Println(&#34;goroutine ending&#34;) }() time.Sleep(100 * time.Millisecond) // 模拟耗时操作 	}() } fmt.Println(&#34;main ending&#34;) } // $ go run main.go // 输出如下 /** main ending */ 从输出结果中看到，只有 main() 输出的字符串， 3 个 goroutine 没有输出任何字符串。
-正确的做法 使用 sync.WaitGroup 同步原语 保证主程序结束前所有 goroutine 正常退出。">
+<meta name="description" content="main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之 goroutine 竞态" />
-<meta property="og:description" content="main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。
-错误的做法 package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { for i := 0; i &lt; 3; i&#43;&#43; { go func() { defer func() { fmt.Println(&#34;goroutine ending&#34;) }() time.Sleep(100 * time.Millisecond) // 模拟耗时操作 	}() } fmt.Println(&#34;main ending&#34;) } // $ go run main.go // 输出如下 /** main ending */ 从输出结果中看到，只有 main() 输出的字符串， 3 个 goroutine 没有输出任何字符串。
-正确的做法 使用 sync.WaitGroup 同步原语 保证主程序结束前所有 goroutine 正常退出。" />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 陷阱之 goroutine 竞态" />
+<meta property="og:description" content="main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/goroutine_race/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -485,7 +481,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 陷阱之 goroutine 竞态"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

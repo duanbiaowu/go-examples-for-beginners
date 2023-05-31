@@ -3,20 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 标准库 sync 提供了 2 种锁，sync.Mutex (互斥锁) 和 sync.RWMutex (读写锁)。
-互斥锁 简单来说，互斥锁 可以保证同一临界区的代码，在同一时刻只有一个线程可以执行 (更多理论知识可以参考附录 1)，sync.Mutex 提供了 2 个方法:
- Lock: 获取锁 Unlock: 释放锁  Lock 方法是一个阻塞操作，并发线程中一旦有一个线程获得锁，那么其他线程陷入阻塞等待，直至该线程调用 Unlock 方法释放锁。
-读写锁 简单来说，读写锁 也称 共享 - 互斥锁，读操作是并发可重入的，也就是说多个线程可以并发执行临界区代码，写操作是互斥的， 规则同 互斥锁 一致，sync.RWMutex 提供了 4 个方法:
- Lock: 获取写锁 Unlock: 释放写锁 RLock: 获取读锁 RUnlock: 释放读锁  测试场景 有了基本了解后，接下来通过基准测试，看看在不同场景下，两者之间的性能差异是多少，这里模拟 常见的 3 种场景:
- 读多写少 (读占 90%, 写占 10%) 写多读少 (写占 10%, 写占 90%) 读写一致 (读写各占 50%)  测试代码 package performance import ( &#34;sync&#34; &#34;testing&#34; &#34;time&#34; ) const cost = time.">
+<meta name="description" content="概述 标准库 sync 提供了 2 种锁，sync.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之互斥锁和读写锁" />
-<meta property="og:description" content="概述 标准库 sync 提供了 2 种锁，sync.Mutex (互斥锁) 和 sync.RWMutex (读写锁)。
-互斥锁 简单来说，互斥锁 可以保证同一临界区的代码，在同一时刻只有一个线程可以执行 (更多理论知识可以参考附录 1)，sync.Mutex 提供了 2 个方法:
- Lock: 获取锁 Unlock: 释放锁  Lock 方法是一个阻塞操作，并发线程中一旦有一个线程获得锁，那么其他线程陷入阻塞等待，直至该线程调用 Unlock 方法释放锁。
-读写锁 简单来说，读写锁 也称 共享 - 互斥锁，读操作是并发可重入的，也就是说多个线程可以并发执行临界区代码，写操作是互斥的， 规则同 互斥锁 一致，sync.RWMutex 提供了 4 个方法:
- Lock: 获取写锁 Unlock: 释放写锁 RLock: 获取读锁 RUnlock: 释放读锁  测试场景 有了基本了解后，接下来通过基准测试，看看在不同场景下，两者之间的性能差异是多少，这里模拟 常见的 3 种场景:
- 读多写少 (读占 90%, 写占 10%) 写多读少 (写占 10%, 写占 90%) 读写一致 (读写各占 50%)  测试代码 package performance import ( &#34;sync&#34; &#34;testing&#34; &#34;time&#34; ) const cost = time." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之互斥锁和读写锁" />
+<meta property="og:description" content="概述 标准库 sync 提供了 2 种锁，sync." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/performance/mutex/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -507,7 +497,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 高性能之互斥锁和读写锁"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

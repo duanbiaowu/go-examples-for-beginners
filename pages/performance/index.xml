@@ -16,10 +16,7 @@
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/channel/</guid>
-      <description>概述 缓冲通道还是无缓冲通道，在高性能场景下，如何选择？
-无缓冲通道测试代码 实现功能如下: 初始化一个 无缓冲通道，启动 N 个 goroutine 向通道写入数据，然后在 主 goroutine 读取通道数据，数据全部读取完成后关闭通道。
-package performance import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; ) func Benchmark_Compare(b *testing.B) { var wg sync.WaitGroup ch := make(chan struct{}) for i := 0; i &amp;lt; b.N; i++ { wg.Add(1) go func() { defer wg.Done() &amp;lt;-ch }() } for i := 0; i &amp;lt; b.N; i++ { ch &amp;lt;- struct{}{} } wg.Wait() close(ch) } 运行测试，并将基准测试结果写入文件:
-$ go test -run=&amp;#39;^$&amp;#39; -bench=.</description>
+      <description>概述 缓冲通道还是无缓冲通道，在高性能场景下，如何选择？</description>
     </item>
     
     <item>
@@ -28,8 +25,7 @@ $ go test -run=&amp;#39;^$&amp;#39; -bench=.</description>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/defer/</guid>
-      <description>概述 defer 语句保证了不论是在正常情况下 (return 返回)，还是非正常情况下 (发生错误, 程序终止)，函数或方法都能够执行。 一个完整的 defer 过程要经过函数注册、参数拷⻉、函数提取、函数调用，这要比直接调用函数慢得多。
-defer 延时释放锁 测试代码 package performance import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; &amp;#34;time&amp;#34; ) var ( m sync.Mutex ) func foo() { m.Lock() url := &amp;#34;https://go.dev&amp;#34; // 模拟从队列中获取一个下载 URL 	defer m.Unlock() // 延迟释放锁  //http.Get(url) 	_ = url time.Sleep(time.Millisecond) // 模拟 HTTP 请求耗时 } func Benchmark_Compare(b *testing.B) { var wg sync.WaitGroup for i := 0; i &amp;lt; b.N; i++ { wg.Add(1) go func() { defer wg.</description>
+      <description>概述 defer 语句保证了不论是在正常情况下 (return 返回)，还是非正常情况下 (发生错误, 程序终止)，函数或方法都能够执行。 一个完整的 defer 过程要经过函数注册、参数拷⻉、函数提取、函数调用，这要比直接调用函数慢得多。</description>
     </item>
     
     <item>
@@ -38,10 +34,7 @@ defer 延时释放锁 测试代码 package performance import ( &amp;#34;sync&am
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/for/</guid>
-      <description>概述 for 循环遍历时，第一个参数为遍历对象列表 (假设列表变量名为 items) 的当前索引，第二个参数为遍历对象列表的当前对象，一般来说，我们有两种方法获取到当前遍历到的元素:
- 使用列表变量名 + 索引，如 items[1] 直接使用第二个参数  那么两者之间的性能差异有多大呢？我们通过基准测试来比较一下。
-通过索引读取元素 测试代码如下:
-package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) type person struct { name string age int } func Benchmark_ForeachPersons(b *testing.B) { b.StopTimer() // 初始化数据 	persons := make([]*person, 100) for i := range persons { persons[i] = &amp;amp;person{ name: strconv.Itoa(i), age: i, } } b.StartTimer() for i := 0; i &amp;lt; b.N; i++ { for j := range persons { // 通过索引读取元素 	_ = persons[j].</description>
+      <description>概述 for 循环遍历时，第一个参数为遍历对象列表 (假设列表变量名为 items) 的当前索引，第二个参数为遍历对象列表的当前对象，一般来说，我们有两种方法获取到当前遍历到的元素:</description>
     </item>
     
     <item>
@@ -50,8 +43,7 @@ package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34;
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/map_key_type/</guid>
-      <description>概述 Map 的 key 支持很多数据类型，只要满足 比较规则 即可， 大多数场景下，我们使用到的是 int 和 string 两种数据类型，那么两者之间，哪个性能更高一些呢？
-key 类型为 string 测试代码 package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) type user struct { id int name string password string email string token string } func Benchmark_Compare(b *testing.B) { for i := 0; i &amp;lt; b.N; i++ { // string 作为 key 	m := make(map[string]*user, 1024) name := strconv.Itoa(i + 1) m[name] = &amp;amp;user{ id: i + 1, name: name, } } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述 Map 的 key 支持很多数据类型，只要满足 比较规则 即可， 大多数场景下，我们使用到的是 int 和 string 两种数据类型，那么两者之间，哪个性能更高一些呢？</description>
     </item>
     
     <item>
@@ -60,10 +52,7 @@ key 类型为 string 测试代码 package performance import ( &amp;#34;strconv&
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/map_free/</guid>
-      <description>概述 Map 会自动扩容，但是不会自动缩容。这也意味着，即使调用 delete() 将 Map 中的数据删除，内存也不会释放 (为以后的数据备用，类似于预分配的功能)， 随着内存占用越来越多，最终导致性能受到影响。
-接下来，我们通过基准测试来对比 不删除 Map 数据, 及时删除 Map 无用的数据, 直接重置 Map 数据 三者之间的性能差异。
-不删除 Map 数据 申请一定数量的 Map, 然后放入一个切片中，初始化数据之后，做一些逻辑操作 (这里省略)，完成之后并不删除 Map 数据。
-测试代码 package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) type user struct { id int name string password string email string token string } func Benchmark_Compare(b *testing.B) { ms := make([]map[int]*user, b.N) for i := 0; i &amp;lt; b.N; i++ { ms[i] = make(map[int]*user, 1024) for j := 0; j &amp;lt; 1024; j++ { name := strconv.</description>
+      <description>概述 Map 会自动扩容，但是不会自动缩容。这也意味着，即使调用 delete() 将 Map 中的数据删除，内存也不会释放 (为以后的数据备用，类似于预分配的功能)， 随着内存占用越来越多，最终导致性能受到影响。</description>
     </item>
     
     <item>
@@ -72,12 +61,7 @@ key 类型为 string 测试代码 package performance import ( &amp;#34;strconv&
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/map_pre_alloc/</guid>
-      <description>概述 map 可以直接设置元素，如果对应的 key 不存在，内部运行时会生成一个新的 key，开发者不需要考虑 map 容量不足问题，因为内部运行时已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。
-但是, 软件工程没有银弹，开发便利性的背后必然是以函数内部实现的复杂性为代价的。如果我们使用 预分配机制，在 map 初始化的时候就定义好容量， 那么就可以规避内部运行时触发 自动扩容，从而提高程序的性能。
-接下来，我们通过基准测试来比较一下内部运行时的 自动扩容机制 和 预分配机制 的性能差异。
-自动扩容机制 测试代码如下:
-package performance import &amp;#34;testing&amp;#34; func Benchmark_Map(b *testing.B) { size := 10000 for n := 0; n &amp;lt; b.N; n++ { data := make(map[int]int) // 没有预先分配容量 	for k := 0; k &amp;lt; size; k++ { // 容量不足时会发生自动扩容 	data[k] = k } } } 运行测试，并将基准测试结果写入文件:
-$ go test -run=&amp;#39;^$&amp;#39; -bench=.</description>
+      <description>概述 map 可以直接设置元素，如果对应的 key 不存在，内部运行时会生成一个新的 key，开发者不需要考虑 map 容量不足问题，因为内部运行时已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
     </item>
     
     <item>
@@ -86,11 +70,7 @@ $ go test -run=&amp;#39;^$&amp;#39; -bench=.</description>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/singleflight/</guid>
-      <description>概述 Go 语言扩展包中提供了另一种同步原语 singleflight，它能够抑制对某个 API 的多次重复请求。
-举个简单的例子：使用 Redis 缓存数据库数据，当发生 缓存击穿 时，请求会全部落到数据库上，轻则影响数据库性能，重则造成数据库直接宕机。 通过 singleflight 原语，可以简单有效地解决这个问题，通过限制同一个 key 的重复请求，避免请求全部落到数据库，减少性能影响和宕机风险。
- 接下来，我们通过基准测试来比较一下使用 singleflight 原语和不使用 singleflight 原语的性能差异。
-并发请求未限制 测试代码如下:
-package performance import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; &amp;#34;time&amp;#34; ) type user struct { id int name string password string email string token string } func getUserByID(id int) user { // 模拟数据库查询耗时 	time.Sleep(time.Millisecond) return user{} } func BenchmarkBufferWithPool(b *testing.B) { var wg sync.WaitGroup for n := 0; n &amp;lt; b.</description>
+      <description>概述 Go 语言扩展包中提供了另一种同步原语 singleflight，它能够抑制对某个 API 的多次重复请求。</description>
     </item>
     
     <item>
@@ -99,11 +79,7 @@ package performance import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; &a
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/string_with_bytes/</guid>
-      <description>概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍+ 性能吗？
-[]byte 转换为 string 普通方法 测试代码如下:
-package performance import ( &amp;#34;testing&amp;#34; ) func b2s(b []byte) string { return string(b) } func Benchmark_StringWithBytes(b *testing.B) { bs := []byte(`hello world`) for i := 0; i &amp;lt; b.N; i++ { _ = b2s(bs) } } 运行测试，并将基准测试结果写入文件:
-$ go test -run=&amp;#39;^$&amp;#39; -bench=. -count=1 -benchtime=10000000x &amp;gt; slow.txt 优化版本 测试代码如下:
-package performance import ( &amp;#34;testing&amp;#34; &amp;#34;unsafe&amp;#34; ) func b2s(b []byte) string { return *(*string)(unsafe.</description>
+      <description>概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍+ 性能吗？</description>
     </item>
     
     <item>
@@ -112,9 +88,7 @@ package performance import ( &amp;#34;testing&amp;#34; &amp;#34;unsafe&amp;#34; 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/timer/</guid>
-      <description>概述 time.After 和 time.Tick 不同，是一次性触发的，触发后 timer 本身会从时间堆中删除。 所以一般情况下直接用 &amp;lt;-time.After 是没有问题的， 不过在 for 循环的时候要注意:
-每次分配新的 timer package performance import ( &amp;#34;testing&amp;#34; &amp;#34;time&amp;#34; ) func Benchmark_Timer(b *testing.B) { for i := 0; i &amp;lt; b.N; i++ { select { case &amp;lt;-time.After(time.Millisecond): // 每次生成新的 timer 	} } } 运行测试，并将基准测试结果写入文件:
-# 运行 1000 次，统计内存分配 $ go test -run=&amp;#39;^$&amp;#39; -bench=. -count=1 -benchtime=1000x -benchmem &amp;gt; slow.txt 复用一个 timer 刚才的示例代码中，每次进入 select，time.After 都会分配一个新的 timer。 因此会在短时间内创建大量的 timer，虽然 timer 在触发后会消失，但这种写法会造成无意义的 cpu 资源浪费。 正确的写法应该对 timer 进行复用。</description>
+      <description>概述 time.</description>
     </item>
     
     <item>
@@ -123,12 +97,7 @@ package performance import ( &amp;#34;testing&amp;#34; &amp;#34;unsafe&amp;#34; 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/mutex/</guid>
-      <description>概述 标准库 sync 提供了 2 种锁，sync.Mutex (互斥锁) 和 sync.RWMutex (读写锁)。
-互斥锁 简单来说，互斥锁 可以保证同一临界区的代码，在同一时刻只有一个线程可以执行 (更多理论知识可以参考附录 1)，sync.Mutex 提供了 2 个方法:
- Lock: 获取锁 Unlock: 释放锁  Lock 方法是一个阻塞操作，并发线程中一旦有一个线程获得锁，那么其他线程陷入阻塞等待，直至该线程调用 Unlock 方法释放锁。
-读写锁 简单来说，读写锁 也称 共享 - 互斥锁，读操作是并发可重入的，也就是说多个线程可以并发执行临界区代码，写操作是互斥的， 规则同 互斥锁 一致，sync.RWMutex 提供了 4 个方法:
- Lock: 获取写锁 Unlock: 释放写锁 RLock: 获取读锁 RUnlock: 释放读锁  测试场景 有了基本了解后，接下来通过基准测试，看看在不同场景下，两者之间的性能差异是多少，这里模拟 常见的 3 种场景:
- 读多写少 (读占 90%, 写占 10%) 写多读少 (写占 10%, 写占 90%) 读写一致 (读写各占 50%)  测试代码 package performance import ( &amp;#34;sync&amp;#34; &amp;#34;testing&amp;#34; &amp;#34;time&amp;#34; ) const cost = time.</description>
+      <description>概述 标准库 sync 提供了 2 种锁，sync.</description>
     </item>
     
     <item>
@@ -137,13 +106,7 @@ package performance import ( &amp;#34;testing&amp;#34; &amp;#34;unsafe&amp;#34; 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/memory_alignment/</guid>
-      <description>概述 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。
-为什么需要内存对齐 CPU 访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问。比如 32 位的 CPU ，字长为 4 字节，那么 CPU 访问内存的单位也是 4 字节。 这么设计的目的，是减少 CPU 访问内存的次数，提升 CPU 访问内存的吞吐量。比如同样读取 8 个字节的数据，一次读取 4 个字节那么只需要读取 2 次。
-CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 CPU 访问内存的次数，例如：
- 变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。 如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。
-从这个例子中也可以看到，内存对齐对实现变量的原子性操作也是有好处的，每次内存访问是原子的，如果变量的大小不超过字长，那么内存对齐后， 对该变量的访问就是原子的，这个特性在并发场景下至关重要。
- 内存对齐可以提高内存读写性能，并且便于实现原子性操作。
- 内存对齐带来的影响 内存对齐提升性能的同时，也需要付出相应的代价。由于变量与变量之间增加了填充，并没有存储真实有效的数据，所以 占用的内存会更大，这也是典型的 空间换时间 策略。</description>
+      <description>概述 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。</description>
     </item>
     
     <item>
@@ -152,11 +115,7 @@ CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/inline/</guid>
-      <description>概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。
-接下来，我们先通过一个示例来了解下 内联。
-示例 // 原代码: package main func max(x, y int) int { if x &amp;gt; y { return x } return y } func main() { z := max(1, 2) println(z) } 内联后代码猜测 上面的代码，内联之后展开成类似下面的代码:
-package main func main() { var z int if 1 &amp;gt; 2 { z = 1 } else { z = 2 } println(z) } 当然，因为这个程序实在过于简单，编译器可以直接优化为:
-// 最终优化后代码 package main func main() { println(2) } 直接优化为一行代码， 编译器真的有这么强大吗？ 接下来我们通过构建和反汇编代码一起来验证一下。</description>
+      <description>概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。</description>
     </item>
     
     <item>
@@ -165,9 +124,7 @@ package main func main() { var z int if 1 &amp;gt; 2 { z = 1 } else { z = 2 } pr
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/slice_with_array/</guid>
-      <description>概述  Array or Slice, that&amp;rsquo;s the question!
- Go 的数组采用 值传递 的方式，直观上看，比采用 引用传递 方式的指针要慢，但事实真的是这样吗？
-使用数组 测试代码 package performance import &amp;#34;testing&amp;#34; const ( // 数组容量为 1024 	size = 1024 ) func generate() [size]int { res := [size]int{} for i := 0; i &amp;lt; size; i++ { res[i] = i + 1 } return res } func Benchmark_Compare(b *testing.B) { for i := 0; i &amp;lt; b.N; i++ { _ = generate() } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述  Array or Slice, that&amp;rsquo;s the question!</description>
     </item>
     
     <item>
@@ -176,9 +133,7 @@ package main func main() { var z int if 1 &amp;gt; 2 { z = 1 } else { z = 2 } pr
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/slice_filter/</guid>
-      <description>概述 切片的底层是数组，并且不同的切片之间共享一个底层数组，在实现 过滤器 功能时，可以利用这个特点，将过滤后的结果切片引用为同一个底层数组，实现内存零分配。
-不复用底层数组 测试代码如下:
-package performance import &amp;#34;testing&amp;#34; func filter(x int) bool { return x&amp;amp;1 == 1 } func Benchmark_Filter(b *testing.B) { b.StopTimer() // 数据初始化操作 	size := 10000 data := make([]int, size) for i := 0; i &amp;lt; size; i++ { data[i] = i } b.StartTimer() for n := 0; n &amp;lt; b.N; n++ { res := make([]int, 0, size&amp;gt;&amp;gt;1) // res 重新初始化，不复用 data 的底层数组  for i := 0; i &amp;lt; size; i++ { if filter(data[i]) { res = append(res, data[i]) } } } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述 切片的底层是数组，并且不同的切片之间共享一个底层数组，在实现 过滤器 功能时，可以利用这个特点，将过滤后的结果切片引用为同一个底层数组，实现内存零分配。</description>
     </item>
     
     <item>
@@ -187,11 +142,7 @@ package performance import &amp;#34;testing&amp;#34; func filter(x int) bool { r
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/slice_pre_alloc/</guid>
-      <description>概述 切片 追加元素时，直接调用 append 函数即可，开发者不需要考虑 切片 容量不足问题，因为 append 函数内部已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。
-但是, 软件工程没有银弹，开发便利性的背后必然是以函数内部实现的复杂性为代价的。如果我们使用 预分配机制，在 切片 初始化的时候就定义好容量， 那么就可以规避 append 函数内部触发 自动扩容，从而提高程序的性能。
-接下来，我们通过基准测试来比较一下 append 函数的 自动扩容机制 和 预分配机制 的性能差异。
-append 自动扩容机制 测试代码如下:
-package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_Slice(b *testing.B) { size := 10000 for n := 0; n &amp;lt; b.N; n++ { data := make([]int, 0) // 没有预先分配容量 	for k := 0; k &amp;lt; size; k++ { // 容量不足时，append 函数内部会自动扩容 	data = append(data, k) } } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述 切片 追加元素时，直接调用 append 函数即可，开发者不需要考虑 切片 容量不足问题，因为 append 函数内部已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
     </item>
     
     <item>
@@ -200,10 +151,7 @@ package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_Slice(b 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/string_concat/</guid>
-      <description>概述 Go 的字符串是不可变的，除非用一个新字符串覆盖掉旧字符串。同样，直接拼接两个字符串，等于创建了一个新的字符串。 对于 字符串拼接 的场景，不同方法可以会造成 上千倍 的性能差距。
-下面将围绕常见的字符串拼接方法展开介绍，并进行对应的基准测试和测试结果比较，最终确认不同的方法之间的性能差距以及适用场景。
-4 种常用方法  连接符 + bytes.Buffer strings.Builder []byte  连接符 和 bytes.Buffer 连接符号 + package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_StringConcat(b *testing.B) { s := &amp;#34;&amp;#34; for n := 0; n &amp;lt; b.N; n++ { s += &amp;#34;hello world&amp;#34; } s = &amp;#34;&amp;#34; } 运行测试，并将基准测试结果写入文件:
-# 运行 10000 次，统计内存分配 $ go test -run=&amp;#39;^$&amp;#39; -bench=. -count=1 -benchtime=10000x -benchmem &amp;gt; plus.txt bytes.Buffer package performance import ( &amp;#34;bytes&amp;#34; &amp;#34;testing&amp;#34; ) func Benchmark_StringConcat(b *testing.</description>
+      <description>概述 Go 的字符串是不可变的，除非用一个新字符串覆盖掉旧字符串。同样，直接拼接两个字符串，等于创建了一个新的字符串。 对于 字符串拼接 的场景，不同方法可以会造成 上千倍 的性能差距。</description>
     </item>
     
     <item>
@@ -212,10 +160,7 @@ package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_Slice(b 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/binary_read_write/</guid>
-      <description>概述  encoding/binary 包用于数字和字节序列之间的简单转换以及 varints 的编码和解码。
- varints 是一种使用可变字节表示整数的方法，其中数值本身越小，其所占用的字节数越少。
-标准库中的 binary.Read 方法和 binary.Write 方法内部使用 反射 实现，会对性能有一定影响。如果相关代码在 hot path 上面， 那么应该考虑是否可以手动实现相关功能，避免直接使用这两个函数。
-直接使用 binary.read 测试代码 package performance import ( &amp;#34;bytes&amp;#34; &amp;#34;encoding/binary&amp;#34; &amp;#34;testing&amp;#34; ) // 将网络字节序解析到 uint32 func convert(bys []byte) uint32 { var num uint32 buf := bytes.NewReader(bys) _ = binary.Read(buf, binary.BigEndian, &amp;amp;num) return num } func Benchmark_Convert(b *testing.B) { for i := 0; i &amp;lt; b.N; i++ { _ = convert([]byte{0x7f, 0, 0, 0x1}) } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述  encoding/binary 包用于数字和字节序列之间的简单转换以及 varints 的编码和解码。</description>
     </item>
     
     <item>
@@ -224,10 +169,7 @@ package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_Slice(b 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/sync_pool/</guid>
-      <description>概述 sync.Pool 用来复用对象，减少内存分配，降低 GC 压力。
-特性  sync.Pool 的大小可伸缩，高负载时会动态扩容，池中的对象在不活跃时会被自动清理。
- 如何使用 只需实现 sync.Pool 对象的 New 方法即可，当对象池中没有对象时，将会调用自定义的 New 方法创建。
-package main import ( &amp;#34;sync&amp;#34; ) type person struct { name string age int } var ( // 实现 New 方法 	personPool = sync.Pool{ New: func() interface{} { return new(person) }, } ) func main() { // Get 方法从池中申请一个对象 	// 因为返回值是 interface{}, 这里再加一个类型转换 	tom := personPool.Get().(*person) tom.name = &amp;#34;Tom&amp;#34; tom.</description>
+      <description>概述 sync.</description>
     </item>
     
     <item>
@@ -236,12 +178,7 @@ package main import ( &amp;#34;sync&amp;#34; ) type person struct { name string 
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/sub_cn_string/</guid>
-      <description>概述 如果字符串中全部都是 ASCII 字节，直接使用切片的方式截取，是最简单和最高效的方式，如:
-package main func main() { s := &amp;#34;hello world&amp;#34; s2 := s[2:5] println(s2) // llo } 但是，如果字符串中有中文，这种方式会出现乱码:
-package main func main() { s := &amp;#34;Go 语言的优势是什么？&amp;#34; s2 := s[2:5] println(s2) // � } 如何从一个中英文 + 数字混合的字符串中，截取一部分中文字符串呢？
-rune 首先能想到的是将字符串转换为 []rune 类型，这样就不会出现乱码问题了。
-package main import &amp;#34;fmt&amp;#34; func main() { s := &amp;#34;Go 语言的优势是什么？&amp;#34; rs := []rune(s) s2 := rs[2:5] fmt.Printf(&amp;#34;%s\n&amp;#34;, string(s2)) // 语言 } 虽然可以得到正确答案，但是代码中出现了两次类型转换过程，我们来做一下基准测试，代码如下:
-package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_SubCNString(b *testing.</description>
+      <description>概述 如果字符串中全部都是 ASCII 字节，直接使用切片的方式截取，是最简单和最高效的方式，如:</description>
     </item>
     
     <item>
@@ -250,12 +187,7 @@ package performance import ( &amp;#34;testing&amp;#34; ) func Benchmark_SubCNStr
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/int_to_string/</guid>
-      <description>概述 基础数据类型之间相互转化是开发中常见的功能代码，以 int 类型转换为 string 类型举例来说，最常用的方法是标准库提供的 fmt.Sprintf 和 strconv.Itoa 方法， 那么两者之间的性能差异有多大呢？
-我们通过基准测试来比较一下。
-调用 fmt.Sprintf 方法转换 测试代码如下:
-package performance import ( &amp;#34;fmt&amp;#34; &amp;#34;testing&amp;#34; ) func Benchmark_IntToString(b *testing.B) { for i := 0; i &amp;lt; b.N; i++ { _ = fmt.Sprintf(&amp;#34;%d&amp;#34;, i) } } 运行测试，并将基准测试结果写入文件:
-# 运行 10000000 次 $ go test -run=&amp;#39;^$&amp;#39; -bench=. -count=1 -benchtime=10000000x . &amp;gt; fmt.txt 调用 strconv.Itoa 方法转换 测试代码如下:
-package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) func Benchmark_IntToString(b *testing.</description>
+      <description>概述 基础数据类型之间相互转化是开发中常见的功能代码，以 int 类型转换为 string 类型举例来说，最常用的方法是标准库提供的 fmt.</description>
     </item>
     
     <item>
@@ -264,9 +196,7 @@ package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34;
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/empty_struct/</guid>
-      <description>概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。
-map 实现 set 这里假设 Set 元素类型为 int, 那么我们就以 int 作为 map 的键类型，以 bool 作为 map 的值类型 (之所以选择 bool 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 byte 类型，其大小同样是 1 个字节)。
-package main import &amp;#34;fmt&amp;#34; // Set 类型定义 type set map[int]bool // 初始化一个新的 Set func newSet() set { return make(set) } // 元素是否存在于与集合中 func (s set) contains(ele int) bool { _, ok := s[ele] return ok } // 添加元素到集合 func (s set) add(ele int) { s[ele] = true } // 从集合中删除某个元素 func (s set) remove(ele int) { delete(s, ele) } func main() { s := newSet() fmt.</description>
+      <description>概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。</description>
     </item>
     
     <item>
@@ -275,9 +205,7 @@ package main import &amp;#34;fmt&amp;#34; // Set 类型定义 type set map[int]b
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/struct_slice/</guid>
-      <description>概述 业务开发中，一个常见的场景是将多个相同类型的 结构体 变量存入一个数据容器中，通常我们会使用 切片 作为数据容器。 那么对于结构体来说，存储其值和存储其指针，性能差异有多大呢？
-切片元素为结构体 测试代码如下:
-package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) type person struct { name string age int } func Benchmark_PointerWithValue(b *testing.B) { b.StopTimer() // 初始化数据 	persons := make([]person, 10000) for i := range persons { persons[i] = person{ name: strconv.Itoa(i), age: i, } } b.StartTimer() for n := 0; n &amp;lt; b.N; n++ { // 切片存储结构体的值 	clonedPersons := make([]person, 10000) for i := range persons { clonedPersons[i] = persons[i] } } } 运行测试，并将基准测试结果写入文件:</description>
+      <description>概述 业务开发中，一个常见的场景是将多个相同类型的 结构体 变量存入一个数据容器中，通常我们会使用 切片 作为数据容器。 那么对于结构体来说，存储其值和存储其指针，性能差异有多大呢？</description>
     </item>
     
     <item>
@@ -286,9 +214,7 @@ package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34;
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/goroutineid/</guid>
-      <description>概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。
-下面介绍两种获取 goroutine ID 的方法，一种是通过标准库中的堆栈相关方法获取，一种是通过第三方库 (汇编实现) 获取。
-通过堆栈调用获取 测试代码 package performance import ( &amp;#34;bytes&amp;#34; &amp;#34;errors&amp;#34; &amp;#34;runtime&amp;#34; &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34; ) func getGoroutineId() (int64, error) { // 堆栈结果中需要消除的前缀符 	var goroutineSpace = []byte(&amp;#34;goroutine &amp;#34;) bs := make([]byte, 128) bs = bs[:runtime.Stack(bs, false)] bs = bytes.TrimPrefix(bs, goroutineSpace) i := bytes.IndexByte(bs, &amp;#39; &amp;#39;) if i &amp;lt; 0 { return -1, errors.New(&amp;#34;get current goroutine id failed&amp;#34;) } return strconv.</description>
+      <description>概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。</description>
     </item>
     
     <item>
@@ -297,9 +223,7 @@ package performance import ( &amp;#34;strconv&amp;#34; &amp;#34;testing&amp;#34;
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/stack_dump/</guid>
-      <description>概述 在工程代码中需要在异常场景打印相应的日志，记录重要的上下文信息。如果遇到 panic 或 error 的情况， 这时候就需要详细的 堆栈信息 作为辅助来排查问题，本小节就来介绍两种常见的获取 堆栈信息 方法， 然后对两种方法进行基准测试，最后使用测试的结果进行性能对比并分析差异。
-runtime.Stack 通过标准库提供的 runtime.Stack 相关 API 来获取。
-示例 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;runtime&amp;#34; ) func main() { buf := make([]byte, 1024) n := runtime.Stack(buf, true) fmt.Printf(&amp;#34;%s\n&amp;#34;, buf[:n]) } $ go run main.go # 输出如下 (你的输出代码路径应该和这里的不一样) goroutine 1 [running]: main.main() /home/codes/go-high-performance/main.go:10 +0x45 ... 测试代码如下 package performance import ( &amp;#34;runtime&amp;#34; &amp;#34;testing&amp;#34; ) func Benchmark_StackDump(b *testing.B) { for i := 0; i &amp;lt; b.</description>
+      <description>概述 在工程代码中需要在异常场景打印相应的日志，记录重要的上下文信息。如果遇到 panic 或 error 的情况， 这时候就需要详细的 堆栈信息 作为辅助来排查问题，本小节就来介绍两种常见的获取 堆栈信息 方法， 然后对两种方法进行基准测试，最后使用测试的结果进行性能对比并分析差异。</description>
     </item>
     
     <item>
@@ -308,11 +232,7 @@ runtime.Stack 通过标准库提供的 runtime.Stack 相关 API 来获取。
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
       <guid>https://golang.dbwu.tech/performance/escape/</guid>
-      <description>逃逸分析 Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。
-在栈上分配和回收内存很快，只需要 2 个指令: PUSH + POP, 也就是仅需要将数据复制到内存的时间，而堆上分配和回收内存，一个相当大的开销是 GC。
-特性  指向 栈 对象的指针不能分配堆上 (避免悬挂指针) 指向 栈 对象的指针在对象销毁时必须被同时销毁 (避免悬挂指针和内存泄露)  例如对于函数内部的变量来说，不论是否通过 new 函数创建，最后会被分配在 堆 还是 栈，是由编译器使用 逃逸分析 之后决定的。 具体来说，当发现变量的作用域没有超出函数范围，分配在 栈 上，反之则必须分配在 堆 上，也就是说: 如果函数外部没有引用，则优先分配在 栈 上， 如果函数外部存在引用，则必须分配在 堆 上。所以，闭包必然会发生逃逸。
-发生场景  变量占用内存过大 (如大的结构体) 变量占用内存不确定 (如 链表, slice 导致的扩容) 变量类型不确定 (interface{}) 指针类型  函数返回变量地址 (如一个结构体地址)   闭包 interface  过多的变量逃逸到堆上，会增加 GC 成本，我们可以通过控制变量的分配方式，尽可能地降低 GC 成本，提高性能。
-分析命令  使用 go 命令  $ go tool compile -m main.</description>
+      <description>逃逸分析 Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。</description>
     </item>
     
   </channel>

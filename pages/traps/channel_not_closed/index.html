@@ -3,16 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
- 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
- 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
-package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&#34;goroutine ending&#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&#34;range broken&#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main.">
+<meta name="description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之 goroutine 泄漏" />
-<meta property="og:description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
- 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
- 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
-package main import ( &#34;fmt&#34; &#34;time&#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&#34;goroutine ending&#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&#34;range broken&#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 陷阱之 goroutine 泄漏" />
+<meta property="og:description" content="通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/channel_not_closed/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -575,7 +569,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 陷阱之 goroutine 泄漏"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  

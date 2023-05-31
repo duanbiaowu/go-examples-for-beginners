@@ -3,18 +3,10 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍&#43; 性能吗？
-[]byte 转换为 string 普通方法 测试代码如下:
-package performance import ( &#34;testing&#34; ) func b2s(b []byte) string { return string(b) } func Benchmark_StringWithBytes(b *testing.B) { bs := []byte(`hello world`) for i := 0; i &lt; b.N; i&#43;&#43; { _ = b2s(bs) } } 运行测试，并将基准测试结果写入文件:
-$ go test -run=&#39;^$&#39; -bench=. -count=1 -benchtime=10000000x &gt; slow.txt 优化版本 测试代码如下:
-package performance import ( &#34;testing&#34; &#34;unsafe&#34; ) func b2s(b []byte) string { return *(*string)(unsafe.">
+<meta name="description" content="概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍&#43; 性能吗？">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之 string 与 []byte 转换" />
-<meta property="og:description" content="概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍&#43; 性能吗？
-[]byte 转换为 string 普通方法 测试代码如下:
-package performance import ( &#34;testing&#34; ) func b2s(b []byte) string { return string(b) } func Benchmark_StringWithBytes(b *testing.B) { bs := []byte(`hello world`) for i := 0; i &lt; b.N; i&#43;&#43; { _ = b2s(bs) } } 运行测试，并将基准测试结果写入文件:
-$ go test -run=&#39;^$&#39; -bench=. -count=1 -benchtime=10000000x &gt; slow.txt 优化版本 测试代码如下:
-package performance import ( &#34;testing&#34; &#34;unsafe&#34; ) func b2s(b []byte) string { return *(*string)(unsafe." />
+<meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之 string 与 []byte 转换" />
+<meta property="og:description" content="概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍&#43; 性能吗？" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/performance/string_with_bytes/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
@@ -493,7 +485,21 @@ select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText
 
       
   
-  <div class="book-comments">
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term="Go 高性能之 string 与 []byte 转换"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
 </div>
   
  
