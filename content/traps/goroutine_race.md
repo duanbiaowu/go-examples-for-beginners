@@ -1,5 +1,7 @@
 ---
 date: 2023-01-01
+title: Go 陷阱之 goroutine 竞态
+modify: 2023-01-01
 ---
 
 # main 结束时不考虑 goroutine 执行状态

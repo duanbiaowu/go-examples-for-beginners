@@ -1,5 +1,7 @@
 ---
 date: 2023-01-01
+title: Go 陷阱之 interface != *interface
+modify: 2023-01-01
 ---
 
 # 概述

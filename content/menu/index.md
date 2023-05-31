@@ -51,11 +51,11 @@ headless: true
 - **仔细检查你的代码**
   - [数组和切片参数传递差异](../traps/array_with_map_in_params.md)
   - [byte 加减](../traps/byte_operation.md)
-  - [map](../traps/map_struct_assign.md)
-  - [copy 复制失败](../traps/copy.md)
+  - [map 常见问题](../traps/map_struct_assign.md)
+  - [copy 函数复制失败](../traps/copy.md)
   - [缓冲区内容不输出](../traps/buffer_flush.md)
   - [切片占用过多内存](../traps/slice_occupy_memory.md)
-  - [实现 String 方法陷入无限递归](../traps/string_method.md)
+  - [String 方法陷入无限递归](../traps/string_method.md)
   - [错误处理三剑客](../traps/defer_with_recover.md)
   - [几个有趣的 defer 笔试题](../traps/defer_exam.md)
   - [nil != nil ?](../traps/nil_with_nil.md)
@@ -70,3 +70,31 @@ headless: true
 
 ---
 
+### ⚡ 高性能
+
+- **让你的代码速度飞起**
+  - [for](../performance/for.md)
+  - [切片预分配](../performance/slice_pre_alloc.md)
+  - [切片过滤器](../performance/slice_filter.md)
+  - [切片和数组](../performance/slice_with_array.md)
+  - [string 与 []byte 转换](../performance/string_with_bytes.md)
+  - [map 预分配](../performance/map_pre_alloc.md)
+  - [map key 类型](../performance/map_key_type.md)
+  - [map 重置和删除](../performance/map_free.md)
+  - [整数转字符串](../performance/int_to_string.md)
+  - [字符串拼接](../performance/string_concat.md)
+  - [截取中文字符串](../performance/sub_cn_string.md)
+  - [空结构体](../performance/empty_struct.md)
+  - [结构体切片](../performance/struct_slice.md)
+  - [对象复用](../performance/sync_pool.md)
+  - [获取调用堆栈优化](../performance/stack_dump.md)
+  - [字节序优化](../performance/binary_read_write.md)
+  - [获取 goroutine ID](../performance/goroutineid.md)
+  - [defer 优化](../performance/defer.md)
+  - [timer 优化](../performance/timer.md)
+  - [channel 缓冲和非缓冲](../performance/channel.md)
+  - [互斥锁和读写锁](../performance/mutex.md)
+  - [内联优化](../performance/inline.md)
+  - [内存对齐](../performance/memory_alignment.md)
+  - [逃逸分析](https://dbwu.tech/posts/goland_escape/)
+  - [singleflight](../performance/singleflight.md)

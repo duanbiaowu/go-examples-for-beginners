@@ -1,5 +1,7 @@
 ---
 date: 2023-01-01
+title: Go 陷阱之几个有趣的 defer 笔试题
+modify: 2023-01-01
 ---
 
 # test-1

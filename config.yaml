@@ -5,6 +5,8 @@ title: Go 语言必知必会
 theme: hugo-book
 publishDir: pages
 
+summaryLength: 0
+
 defaultContentLanguage: zh
 
 # Book configuration
@@ -84,7 +86,7 @@ params:
   # Enable "Edit this page" links for 'doc' page type.
   # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
   # Edit path must point to root directory of repo.
-  BookEditPath: /../
+  BookEditPath: /tree/master/
 
   # Configure the date format used on the pages
   # - In git information

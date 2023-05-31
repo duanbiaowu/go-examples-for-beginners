@@ -1,5 +1,7 @@
 ---
 date: 2023-01-01
+title: Go 陷阱之 goroutine 泄漏
+modify: 2023-01-01
 ---
 
 # 通道为 nil 造成 goroutine 泄漏

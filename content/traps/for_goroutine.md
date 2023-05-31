@@ -1,5 +1,7 @@
 ---
 date: 2023-01-01
+title: Go 陷阱之 for 循环 goroutine 执行顺序不一致
+modify: 2023-01-01
 ---
 
 # 循环中 goroutine 执行顺序不一致
