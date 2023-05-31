@@ -11,28 +11,7 @@
     
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/array_with_map_in_params/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/array_with_map_in_params/</guid>
-      <description>概述 虽然切片的底层是数组，但是当切片和数组作为函数的参数时，规则是不一样的。
-数组传值不会改变原数组 错误的做法 package main import &amp;#34;fmt&amp;#34; func double(arr [5]int) { for i := range arr { arr[i] *= 2 } } func main() { numbers := [...]int{1, 2, 3, 4, 5} for i := range numbers { fmt.Printf(&amp;#34;%v &amp;#34;, numbers[i]) } double(numbers) fmt.Println() for i := range numbers { fmt.Printf(&amp;#34;%v &amp;#34;, numbers[i]) } } // $ go run main.go // 输出如下 /** 1 2 3 4 5 1 2 3 4 5 */ 从输出结果中看到，数值元素的值并没有被修改。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/buffer_flush/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/buffer_flush/</guid>
-      <description>概述 bufio 包实现了 缓冲 IO，它通过在内部封装一个 io.Reader 或 io.Writer 来实现具体的读写操作。 通过 缓冲 IO 可以大大提升 IO 操作的性能，但是有时候，缓冲区也会带来一些违反直觉的问题。
-下面的这个小案例是笔者在真实项目中遇到的，整理一下，分享给大家。
-错误的做法 package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; ) func main() { _, err := fmt.Fprintf(os.Stdout, &amp;#34;%s\n&amp;#34;, &amp;#34;[unbuffered] hello world&amp;#34;) if err != nil { panic(err) } buf := bufio.NewWriter(os.Stdout) _, err = fmt.Fprintf(buf, &amp;#34;%s\n&amp;#34;, &amp;#34;[buffered] hello world&amp;#34;) // 不会输出 	if err != nil { panic(err) } } // $ go run main.go // 输出如下 /** [unbuffered] hello world */ 通过输出的结果可以看到，缓冲区数据并没有刷出。</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Go 陷阱之 byte 加减</title>
       <link>https://golang.dbwu.tech/traps/byte_operation/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -43,19 +22,7 @@
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/channel_not_closed/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/channel_not_closed/</guid>
-      <description>通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
- 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
- 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&amp;#34;goroutine ending&amp;#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&amp;#34;range broken&amp;#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main.</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Go 陷阱之 copy 函数复制失败</title>
       <link>https://golang.dbwu.tech/traps/copy/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -66,38 +33,18 @@ func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切�
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/defer_exam/</link>
+      <title>Go 陷阱之 for 循环 goroutine 执行顺序不一致</title>
+      <link>https://golang.dbwu.tech/traps/for_goroutine/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://golang.dbwu.tech/traps/defer_exam/</guid>
-      <description>test-1 package main func foo(n int) (t int) { t = n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;
-$ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t int) { ①t = n // 此时 t 为 1 	②defer func() { ④	t += 3 // 此时 t 为 4, 因为 t 是命名返回值，所以返回 4 	}() ③return t // 此时 t 为 1 } func main() { println(foo(1)) // 调用函数 foo(), 参数为 1 } test-2 package main func foo(n int) int { t := n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;</description>
+      <guid>https://golang.dbwu.tech/traps/for_goroutine/</guid>
+      <description>循环中 goroutine 执行顺序不一致 错误的做法 package main import &amp;#34;sync&amp;#34; func main() { var wg sync.WaitGroup for i := 0; i &amp;lt; 5; i++ { wg.Add(1) go func(n int) { defer wg.Done() println(n) }(i) } wg.Wait() } // $ go run main.go // 输出如下，顺序是乱序的，你的输出可能和这里的不一样，可以多试几次，看看效果 /** 5 1 4 2 3 */ 错误的原因在于: 虽然 goroutine 是在循环中顺序启动的，但是其执行是并发的 (开始和结束时间不一定)，所以最终输出的结果中，也是乱序的。
+正确的做法 知道错误的原因后，一个简单的解决方案是: 使用通道保证 goroutine 是顺序执行的，这样最终的输出结果一定是顺序的。
+package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</description>
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/defer_with_recover/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/defer_with_recover/</guid>
-      <description>defer defer 语句经常用于成对的操作，比如 打开文件/关闭文件 连接网络/断开网络, 合理地使用 defer 不仅可以提高代码可读性，也降低了忘记释放资源造成的泄漏等问题。
-正确使用 defer 语句的地方是在成功获取资之后。
-断开网络连接 package main import ( &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; ) func main() { resp, err := http.Get(&amp;#34;https://www.baidu.com&amp;#34;) // 此时资源有可能获取失败，执行 Close 导致 panic 	// resp.Body.Close() 	if err != nil { panic(err) } defer func() { err = resp.Body.Close() // 关闭资源 	if err != nil { log.Fatal(err) } }() } 关闭文件句柄 package main import ( &amp;#34;os&amp;#34; ) func main() { name := &amp;#34;/etc/hosts&amp;#34; file, err := os.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/for_assign/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/for_assign/</guid>
-      <description>循环赋值错误 错误的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, v := range number { v = i fmt.Printf(&amp;#34; %v&amp;#34;, v) } fmt.Println(&amp;#34;\n&amp;#34;, number) } // $ go run main.go // 输出如下 /** 0 1 2 3 4 [0 0 0 0 0] */ 错误的原因在于: 循环时的 v 变量是从当前元素复制出来的一个临时变量，修改它的值并不会影响到当前元素的值。
-正确的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, _ := range number { number[i] = i fmt.</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Go 陷阱之 for 循环调用函数</title>
       <link>https://golang.dbwu.tech/traps/for_func/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -109,18 +56,29 @@ $ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t i
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/for_goroutine/</link>
+      <title>Go 陷阱之 for 循环赋值错误</title>
+      <link>https://golang.dbwu.tech/traps/for_assign/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://golang.dbwu.tech/traps/for_goroutine/</guid>
-      <description>循环中 goroutine 执行顺序不一致 错误的做法 package main import &amp;#34;sync&amp;#34; func main() { var wg sync.WaitGroup for i := 0; i &amp;lt; 5; i++ { wg.Add(1) go func(n int) { defer wg.Done() println(n) }(i) } wg.Wait() } // $ go run main.go // 输出如下，顺序是乱序的，你的输出可能和这里的不一样，可以多试几次，看看效果 /** 5 1 4 2 3 */ 错误的原因在于: 虽然 goroutine 是在循环中顺序启动的，但是其执行是并发的 (开始和结束时间不一定)，所以最终输出的结果中，也是乱序的。
-正确的做法 知道错误的原因后，一个简单的解决方案是: 使用通道保证 goroutine 是顺序执行的，这样最终的输出结果一定是顺序的。
-package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</description>
+      <guid>https://golang.dbwu.tech/traps/for_assign/</guid>
+      <description>循环赋值错误 错误的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, v := range number { v = i fmt.Printf(&amp;#34; %v&amp;#34;, v) } fmt.Println(&amp;#34;\n&amp;#34;, number) } // $ go run main.go // 输出如下 /** 0 1 2 3 4 [0 0 0 0 0] */ 错误的原因在于: 循环时的 v 变量是从当前元素复制出来的一个临时变量，修改它的值并不会影响到当前元素的值。
+正确的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, _ := range number { number[i] = i fmt.</description>
     </item>
     
     <item>
-      <title></title>
+      <title>Go 陷阱之 goroutine 泄漏</title>
+      <link>https://golang.dbwu.tech/traps/channel_not_closed/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/channel_not_closed/</guid>
+      <description>通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。
+ 最佳实践: 1. 永远不要对 nil 通道 进行任何操作，2. 直接使用 make() 初始化通道。
+ 接收造成的泄漏 示例代码只是为了演示，没有任何实际意义。
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;time&amp;#34; ) func main() { var ch chan bool go func() { defer func() { // defer 不会执行 	fmt.Println(&amp;#34;goroutine ending&amp;#34;) // 不会输出 	}() for v := range ch { fmt.Println(v) } fmt.Println(&amp;#34;range broken&amp;#34;) // 执行不到这里 	}() time.Sleep(time.Second) // 假设主程序 1 秒后退出 } // $ go run main.</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之 goroutine 竞态</title>
       <link>https://golang.dbwu.tech/traps/goroutine_race/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -131,7 +89,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     </item>
     
     <item>
-      <title></title>
+      <title>Go 陷阱之 interface != *interface</title>
       <link>https://golang.dbwu.tech/traps/interface_error/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -141,7 +99,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     </item>
     
     <item>
-      <title></title>
+      <title>Go 陷阱之 interface 方法调用规则</title>
       <link>https://golang.dbwu.tech/traps/interface_method/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -152,7 +110,7 @@ package main import ( &amp;#34;sync&amp;#34; ) func main() { var wg sync.</descr
     </item>
     
     <item>
-      <title></title>
+      <title>Go 陷阱之 map 常见问题</title>
       <link>https://golang.dbwu.tech/traps/map_struct_assign/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -162,19 +120,7 @@ map 未初始化时导致的报错 package main import &amp;#34;fmt&amp;#34; fun
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/nil_argument/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/nil_argument/</guid>
-      <description>概述 nil 可以作为函数参数传入，这意味着函数内部逻辑处理时，不能依赖于传入的实参 (有可能是 nil)， 一定要做必要的 零值 判断。
-例子 示例代码只是为了演示，没有任何实际意义。
-参数类型为切片 当 切片 为 nil 时，直接读取和赋值都会 panic 。
-错误的做法 package main // 计算前 N 个数总和 func sumTopN(numbers []int, n int) int { total := 0 for _, v := range numbers[:n] { total += v } return total } func main() { println(sumTopN(nil, 3)) } // $ go run main.go // 输出如下 /** panic: runtime error: slice bounds out of range [:3] with capacity 0 goroutine 1 [running]: .</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>Go 陷阱之 nil != nil</title>
       <link>https://golang.dbwu.tech/traps/nil_with_nil/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -186,7 +132,42 @@ map 未初始化时导致的报错 package main import &amp;#34;fmt&amp;#34; fun
     </item>
     
     <item>
-      <title></title>
+      <title>Go 陷阱之 nil 参数</title>
+      <link>https://golang.dbwu.tech/traps/nil_argument/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/nil_argument/</guid>
+      <description>概述 nil 可以作为函数参数传入，这意味着函数内部逻辑处理时，不能依赖于传入的实参 (有可能是 nil)， 一定要做必要的 零值 判断。
+例子 示例代码只是为了演示，没有任何实际意义。
+参数类型为切片 当 切片 为 nil 时，直接读取和赋值都会 panic 。
+错误的做法 package main // 计算前 N 个数总和 func sumTopN(numbers []int, n int) int { total := 0 for _, v := range numbers[:n] { total += v } return total } func main() { println(sumTopN(nil, 3)) } // $ go run main.go // 输出如下 /** panic: runtime error: slice bounds out of range [:3] with capacity 0 goroutine 1 [running]: .</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之 String 方法陷入无限递归</title>
+      <link>https://golang.dbwu.tech/traps/string_method/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/string_method/</guid>
+      <description>概述 通常我们会对某个对象自定义一些方法，大多数情况下，这没有任何问题。但是有一种情况需要注意下，那就是自定义的 String 方法。
+Go 标准库中有一个 Stringer 接口，原型如下:
+type Stringer interface { String() string } 文件路径为 $GOROOT/src/fmt/print.go，笔者的 Go 版本为 go1.19 linux/amd64。
+如果某个对象实现了自定义 String 方法，那么等于实现了 Stringer 接口。 如果在方法内部实现中调用了 fmt.Prinf* 系列方法，会导致错误。
+内存溢出 错误的做法 package main import ( &amp;#34;fmt&amp;#34; ) type number int func (n number) String() string { return fmt.Sprintf(&amp;#34;%v&amp;#34;, n) } func main() { var n number = 100 println(n.String()) } // $ go run main.go // 没有任何输出，阻塞住，内存耗尽... 错误原因: 类型 number 自定义 String 方法实现了 Stringer 接口，方法内部调用了 fmt.</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之几个有趣的 defer 笔试题</title>
+      <link>https://golang.dbwu.tech/traps/defer_exam/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/defer_exam/</guid>
+      <description>test-1 package main func foo(n int) (t int) { t = n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;
+$ go run main.go # 输出如下 4 结果分析 package main func foo(n int) (t int) { ①t = n // 此时 t 为 1 	②defer func() { ④	t += 3 // 此时 t 为 4, 因为 t 是命名返回值，所以返回 4 	}() ③return t // 此时 t 为 1 } func main() { println(foo(1)) // 调用函数 foo(), 参数为 1 } test-2 package main func foo(n int) int { t := n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之切片占用过多内存</title>
       <link>https://golang.dbwu.tech/traps/slice_occupy_memory/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
@@ -199,16 +180,35 @@ package main import &amp;#34;fmt&amp;#34; func getFirstThreeNumber() []byte { da
     </item>
     
     <item>
-      <title></title>
-      <link>https://golang.dbwu.tech/traps/string_method/</link>
+      <title>Go 陷阱之数组和切片参数传递差异</title>
+      <link>https://golang.dbwu.tech/traps/array_with_map_in_params/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://golang.dbwu.tech/traps/string_method/</guid>
-      <description>概述 通常我们会对某个对象自定义一些方法，大多数情况下，这没有任何问题。但是有一种情况需要注意下，那就是自定义的 String 方法。
-Go 标准库中有一个 Stringer 接口，原型如下:
-type Stringer interface { String() string } 文件路径为 $GOROOT/src/fmt/print.go，笔者的 Go 版本为 go1.19 linux/amd64。
-如果某个对象实现了自定义 String 方法，那么等于实现了 Stringer 接口。 如果在方法内部实现中调用了 fmt.Prinf* 系列方法，会导致错误。
-内存溢出 错误的做法 package main import ( &amp;#34;fmt&amp;#34; ) type number int func (n number) String() string { return fmt.Sprintf(&amp;#34;%v&amp;#34;, n) } func main() { var n number = 100 println(n.String()) } // $ go run main.go // 没有任何输出，阻塞住，内存耗尽... 错误原因: 类型 number 自定义 String 方法实现了 Stringer 接口，方法内部调用了 fmt.</description>
+      <guid>https://golang.dbwu.tech/traps/array_with_map_in_params/</guid>
+      <description>概述 虽然切片的底层是数组，但是当切片和数组作为函数的参数时，规则是不一样的。
+数组传值不会改变原数组 错误的做法 package main import &amp;#34;fmt&amp;#34; func double(arr [5]int) { for i := range arr { arr[i] *= 2 } } func main() { numbers := [...]int{1, 2, 3, 4, 5} for i := range numbers { fmt.Printf(&amp;#34;%v &amp;#34;, numbers[i]) } double(numbers) fmt.Println() for i := range numbers { fmt.Printf(&amp;#34;%v &amp;#34;, numbers[i]) } } // $ go run main.go // 输出如下 /** 1 2 3 4 5 1 2 3 4 5 */ 从输出结果中看到，数值元素的值并没有被修改。</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之缓冲区内容不输出</title>
+      <link>https://golang.dbwu.tech/traps/buffer_flush/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/buffer_flush/</guid>
+      <description>概述 bufio 包实现了 缓冲 IO，它通过在内部封装一个 io.Reader 或 io.Writer 来实现具体的读写操作。 通过 缓冲 IO 可以大大提升 IO 操作的性能，但是有时候，缓冲区也会带来一些违反直觉的问题。
+下面的这个小案例是笔者在真实项目中遇到的，整理一下，分享给大家。
+错误的做法 package main import ( &amp;#34;bufio&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;os&amp;#34; ) func main() { _, err := fmt.Fprintf(os.Stdout, &amp;#34;%s\n&amp;#34;, &amp;#34;[unbuffered] hello world&amp;#34;) if err != nil { panic(err) } buf := bufio.NewWriter(os.Stdout) _, err = fmt.Fprintf(buf, &amp;#34;%s\n&amp;#34;, &amp;#34;[buffered] hello world&amp;#34;) // 不会输出 	if err != nil { panic(err) } } // $ go run main.go // 输出如下 /** [unbuffered] hello world */ 通过输出的结果可以看到，缓冲区数据并没有刷出。</description>
+    </item>
+    
+    <item>
+      <title>Go 陷阱之错误处理三剑客</title>
+      <link>https://golang.dbwu.tech/traps/defer_with_recover/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://golang.dbwu.tech/traps/defer_with_recover/</guid>
+      <description>defer defer 语句经常用于成对的操作，比如 打开文件/关闭文件 连接网络/断开网络, 合理地使用 defer 不仅可以提高代码可读性，也降低了忘记释放资源造成的泄漏等问题。
+正确使用 defer 语句的地方是在成功获取资之后。
+断开网络连接 package main import ( &amp;#34;log&amp;#34; &amp;#34;net/http&amp;#34; ) func main() { resp, err := http.Get(&amp;#34;https://www.baidu.com&amp;#34;) // 此时资源有可能获取失败，执行 Close 导致 panic 	// resp.Body.Close() 	if err != nil { panic(err) } defer func() { err = resp.Body.Close() // 关闭资源 	if err != nil { log.Fatal(err) } }() } 关闭文件句柄 package main import ( &amp;#34;os&amp;#34; ) func main() { name := &amp;#34;/etc/hosts&amp;#34; file, err := os.</description>
     </item>
     
   </channel>

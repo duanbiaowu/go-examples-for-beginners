@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="逃逸分析 Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。
+在栈上分配和回收内存很快，只需要 2 个指令: PUSH &#43; POP, 也就是仅需要将数据复制到内存的时间，而堆上分配和回收内存，一个相当大的开销是 GC。
+特性  指向 栈 对象的指针不能分配堆上 (避免悬挂指针) 指向 栈 对象的指针在对象销毁时必须被同时销毁 (避免悬挂指针和内存泄露)  例如对于函数内部的变量来说，不论是否通过 new 函数创建，最后会被分配在 堆 还是 栈，是由编译器使用 逃逸分析 之后决定的。 具体来说，当发现变量的作用域没有超出函数范围，分配在 栈 上，反之则必须分配在 堆 上，也就是说: 如果函数外部没有引用，则优先分配在 栈 上， 如果函数外部存在引用，则必须分配在 堆 上。所以，闭包必然会发生逃逸。
+发生场景  变量占用内存过大 (如大的结构体) 变量占用内存不确定 (如 链表, slice 导致的扩容) 变量类型不确定 (interface{}) 指针类型  函数返回变量地址 (如一个结构体地址)   闭包 interface  过多的变量逃逸到堆上，会增加 GC 成本，我们可以通过控制变量的分配方式，尽可能地降低 GC 成本，提高性能。
+分析命令  使用 go 命令  $ go tool compile -m main.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之逃逸分析" />
+<meta property="og:description" content="逃逸分析 Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。
+在栈上分配和回收内存很快，只需要 2 个指令: PUSH &#43; POP, 也就是仅需要将数据复制到内存的时间，而堆上分配和回收内存，一个相当大的开销是 GC。
+特性  指向 栈 对象的指针不能分配堆上 (避免悬挂指针) 指向 栈 对象的指针在对象销毁时必须被同时销毁 (避免悬挂指针和内存泄露)  例如对于函数内部的变量来说，不论是否通过 new 函数创建，最后会被分配在 堆 还是 栈，是由编译器使用 逃逸分析 之后决定的。 具体来说，当发现变量的作用域没有超出函数范围，分配在 栈 上，反之则必须分配在 堆 上，也就是说: 如果函数外部没有引用，则优先分配在 栈 上， 如果函数外部存在引用，则必须分配在 堆 上。所以，闭包必然会发生逃逸。
+发生场景  变量占用内存过大 (如大的结构体) 变量占用内存不确定 (如 链表, slice 导致的扩容) 变量类型不确定 (interface{}) 指针类型  函数返回变量地址 (如一个结构体地址)   闭包 interface  过多的变量逃逸到堆上，会增加 GC 成本，我们可以通过控制变量的分配方式，尽可能地降低 GC 成本，提高性能。
+分析命令  使用 go 命令  $ go tool compile -m main." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/performance/escape/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>Go 高性能之逃逸分析 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">☹️ 陷阱</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
+<li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/">goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Go 高性能之逃逸分析</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#逃逸分析">逃逸分析</a>
+      <ul>
+        <li><a href="#特性">特性</a></li>
+        <li><a href="#发生场景">发生场景</a></li>
+        <li><a href="#分析命令">分析命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#确定的数据类型和-interface">确定的数据类型和 interface</a></li>
+        <li><a href="#基准测试">基准测试</a>
+          <ul>
+            <li><a href="#使用-interface">使用 interface</a></li>
+            <li><a href="#使用确定的数据类型">使用确定的数据类型</a></li>
+            <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#其他逃逸场景">其他逃逸场景</a>
+      <ul>
+        <li><a href="#切片">切片</a>
+          <ul>
+            <li><a href="#逃逸场景">逃逸场景</a></li>
+            <li><a href="#避免逃逸方案">避免逃逸方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#指针">指针</a>
+          <ul>
+            <li><a href="#逃逸场景-1">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#interface">interface</a>
+          <ul>
+            <li><a href="#逃逸场景-2">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#函数返回值">函数返回值</a>
+          <ul>
+            <li><a href="#逃逸场景-3">逃逸场景</a></li>
+            <li><a href="#结果分析">结果分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#通道">通道</a>
+          <ul>
+            <li><a href="#逃逸场景-4">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#闭包">闭包</a>
+          <ul>
+            <li><a href="#逃逸场景-5">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#占用过大空间">占用过大空间</a>
+          <ul>
+            <li><a href="#逃逸场景-6">逃逸场景</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#扩展阅读">扩展阅读</a>
+      <ul>
+        <li><a href="#返回值和返回指针">返回值和返回指针</a></li>
+        <li><a href="#避免逃逸">避免逃逸</a>
+          <ul>
+            <li><a href="#标准库源码">标准库源码</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="逃逸分析">逃逸分析</h1>
+<p><strong>Go 语言的编译器使用 <code>逃逸分析</code> 决定哪些变量分配在栈上，哪些变量分配在堆上</strong>。</p>
+<p>在栈上分配和回收内存很快，只需要 2 个指令: <code>PUSH</code> + <code>POP</code>, 也就是仅需要将数据复制到内存的时间，而堆上分配和回收内存，一个相当大的开销是 <code>GC</code>。</p>
+<h2 id="特性">特性</h2>
+<ul>
+<li>指向 <code>栈</code> 对象的指针不能分配<code>堆</code>上 (避免悬挂指针)</li>
+<li>指向 <code>栈</code> 对象的指针在对象销毁时必须被同时销毁 (避免悬挂指针和内存泄露)</li>
+</ul>
+<p>例如对于函数内部的变量来说，不论是否通过 <code>new</code> 函数创建，最后会被分配在 <code>堆</code> 还是 <code>栈</code>，是由编译器使用 <code>逃逸分析</code> 之后决定的。
+具体来说，当发现变量的作用域没有超出函数范围，分配在 <code>栈</code> 上，反之则必须分配在 <code>堆</code> 上，也就是说: <strong>如果函数外部没有引用，则优先分配在 <code>栈</code> 上，
+如果函数外部存在引用，则必须分配在 <code>堆</code> 上</strong>。所以，<strong>闭包必然会发生逃逸</strong>。</p>
+<h2 id="发生场景">发生场景</h2>
+<ul>
+<li>变量占用内存过大 (如大的结构体)</li>
+<li>变量占用内存不确定 (如 链表, slice 导致的扩容)</li>
+<li>变量类型不确定 (interface{})</li>
+<li>指针类型
+<ul>
+<li>函数返回变量地址 (如一个结构体地址)</li>
+</ul>
+</li>
+<li>闭包</li>
+<li>interface</li>
+</ul>
+<p>过多的变量逃逸到堆上，会增加 <code>GC</code> 成本，我们可以通过控制变量的分配方式，尽可能地降低 <code>GC</code> 成本，提高性能。</p>
+<h2 id="分析命令">分析命令</h2>
+<ul>
+<li>使用 go 命令</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 或者</span>
+
+$ go build -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-m -l&#39;</span> main.go
+</code></pre></div><ul>
+<li>反汇编</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -S main.go
+</code></pre></div><h1 id="示例">示例</h1>
+<h2 id="确定的数据类型和-interface">确定的数据类型和 interface</h2>
+<p>如果变量类型是 <code>interface</code>，那么将会 <code>逃逸</code> 到堆上。函数返回值应尽量使用确定的数据类型，避免使用 <code>interface{}</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">interface</span>{}{<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>}
+	<span style="color:#a6e22e">data</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">100</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下</span>
+main.go:3:6: can inline main
+main.go:4:23: <span style="color:#f92672">[]</span>interface <span style="color:#f92672">{}{</span>...<span style="color:#f92672">}</span> does not escape
+main.go:4:24: <span style="color:#ae81ff">100</span> does not escape // 未发生逃逸
+main.go:4:29: <span style="color:#ae81ff">200</span> does not escape // 未发生逃逸
+main.go:5:2: <span style="color:#ae81ff">100</span> escapes to heap  // 发生逃逸
+</code></pre></div><h2 id="基准测试">基准测试</h2>
+<p>这里以使用 <code>interface{}</code> 触发逃逸作为例子进行分析。</p>
+<h3 id="使用-interface">使用 interface</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">genSeqNumbers</span>() <span style="color:#66d9ef">interface</span>{} {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">res</span> [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">res</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span> {
+			<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#ae81ff">1</span>
+			<span style="color:#66d9ef">continue</span>
+		}
+		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">genSeqNumbers</span>()
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; slow.txt
+</code></pre></div><h3 id="使用确定的数据类型">使用确定的数据类型</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">genSeqNumbers</span>() [<span style="color:#ae81ff">1024</span>]<span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">res</span> [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">res</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span> {
+			<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#ae81ff">1</span>
+			<span style="color:#66d9ef">continue</span>
+		}
+		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">genSeqNumbers</span>()
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; fast.txt
+</code></pre></div><h3 id="使用-benchstat-比较差异">使用 benchstat 比较差异</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> fast.txt slow.txt 
+
+<span style="color:#75715e"># 输出如下</span>
+name        old time/op    new time/op    delta
+_Compare-8    1.44µs ± 0%    3.22µs ± 0%  +123.40%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name        old alloc/op   new alloc/op   delta
+_Compare-8     0.00B       8192.00B ± 0%     +Inf%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name        old allocs/op  new allocs/op  delta
+_Compare-8      0.00           1.00 ± 0%     +Inf%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+</code></pre></div><p>从输出的结果中可以看到，通过使用确定的数据类型，运行时间提升了 <code>1 倍多</code>, 内存分配量和内存分配次数降为 <code>0</code>。</p>
+<blockquote>
+<p>高性能 Tips: 在 <code>hot path</code> 上要尽可能返回具体的数据类型。</p>
+</blockquote>
+<h1 id="其他逃逸场景">其他逃逸场景</h1>
+<p>接下来介绍几种常见的逃逸场景。</p>
+<h2 id="切片">切片</h2>
+<p>当切片占用内存超过一定大小，或无法确定切片长度时，对象将分配在 <code>堆</code> 上。</p>
+<h3 id="逃逸场景">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">weekdays</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;weeks&#34;</span>] = make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">weekdays</span>)
+	<span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;weeks&#34;</span>] = append(<span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;weeks&#34;</span>], []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>}<span style="color:#f92672">...</span>)
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span>
+main.go:3:6: can inline main
+main.go:5:14: make<span style="color:#f92672">(</span>map<span style="color:#f92672">[</span>string<span style="color:#f92672">][]</span>int<span style="color:#f92672">)</span> does not escape
+main.go:6:22: make<span style="color:#f92672">([]</span>int, weekdays<span style="color:#f92672">)</span> escapes to heap
+main.go:7:45: <span style="color:#f92672">[]</span>int<span style="color:#f92672">{</span>...<span style="color:#f92672">}</span> does not escape
+</code></pre></div><h3 id="避免逃逸方案">避免逃逸方案</h3>
+<p>如果切片容量较小，可以改为使用数组，避免发生逃逸，详情见 
+  <a href="/performance/slice_with_array/">切片和数组性能差异</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][<span style="color:#ae81ff">7</span>]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">data</span>[<span style="color:#e6db74">&#34;weeks&#34;</span>] = [<span style="color:#f92672">...</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>}
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (没有发生逃逸)</span>
+main.go:3:6: can inline main
+main.go:4:14: make<span style="color:#f92672">(</span>map<span style="color:#f92672">[</span>string<span style="color:#f92672">][</span>7<span style="color:#f92672">]</span>int<span style="color:#f92672">)</span> does not escape
+</code></pre></div><h2 id="指针">指针</h2>
+<h3 id="逃逸场景-1">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make([]<span style="color:#f92672">*</span><span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">1</span>)
+	<span style="color:#a6e22e">data</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span>
+main.go:3:6: can inline main
+main.go:4:2: moved to heap: n
+main.go:5:14: make<span style="color:#f92672">([]</span>*int, 1<span style="color:#f92672">)</span> does not escape
+</code></pre></div><h2 id="interface">interface</h2>
+<h3 id="逃逸场景-2">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">interface</span>{}]<span style="color:#66d9ef">interface</span>{})
+	<span style="color:#a6e22e">data</span>[<span style="color:#ae81ff">100</span>] = <span style="color:#ae81ff">200</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span>
+main.go:3:6: can inline main
+main.go:4:14: make<span style="color:#f92672">(</span>map<span style="color:#f92672">[</span>interface <span style="color:#f92672">{}]</span>interface <span style="color:#f92672">{})</span> does not escape
+main.go:5:2: <span style="color:#ae81ff">100</span> escapes to heap
+main.go:5:2: <span style="color:#ae81ff">200</span> escapes to heap
+</code></pre></div><h2 id="函数返回值">函数返回值</h2>
+<p>这应该是比较常见的一种情况，在函数中创建了一个对象，返回了这个对象的指针。这种情况下，函数虽然退出了，但是因为指针的存在，
+对象的内存不能随着函数结束而回收，因此只能分配在 <code>堆</code> 上。</p>
+<h3 id="逃逸场景-3">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;math/rand&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">foo</span>(<span style="color:#a6e22e">argVal</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fooVal1</span> = <span style="color:#ae81ff">11</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fooVal2</span> = <span style="color:#ae81ff">12</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fooVal3</span> = <span style="color:#ae81ff">13</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fooVal4</span> = <span style="color:#ae81ff">14</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fooVal5</span> = <span style="color:#ae81ff">15</span>
+
+	<span style="color:#75715e">// 循环是防止编译器将 foo 函数优化为 inline
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 如果不用随机数指定循环次数，也可能被编译器优化为 inline
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 如果是内联函数，main 调用 foo 将是原地展开
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//    那么 fooVal1 ... fooVal5 相当于 main 作用域的变量
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//    即使 fooVal3 发生逃逸，地址与其他几个变量也是连续的
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">5</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		println(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">argVal</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal2</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal3</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal4</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal5</span>)
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">fooVal3</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">mainVal</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">foo</span>(<span style="color:#ae81ff">1</span>)
+	println(<span style="color:#f92672">*</span><span style="color:#a6e22e">mainVal</span>, <span style="color:#a6e22e">mainVal</span>)
+}
+</code></pre></div><hr>
+<p>运行代码</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+
+<span style="color:#75715e"># 输出如下  (发生逃逸)</span>
+0xc000114f58 0xc000114f38 0xc000114f30 0xc000120000 0xc000114f28 0xc000114f20
+0xc000114f58 0xc000114f38 0xc000114f30 0xc000120000 0xc000114f28 0xc000114f20
+<span style="color:#ae81ff">13</span> 0xc000120000
+</code></pre></div><p>通过输出的结果可以看到，变量 <code>fooVal3</code> 的地址明显与其他变量地址不是连续的。</p>
+<h3 id="结果分析">结果分析</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span> 
+main.go:16:16: inlining call to rand.Intn
+main.go:24:6: can inline main
+main.go:8:6: **moved to heap: fooVal3**
+
+<span style="color:#75715e"># 查看逃逸分析详情</span>
+$ go build -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-m -l&#39;</span> main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span> 
+./main.go:5:6: cannot inline foo: <span style="color:#66d9ef">function</span> too complex: cost <span style="color:#ae81ff">124</span> exceeds budget <span style="color:#ae81ff">80</span>
+...
+./main.go:8:6: fooVal3 escapes to heap:
+...
+./main.go:8:6: **moved to heap: fooVal3**
+
+<span style="color:#75715e"># 或者</span>
+$ go tool compile -S main.go | grep <span style="color:#e6db74">&#34;runtime.newobject&#34;</span>
+
+<span style="color:#75715e"># 输出如下</span> 
+0x0036 <span style="color:#ae81ff">00054</span> <span style="color:#f92672">(</span>**main.go:8**<span style="color:#f92672">)</span>        CALL    runtime.newobject<span style="color:#f92672">(</span>SB<span style="color:#f92672">)</span>
+rel 55+4 t<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span> runtime.newobject+0
+
+<span style="color:#75715e"># main.go 第 8 行正好是 var fooVal3 = 13</span>
+</code></pre></div><h2 id="通道">通道</h2>
+<h3 id="逃逸场景-4">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">string</span>)
+
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello world&#34;</span>
+
+	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#a6e22e">ch</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">s</span>
+	}()
+
+	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span>
+main.go:19:5: can inline main.func1
+main.go:19:5: func literal escapes to heap
+</code></pre></div><h2 id="闭包">闭包</h2>
+<blockquote>
+<p>一个函数和对其周围状态（lexical environment，词法环境）的引用捆绑在一起（或者说函数被引用包围），这样的组合就是闭包（closure）。</p>
+</blockquote>
+<p>简单来说，<strong>闭包可以在一个函数内部访问到其外部函数的作用域</strong>。</p>
+<h3 id="逃逸场景-5">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">inc</span>() <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">int</span> {
+		<span style="color:#a6e22e">n</span><span style="color:#f92672">++</span>
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">in</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">inc</span>()
+	println(<span style="color:#a6e22e">in</span>()) <span style="color:#75715e">// 1
+</span><span style="color:#75715e"></span>	println(<span style="color:#a6e22e">in</span>()) <span style="color:#75715e">// 2
+</span><span style="color:#75715e"></span>}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span> 
+main.go:3:6: can inline inc
+main.go:5:9: can inline inc.func1
+main.go:12:11: inlining call to inc
+main.go:5:9: can inline main.func1
+main.go:13:12: inlining call to main.func1
+main.go:14:12: inlining call to main.func1
+main.go:4:2: **moved to heap: n**
+main.go:5:9: func literal escapes to heap
+main.go:12:11: func literal does not escape
+</code></pre></div><p><code>inc()</code> 函数返回一个闭包函数，闭包函数内部访问了外部变量 <code>n</code>, 形成了引用关系，那么外部变量 <code>n</code> 将会一直存在，直到 <code>inc()</code> 函数被销毁，
+所以最终外部变量 <code>n</code> 被分配到了 <code>堆</code> 上。</p>
+<h2 id="占用过大空间">占用过大空间</h2>
+<p><strong>操作系统对内核线程使用的栈空间是有大小限制的，64 位系统上通常是 8 MB</strong>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看系统栈内存大小</span>
+
+$ ulimit -s
+
+<span style="color:#75715e"># 8192</span>
+</code></pre></div><p>因为栈空间通常比较小，因此递归函数实现不当时，容易导致栈溢出。 对于 Go 语言来说，运行时(runtime) 尝试在 goroutine 需要的时候动态地分配栈空间，
+goroutine 的初始栈大小为 2 KB。当 goroutine 被调度时，会绑定内核线程执行，栈空间大小也不会超过操作系统的限制。 对 Go 编译器而言，
+超过一定大小的局部变量将逃逸到 <code>堆</code> 上，不同的 Go 版本的大小限制可能不一样。</p>
+<h3 id="逃逸场景-6">逃逸场景</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;math/rand&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate8192</span>() {
+	<span style="color:#a6e22e">nums</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">8192</span>) <span style="color:#75715e">// = 64KB
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">8192</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Int</span>()
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate8193</span>() {
+	<span style="color:#a6e22e">nums</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">8193</span>) <span style="color:#75715e">// &lt; 64KB
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">8193</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Int</span>()
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">nums</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">n</span>) <span style="color:#75715e">// 不确定大小
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">nums</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Int</span>()
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">generate8192</span>()
+	<span style="color:#a6e22e">generate8193</span>()
+	<span style="color:#a6e22e">generate</span>(<span style="color:#ae81ff">1</span>)
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go tool compile -m main.go
+
+<span style="color:#75715e"># 输出如下 (发生逃逸)</span> 
+main.go:6:14: make<span style="color:#f92672">([]</span>int, 8192<span style="color:#f92672">)</span> does not escape
+main.go:13:14: make<span style="color:#f92672">([]</span>int, 8193<span style="color:#f92672">)</span> escapes to heap
+main.go:20:14: make<span style="color:#f92672">([]</span>int, n<span style="color:#f92672">)</span> escapes to heap
+</code></pre></div><p>从输出的结果中可以看到，<code>make([]int, 8192)</code> 没有发生逃逸，<code>make([]int, 8193)</code> 和 <code>make([]int, n)</code> 逃逸到 <code>堆</code> 上，
+说明当切片占用内存超过一定大小，或无法确定当前切片长度时，对象将分配到 <code>堆</code> 上。</p>
+<h1 id="扩展阅读">扩展阅读</h1>
+<h2 id="返回值和返回指针">返回值和返回指针</h2>
+<p><code>值传递</code>会拷贝整个对象，而 <code>指针传递</code> 只会拷贝地址，指向的对象是同一个。返回指针可以减少值的拷贝，但是会导致内存分配逃逸到堆中，
+增加 <code>GC</code> 的负担。在对象频繁创建和删除的场景下，指针传递导致的 <code>GC</code> 开销可能会严重影响性能。</p>
+<p><strong>一个通用的实践是: 对于需要修改原对象值，或占用内存比较大的结构体，返回指针，其他情况直接返回值</strong>。</p>
+<h2 id="避免逃逸">避免逃逸</h2>
+<p>在了解了 <code>逃逸</code> 发生的具体规则和场景后，我们可以通过对应的规则来避免逃逸，此外，也可以参考标准库中避免逃逸的方法。</p>
+<h3 id="标准库源码">标准库源码</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Go 1.19 $GOROOT/src/strings/builder.go:27
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// noescape hides a pointer from escape analysis. It is the identity function
+</span><span style="color:#75715e">// but escape analysis doesn&#39;t think the output depends on the input.
+</span><span style="color:#75715e">// noescape is inlined and currently compiles down to zero instructions.
+</span><span style="color:#75715e">// USE CAREFULLY!
+</span><span style="color:#75715e">// This was copied from the runtime; see issues 23382 and 7921.
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//go:nocheckptr
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">noescape</span>(<span style="color:#a6e22e">p</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>) <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span> {
+	<span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> uintptr(<span style="color:#a6e22e">p</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#a6e22e">x</span> ^ <span style="color:#ae81ff">0</span>)
+}
+</code></pre></div><p><code>noescape</code> <strong>通过一个无用的位运算，解除了参数与返回值的关联，切断了 <code>逃逸分析</code> 对指针的追踪</strong>，类似代码标准库中有很多，但是正如注释中所写，
+<strong>该方法要谨慎使用，除非明确了逃逸是性能瓶颈</strong>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看标准库切断逃逸分析相关代码</span>
+
+$ grep -nr <span style="color:#e6db74">&#34;func noescape&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>dirname <span style="color:#66d9ef">$(</span>which go<span style="color:#66d9ef">))</span><span style="color:#e6db74">/../src&#34;</span>
+</code></pre></div><h1 id="小结">小结</h1>
+<p>本文介绍了几种常见的逃逸场景，并且针对其中的常见的逃逸发生场景做了详细的分析，感兴趣的读者可以采用本文提供的分析方法，看看自己的项目中有哪些对象逃逸场景。</p>
+<p>在大多数情况下，关于变量应该分配到堆上还是栈上，<strong>Go 编译器已经优化的足够好，无需开发者刻意优化</strong>。为了保证绝对的内存安全，
+编译器可能会将一些变量错误地分配到堆上，但是最终 <code>GC</code> 会避免内存泄露以及悬挂指针等安全问题，降低开发者心智负担，提高开发效率。</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>
+  <a href="https://geektutu.com/post/hpg-escape-analysis.html">极客兔兔</a></li>
+<li>
+  <a href="https://tip.golang.org/src/cmd/compile/internal/escape/escape.go">escape.go</a></li>
+<li>
+  <a href="https://github.com/akutz/lem">akutz/lem</a></li>
+<li>
+  <a href="https://medium.com/a-journey-with-go/go-introduction-to-the-escape-analysis-f7610174e890">Go: Introduction to the Escape Analysis</a></li>
+</ul>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/performance/escape.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#逃逸分析">逃逸分析</a>
+      <ul>
+        <li><a href="#特性">特性</a></li>
+        <li><a href="#发生场景">发生场景</a></li>
+        <li><a href="#分析命令">分析命令</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#确定的数据类型和-interface">确定的数据类型和 interface</a></li>
+        <li><a href="#基准测试">基准测试</a>
+          <ul>
+            <li><a href="#使用-interface">使用 interface</a></li>
+            <li><a href="#使用确定的数据类型">使用确定的数据类型</a></li>
+            <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#其他逃逸场景">其他逃逸场景</a>
+      <ul>
+        <li><a href="#切片">切片</a>
+          <ul>
+            <li><a href="#逃逸场景">逃逸场景</a></li>
+            <li><a href="#避免逃逸方案">避免逃逸方案</a></li>
+          </ul>
+        </li>
+        <li><a href="#指针">指针</a>
+          <ul>
+            <li><a href="#逃逸场景-1">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#interface">interface</a>
+          <ul>
+            <li><a href="#逃逸场景-2">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#函数返回值">函数返回值</a>
+          <ul>
+            <li><a href="#逃逸场景-3">逃逸场景</a></li>
+            <li><a href="#结果分析">结果分析</a></li>
+          </ul>
+        </li>
+        <li><a href="#通道">通道</a>
+          <ul>
+            <li><a href="#逃逸场景-4">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#闭包">闭包</a>
+          <ul>
+            <li><a href="#逃逸场景-5">逃逸场景</a></li>
+          </ul>
+        </li>
+        <li><a href="#占用过大空间">占用过大空间</a>
+          <ul>
+            <li><a href="#逃逸场景-6">逃逸场景</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#扩展阅读">扩展阅读</a>
+      <ul>
+        <li><a href="#返回值和返回指针">返回值和返回指针</a></li>
+        <li><a href="#避免逃逸">避免逃逸</a>
+          <ul>
+            <li><a href="#标准库源码">标准库源码</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

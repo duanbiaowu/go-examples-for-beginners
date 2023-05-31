@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。
+为什么需要内存对齐 CPU 访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问。比如 32 位的 CPU ，字长为 4 字节，那么 CPU 访问内存的单位也是 4 字节。 这么设计的目的，是减少 CPU 访问内存的次数，提升 CPU 访问内存的吞吐量。比如同样读取 8 个字节的数据，一次读取 4 个字节那么只需要读取 2 次。
+CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 CPU 访问内存的次数，例如：
+ 变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。 如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。
+从这个例子中也可以看到，内存对齐对实现变量的原子性操作也是有好处的，每次内存访问是原子的，如果变量的大小不超过字长，那么内存对齐后， 对该变量的访问就是原子的，这个特性在并发场景下至关重要。
+ 内存对齐可以提高内存读写性能，并且便于实现原子性操作。
+ 内存对齐带来的影响 内存对齐提升性能的同时，也需要付出相应的代价。由于变量与变量之间增加了填充，并没有存储真实有效的数据，所以 占用的内存会更大，这也是典型的 空间换时间 策略。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之内存对齐" />
+<meta property="og:description" content="概述 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。
+为什么需要内存对齐 CPU 访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问。比如 32 位的 CPU ，字长为 4 字节，那么 CPU 访问内存的单位也是 4 字节。 这么设计的目的，是减少 CPU 访问内存的次数，提升 CPU 访问内存的吞吐量。比如同样读取 8 个字节的数据，一次读取 4 个字节那么只需要读取 2 次。
+CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 CPU 访问内存的次数，例如：
+ 变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。 如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。
+从这个例子中也可以看到，内存对齐对实现变量的原子性操作也是有好处的，每次内存访问是原子的，如果变量的大小不超过字长，那么内存对齐后， 对该变量的访问就是原子的，这个特性在并发场景下至关重要。
+ 内存对齐可以提高内存读写性能，并且便于实现原子性操作。
+ 内存对齐带来的影响 内存对齐提升性能的同时，也需要付出相应的代价。由于变量与变量之间增加了填充，并没有存储真实有效的数据，所以 占用的内存会更大，这也是典型的 空间换时间 策略。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/performance/memory_alignment/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>Go 高性能之内存对齐 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">☹️ 陷阱</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
+<li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/">goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/"class=active>内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Go 高性能之内存对齐</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#为什么需要内存对齐">为什么需要内存对齐</a></li>
+    <li><a href="#内存对齐带来的影响">内存对齐带来的影响</a></li>
+    <li><a href="#对齐规则">对齐规则</a></li>
+    <li><a href="#内存未对齐">内存未对齐</a></li>
+    <li><a href="#内存对齐">内存对齐</a></li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+    <li><a href="#空结构体">空结构体</a>
+      <ul>
+        <li><a href="#内存对齐造成的额外占用">内存对齐造成的额外占用</a></li>
+      </ul>
+    </li>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p><strong>内存对齐</strong>，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 <code>32位</code> 或 <code>64位</code> 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。
+
+  <a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AF%B9%E9%BD%90">维基百科</a>。</p>
+<h1 id="为什么需要内存对齐">为什么需要内存对齐</h1>
+<p><strong>CPU 访问内存时，并不是逐个字节访问，而是以字长（word size）为单位访问</strong>。比如 32 位的 CPU ，字长为 4 字节，那么 CPU 访问内存的单位也是 4 字节。
+这么设计的目的，是减少 CPU 访问内存的次数，提升 CPU 访问内存的吞吐量。比如同样读取 8 个字节的数据，一次读取 4 个字节那么只需要读取 2 次。</p>
+<p>CPU 始终以字长访问内存，如果不进行内存对齐，很可能增加 CPU 访问内存的次数，例如：</p>
+<p>
+  <img src="/images/memory_align.png" alt="这里假设字长为 4 字节" /></p>
+<p>变量 a、b 各占据 3 字节的空间，内存对齐后，a、b 占据 4 字节空间，CPU 读取 b 变量的值只需要进行一次内存访问。
+如果不进行内存对齐，CPU 读取 b 变量的值需要进行 2 次内存访问。第一次访问得到 b 变量的第 1 个字节，第二次访问得到 b 变量的后两个字节。</p>
+<p>从这个例子中也可以看到，内存对齐对实现变量的原子性操作也是有好处的，每次内存访问是原子的，如果变量的大小不超过字长，那么内存对齐后，
+对该变量的访问就是原子的，这个特性在并发场景下至关重要。</p>
+<blockquote>
+<p>内存对齐可以提高内存读写性能，并且便于实现原子性操作。</p>
+</blockquote>
+<h1 id="内存对齐带来的影响">内存对齐带来的影响</h1>
+<p>内存对齐提升性能的同时，也需要付出相应的代价。由于变量与变量之间增加了填充，并没有存储真实有效的数据，所以 <strong>占用的内存会更大</strong>，这也是典型的 <code>空间换时间</code> 策略。</p>
+<h1 id="对齐规则">对齐规则</h1>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bool</code></td>
+<td>1 个字节</td>
+</tr>
+<tr>
+<td><code>intN, uintN, floatN, complexN</code></td>
+<td>N / 8个字节（例如 float64 是 8 个字节）</td>
+</tr>
+<tr>
+<td><code>int, uint, uintptr</code></td>
+<td>1 个字</td>
+</tr>
+<tr>
+<td><code>*T</code></td>
+<td>1 个字</td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>2 个字 （数据、长度）</td>
+</tr>
+<tr>
+<td><code>[]T</code></td>
+<td>3 个字 （数据、长度、容量）</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>1 个字</td>
+</tr>
+<tr>
+<td><code>func</code></td>
+<td>1 个字</td>
+</tr>
+<tr>
+<td><code>chan</code></td>
+<td>1 个字</td>
+</tr>
+<tr>
+<td><code>interface</code></td>
+<td>2 个字 （类型、值）</td>
+</tr>
+</tbody>
+</table>
+<p>字长为 4 字节时，1 个字就是 4 字节，字长为 8 字节时，1 个字就是 8 字节。</p>
+<h1 id="内存未对齐">内存未对齐</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#75715e">// 占用 32 个字节
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">hasMoney</span> <span style="color:#66d9ef">bool</span>   <span style="color:#75715e">// 1 个字节
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">name</span>     <span style="color:#66d9ef">string</span> <span style="color:#75715e">// 16 个字节
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">age</span>      <span style="color:#66d9ef">int16</span>  <span style="color:#75715e">// 2 个字节
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Alignment</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">ResetTimer</span>()
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = make([]<span style="color:#a6e22e">person</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>)
+	}
+}
+</code></pre></div><ul>
+<li><strong>hasMoney</strong> 是第 1 个字段，对齐倍数 1，默认已经对齐，从位置 0 开始占据 1 个字节</li>
+<li><strong>name</strong>     是第 2 个字段，对齐倍数 8，因此空出了 7 个字节 (1 - 7)，从位置 8 开始占据 16 个字节，正好对齐填充满</li>
+<li><strong>age</strong>      是第 3 个字段，对齐倍数 2，此时内存已经对齐了，从位置 24 开始占据 2 个字节</li>
+</ul>
+<blockquote>
+<p>hasMoney (1 个字节) + 空出的 (7 个字节) + name (16 个字节) + age (2 个字节) + 末尾对齐 (6 个字节) = 32 个字节</p>
+</blockquote>
+<p>
+  <img src="/images/memory_align_2.png" alt="32 字节" /></p>
+<p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 10000 次，统计内存分配</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000x -benchmem &gt; slow.txt
+</code></pre></div><h1 id="内存对齐">内存对齐</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#75715e">// 占用 24 个字节
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>     <span style="color:#66d9ef">string</span> <span style="color:#75715e">// 16 个字节
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">age</span>      <span style="color:#66d9ef">int16</span>  <span style="color:#75715e">// 2 个字节
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">hasMoney</span> <span style="color:#66d9ef">bool</span>   <span style="color:#75715e">// 1 个字节
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Alignment</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">ResetTimer</span>()
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = make([]<span style="color:#a6e22e">person</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>)
+	}
+}
+</code></pre></div><ul>
+<li><strong>name</strong>      是第 1 个字段，对齐倍数 8，默认已经对齐，从位置 0 开始占据 16 个字节</li>
+<li><strong>age</strong>       是第 2 个字段，对齐倍数 2，此时内存已经对齐了，从位置 16 开始占据 2 个字节</li>
+<li><strong>hasMoney</strong>  是第 3 个字段，对齐倍数 1，此时内存已经对齐了，从位置 18 开始占据 1 个字节</li>
+</ul>
+<blockquote>
+<p>name (16 个字节) + age (2 个字节) + hasMoney (1 个字节) + 末尾对齐 (5 个字节) = 24 个字节</p>
+</blockquote>
+<p>
+  <img src="/images/memory_align_3.png" alt="24 字节" /></p>
+<p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 1000 次，统计内存分配</span>
+$ o test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000x -benchmem &gt; fast.txt
+</code></pre></div><h1 id="使用-benchstat-比较差异">使用 benchstat 比较差异</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> slow.txt fast.txt 
+
+<span style="color:#75715e"># 输出如下:</span>
+name          old time/op    new time/op    delta
+_Alignment-8    18.1µs ± 0%    15.2µs ± 0%  -15.80%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name          old alloc/op   new alloc/op   delta
+_Alignment-8     328kB ± 0%     246kB ± 0%  -25.00%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name          old allocs/op  new allocs/op  delta
+_Alignment-8      1.00 ± 0%      1.00 ± 0%     ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
+</code></pre></div><p>输出的结果分为了三行，分别对应基准期间的: 运行时间、内存分配总量、内存分配次数，采用了 <code>内存对齐</code> 方案后:</p>
+<ul>
+<li>运行时间提升了 <code>15%</code></li>
+<li>内存分配优化了 <code>25% </code></li>
+</ul>
+<p>因为时间关系，基准测试只运行了 10000 次，运行次数越大，优化的效果越明显。感兴趣的读者可以将 <code>-benchtime</code> 调大后看看优化效果。</p>
+<h1 id="空结构体">空结构体</h1>
+<p>在 
+  <a href="/performance/empty_struct/">空结构体</a> 小节中，我们谈到过 空结构体 <code>struct{}</code> 大小为 0。当结构体中字段的类型为 <code>struct{}</code> 时，
+一般情况下不需要内存对齐。但是有一种情况例外：<strong>当最后一个字段类型为 <code>struct{}</code> 时，需要内存对齐</strong>。</p>
+<p>如果内存没有对齐，同时有指针指向结构体最后一个字段, 那么指针对应的的地址将到达结构体之外，虽然 Go 保证了无法对该指针进行任何操作
+(避免安全问题)，但是如果该指针一直存活不释放对应的内存， 就会产生内存泄露问题（指针指向的内存不会因为结构体释放而释放）。</p>
+<p>一个良好实践是: <strong>不要将 <code>struct{}</code> 类型的字段放在结构体的最后</strong>，这样可以避免 <code>内存对齐</code> 带来的占用损耗。</p>
+<h2 id="内存对齐造成的额外占用">内存对齐造成的额外占用</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;unsafe&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">t1</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int32</span>
+	<span style="color:#a6e22e">y</span> <span style="color:#66d9ef">struct</span>{}
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">t2</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">y</span> <span style="color:#66d9ef">struct</span>{}
+	<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int32</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;size = %d\n&#34;</span>, <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Sizeof</span>(<span style="color:#a6e22e">t1</span>{}))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;size = %d\n&#34;</span>, <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Sizeof</span>(<span style="color:#a6e22e">t2</span>{}))
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+
+<span style="color:#75715e"># 输出如下</span>
+size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</code></pre></div><p>通过将 <code>struct{}</code> 类型的字段从最后一个换到第一个，避免了 <code>内存对齐</code>，节省了一半的内存使用量。</p>
+<h1 id="问题">问题</h1>
+<p>Q: 编译器会在编译时自动内存对齐吗？</p>
+<p>A: 会自动对齐，但是不会进行优化，也就是不会修改字段顺序，减少内存的使用。</p>
+<p>Q: 为什么编译器不在编译时进行优化，通过修改结构体字段顺序，优化内存使用呢？</p>
+<p>A: 如果修改了结构体字段顺序，在数据传输的时候，无法正确读取到结构体的数据。</p>
+<h1 id="小结">小结</h1>
+<blockquote>
+<p>结构体类型时刻牢记内存对齐。</p>
+</blockquote>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>
+  <a href="https://geektutu.com/post/hpg-struct-alignment.html">极客兔兔</a></li>
+</ul>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/performance/memory_alignment.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#为什么需要内存对齐">为什么需要内存对齐</a></li>
+    <li><a href="#内存对齐带来的影响">内存对齐带来的影响</a></li>
+    <li><a href="#对齐规则">对齐规则</a></li>
+    <li><a href="#内存未对齐">内存未对齐</a></li>
+    <li><a href="#内存对齐">内存对齐</a></li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+    <li><a href="#空结构体">空结构体</a>
+      <ul>
+        <li><a href="#内存对齐造成的额外占用">内存对齐造成的额外占用</a></li>
+      </ul>
+    </li>
+    <li><a href="#问题">问题</a></li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

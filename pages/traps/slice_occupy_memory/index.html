@@ -9,7 +9,7 @@
 正确的做法 分配一个合适大小的切片作为函数的返回值，这样函数返回后，切片底层的数组就会被释放掉。
 package main import &#34;fmt&#34; func getFirstThreeNumber() []byte { data := make([]byte, 1000) fmt.Println(len(data), cap(data)) res := make([]byte, 3) copy(res, data[:3]) return res } func main() { res := getFirstThreeNumber() fmt.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之切片占用过多内存" />
 <meta property="og:description" content="概述 切片的底层数据结构是数组，同样，切片的子切片会引用同样的数组。如果切片不主动不释放的话，那么底层的数组就会一直占用着内存。
 切片返回值占用了整个数组 示例代码只是为了演示，没有任何实际意义。
 错误的做法 package main import &#34;fmt&#34; func getFirstThreeNumber() []byte { res := make([]byte, 1000) fmt.Println(len(res), cap(res)) return res[:3] } func main() { res := getFirstThreeNumber() fmt.Println(len(res), cap(res)) } // $ go run main.go // 输出如下 /** 1000 1000 3 1000 */ 从输出结果中可以看到，即使函数已经返回切片，但是切片底层的数组一直被占用着，没有释放掉，浪费了很多内存。
@@ -18,8 +18,8 @@ package main import &#34;fmt&#34; func getFirstThreeNumber() []byte { data := ma
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/slice_occupy_memory/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
-<title>Slice Occupy Memory | Go 语言必知必会</title>
+<meta property="article:modified_time" content="2023-05-28T23:09:10+08:00" />
+<title>Go 陷阱之切片占用过多内存 | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
@@ -28,7 +28,8 @@ package main import &#34;fmt&#34; func getFirstThreeNumber() []byte { data := ma
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
 -->
-  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
 </head>
 <body dir="ltr">
   <input type="checkbox" class="hidden toggle" id="menu-control" />
@@ -144,15 +145,15 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/traps/byte_operation/">byte 加减</a></li>
 <li>
-  <a href="/traps/map_struct_assign/">map</a></li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
 <li>
-  <a href="/traps/copy/">copy 复制失败</a></li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
 <li>
   <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
 <li>
   <a href="/traps/slice_occupy_memory/"class=active>切片占用过多内存</a></li>
 <li>
-  <a href="/traps/string_method/">实现 String 方法陷入无限递归</a></li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
 <li>
   <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
 <li>
@@ -179,6 +180,63 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
 
 
 
@@ -209,7 +267,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Slice Occupy Memory</strong>
+  <strong>Go 陷阱之切片占用过多内存</strong>
 
   <label for="toc-control">
     
@@ -320,7 +378,7 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/3481e3e16db78154f9ef6de549e0057685e2c225" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
       <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
       <span>2023-05-28</span>
     </a>
@@ -329,7 +387,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <div>
-    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/traps/slice_occupy_memory.md" target="_blank" rel="noopener">
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/traps/slice_occupy_memory.md" target="_blank" rel="noopener">
       <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
       <span>编辑本页</span>
     </a>

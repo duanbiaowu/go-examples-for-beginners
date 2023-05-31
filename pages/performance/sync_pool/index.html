@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 sync.Pool 用来复用对象，减少内存分配，降低 GC 压力。
+特性  sync.Pool 的大小可伸缩，高负载时会动态扩容，池中的对象在不活跃时会被自动清理。
+ 如何使用 只需实现 sync.Pool 对象的 New 方法即可，当对象池中没有对象时，将会调用自定义的 New 方法创建。
+package main import ( &#34;sync&#34; ) type person struct { name string age int } var ( // 实现 New 方法 	personPool = sync.Pool{ New: func() interface{} { return new(person) }, } ) func main() { // Get 方法从池中申请一个对象 	// 因为返回值是 interface{}, 这里再加一个类型转换 	tom := personPool.Get().(*person) tom.name = &#34;Tom&#34; tom.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之对象复用" />
+<meta property="og:description" content="概述 sync.Pool 用来复用对象，减少内存分配，降低 GC 压力。
+特性  sync.Pool 的大小可伸缩，高负载时会动态扩容，池中的对象在不活跃时会被自动清理。
+ 如何使用 只需实现 sync.Pool 对象的 New 方法即可，当对象池中没有对象时，将会调用自定义的 New 方法创建。
+package main import ( &#34;sync&#34; ) type person struct { name string age int } var ( // 实现 New 方法 	personPool = sync.Pool{ New: func() interface{} { return new(person) }, } ) func main() { // Get 方法从池中申请一个对象 	// 因为返回值是 interface{}, 这里再加一个类型转换 	tom := personPool.Get().(*person) tom.name = &#34;Tom&#34; tom." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/performance/sync_pool/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>Go 高性能之对象复用 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">☹️ 陷阱</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
+<li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/">goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/"class=active>对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Go 高性能之对象复用</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#特性">特性</a></li>
+    <li><a href="#如何使用">如何使用</a></li>
+    <li><a href="#普通方法">普通方法</a></li>
+    <li><a href="#对象池">对象池</a></li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a>
+      <ul>
+        <li><a href="#性能分析">性能分析</a></li>
+        <li><a href="#使用建议">使用建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#扩展阅读">扩展阅读</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p><code>sync.Pool</code> 用来复用对象，减少内存分配，降低 GC 压力。</p>
+<h1 id="特性">特性</h1>
+<blockquote>
+<p><code>sync.Pool</code> 的大小可伸缩，高负载时会动态扩容，池中的对象在不活跃时会被自动清理。</p>
+</blockquote>
+<h1 id="如何使用">如何使用</h1>
+<p>只需实现 <code>sync.Pool</code> 对象的 <code>New</code> 方法即可，当对象池中没有对象时，将会调用自定义的 <code>New</code> 方法创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">person</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>  <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">var</span> (
+	<span style="color:#75715e">// 实现 New 方法
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">personPool</span> = <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Pool</span>{
+		<span style="color:#a6e22e">New</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">interface</span>{} {
+			<span style="color:#66d9ef">return</span> new(<span style="color:#a6e22e">person</span>)
+		},
+	}
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// Get 方法从池中申请一个对象
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 因为返回值是 interface{}, 这里再加一个类型转换
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tom</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">personPool</span>.<span style="color:#a6e22e">Get</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">person</span>)
+
+	<span style="color:#a6e22e">tom</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Tom&#34;</span>
+	<span style="color:#a6e22e">tom</span>.<span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">6</span>
+	println(<span style="color:#a6e22e">tom</span>.<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">tom</span>.<span style="color:#a6e22e">age</span>)
+
+	<span style="color:#75715e">// Put 方法将对象归还到池中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">personPool</span>.<span style="color:#a6e22e">Put</span>(<span style="color:#a6e22e">tom</span>)
+}
+</code></pre></div><h1 id="普通方法">普通方法</h1>
+<p>测试代码如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkBufferWithPool</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">1024</span>)
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
+		<span style="color:#75715e">// 每次初始化一个新对象
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">buf</span> <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>
+		<span style="color:#a6e22e">buf</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
+		<span style="color:#a6e22e">buf</span>.<span style="color:#a6e22e">Reset</span>()
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 1000 次，统计内存分配</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>1000x -benchmem &gt; slow.txt
+</code></pre></div><h1 id="对象池">对象池</h1>
+<p>测试代码如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;sync&#34;</span>
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">bufferPool</span> = <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Pool</span>{
+	<span style="color:#a6e22e">New</span>: <span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">interface</span>{} {
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>{}
+	},
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkBufferWithPool</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">1024</span>)
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">n</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">n</span><span style="color:#f92672">++</span> {
+		<span style="color:#75715e">// 对象复用，从对象池中获取对象
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">buf</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufferPool</span>.<span style="color:#a6e22e">Get</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>)
+		<span style="color:#a6e22e">buf</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">data</span>)
+		<span style="color:#a6e22e">buf</span>.<span style="color:#a6e22e">Reset</span>()
+		<span style="color:#a6e22e">bufferPool</span>.<span style="color:#a6e22e">Put</span>(<span style="color:#a6e22e">buf</span>)
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 1000 次，统计内存分配</span>
+$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>1000x -benchmem &gt; fast.txt
+</code></pre></div><h1 id="使用-benchstat-比较差异">使用 benchstat 比较差异</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> fast.txt slow.txt 
+
+<span style="color:#75715e"># 输出如下:</span>
+name              old time/op    new time/op    delta
+BufferWithPool-8    75.9ns ± 0%   500.0ns ± 0%    +558.94%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name              old alloc/op   new alloc/op   delta
+BufferWithPool-8     2.00B ± 0%  1024.00B ± 0%  +51100.00%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name              old allocs/op  new allocs/op  delta
+BufferWithPool-8      0.00           1.00 ± 0%       +Inf%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+</code></pre></div><p>输出的结果分为了三行，分别对应基准期间的: 运行时间、内存分配总量、内存分配次数，采用了 <code>复用池</code> 方案后:</p>
+<ul>
+<li>运行时间提升了 <code>5 倍+</code></li>
+<li>内存分配总量降低了 <code>500 倍+</code></li>
+<li>内存分配次数降至 0</li>
+</ul>
+<p>因为时间关系，基准测试只运行了 1000 次，运行次数越大，优化的效果越明显。感兴趣的读者可以将 <code>-benchtime</code> 调大后看看优化效果。</p>
+<h2 id="性能分析">性能分析</h2>
+<p><code>普通方法</code> 每次重新申请一个新的 <code>bytes.Buffer</code> 对象，用完之后再释放掉，大部分时间浪费在了申请资源和释放资源上面，
+而 <code>对象池</code> 通过资源池复用了 <code>bytes.Buffer</code> 对象，避免了申请资源和释放资源的时间损耗，所以性能远高于 <code>普通方法</code>。</p>
+<h2 id="使用建议">使用建议</h2>
+<ul>
+<li><code>sync.Pool</code> 有自动清除对象机制，因此重要 (不可改变) 的对象不要使用 <code>sync.Pool</code></li>
+<li>从 <code>sync.Pool</code> 获取到的对象状态可能不同，例如长度会发生变化的数据类型 (如切片)</li>
+<li>从 <code>sync.Pool</code> 获取到的对象使用完成后，要及时调用 <code>Put</code> 归还</li>
+</ul>
+<h1 id="小结">小结</h1>
+<p>本小节对 <code>普通方法</code> 申请对象和 <code>对象池</code> 申请对象两种方法进行基准测试，并比较了两者在性能和内存方面的差异。
+从结果中可以看到，<code>对象池</code> 所带来的性能提升是非常大的，这也提示我们，在申请和释放大的资源对象 (如数据库连接, 复杂的结构体)时， 可以使用 <code>sync.Pool</code> 来优化提升性能。</p>
+<h1 id="扩展阅读">扩展阅读</h1>
+<ul>
+<li>
+  <a href="https://blog.thinkeridea.com/201901/go/you_ya_de_du_qu_http_qing_qiu_huo_xiang_ying_de_shu_ju.html">一篇不错的实战文章</a></li>
+</ul>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/performance/sync_pool.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#特性">特性</a></li>
+    <li><a href="#如何使用">如何使用</a></li>
+    <li><a href="#普通方法">普通方法</a></li>
+    <li><a href="#对象池">对象池</a></li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a>
+      <ul>
+        <li><a href="#性能分析">性能分析</a></li>
+        <li><a href="#使用建议">使用建议</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#扩展阅读">扩展阅读</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

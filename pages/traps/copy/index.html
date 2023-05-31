@@ -7,15 +7,15 @@
 func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切片 dst, 返回拷贝成功的元素数量。需要注意的一点是，copy 函数默认切片 dst 有足够的容量存放拷贝的元素， 如果容量不足的话，那么切片 src 中超过 dst 容量长度的元素将不再拷贝。
 错误的做法 package main import &#34;fmt&#34; func main() { var src, dst []int src = []int{1, 2, 3} n := copy(dst, src) fmt.Printf(&#34;the number of copied elements is %d\n&#34;, n) fmt.Printf(&#34;dst = %v\n&#34;, dst) } $ go run main.go # 输出如下 the number of copied elements is 0 dst = [] 从输出结果中看到，返回拷贝成功的元素数量为 0, 变量 dst 依然是一个空切片，错误的原因在于: 变量 dst 没有容量来存放变量 src 的元素。 接下来，我们修正这个错误。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之 copy 函数复制失败" />
 <meta property="og:description" content="概述 copy 函数可以将一个切片里面的元素拷贝至另外一个切片，函数的原型如下:
 func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切片 dst, 返回拷贝成功的元素数量。需要注意的一点是，copy 函数默认切片 dst 有足够的容量存放拷贝的元素， 如果容量不足的话，那么切片 src 中超过 dst 容量长度的元素将不再拷贝。
 错误的做法 package main import &#34;fmt&#34; func main() { var src, dst []int src = []int{1, 2, 3} n := copy(dst, src) fmt.Printf(&#34;the number of copied elements is %d\n&#34;, n) fmt.Printf(&#34;dst = %v\n&#34;, dst) } $ go run main.go # 输出如下 the number of copied elements is 0 dst = [] 从输出结果中看到，返回拷贝成功的元素数量为 0, 变量 dst 依然是一个空切片，错误的原因在于: 变量 dst 没有容量来存放变量 src 的元素。 接下来，我们修正这个错误。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/copy/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
-<title>Copy | Go 语言必知必会</title>
+<meta property="article:modified_time" content="2023-05-28T23:09:10+08:00" />
+<title>Go 陷阱之 copy 函数复制失败 | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
@@ -24,7 +24,8 @@ func copy(dst []Type, src []Type) int 将切片 src 里面的元素拷贝至切�
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
 -->
-  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
 </head>
 <body dir="ltr">
   <input type="checkbox" class="hidden toggle" id="menu-control" />
@@ -140,15 +141,15 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/traps/byte_operation/">byte 加减</a></li>
 <li>
-  <a href="/traps/map_struct_assign/">map</a></li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
 <li>
-  <a href="/traps/copy/"class=active>copy 复制失败</a></li>
+  <a href="/traps/copy/"class=active>copy 函数复制失败</a></li>
 <li>
   <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
 <li>
   <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
 <li>
-  <a href="/traps/string_method/">实现 String 方法陷入无限递归</a></li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
 <li>
   <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
 <li>
@@ -175,6 +176,63 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
 
 
 
@@ -205,7 +263,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Copy</strong>
+  <strong>Go 陷阱之 copy 函数复制失败</strong>
 
   <label for="toc-control">
     
@@ -301,7 +359,7 @@ dst <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><sp
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/3481e3e16db78154f9ef6de549e0057685e2c225" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
       <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
       <span>2023-05-28</span>
     </a>
@@ -310,7 +368,7 @@ dst <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><sp
 
 
   <div>
-    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/traps/copy.md" target="_blank" rel="noopener">
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/traps/copy.md" target="_blank" rel="noopener">
       <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
       <span>编辑本页</span>
     </a>

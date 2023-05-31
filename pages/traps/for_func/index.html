@@ -8,7 +8,7 @@
 再比如在第 4 次循环的时候，打开文件报错了，接着调用 log.Fatal(err) 结束程序，这时候，前面 3 次循环打开的 3 个文件句柄资源无法被释放，造成资源泄露。
 正确的做法 解决的方法: 可以在 for 中构造一个局部函数，然后在局部函数内执行 defer 函数释放资源， 这样即使极端情况下程序异常退出，但是已经打开的文件句柄已经全部被释放，不会造成资源泄露。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 陷阱之 for 循环调用函数" />
 <meta property="og:description" content="循环调用 defer 错误 defer 在函数退出时才会执行，在循环中执行 defer 释放资源时，由于延迟可能会引发 资源泄露问题。
 错误的做法 package main import ( &#34;log&#34; &#34;os&#34; ) func main() { for i := 0; i &lt; 5; i&#43;&#43; { f, err := os.Open(&#34;/path/to/file&#34;) if err != nil { log.Fatal(err) } defer f.Close() } zero := 0 println(1 / zero) // 程序执行到这里异常退出，那么上面的循环中打开的 5 个文件句柄全部无法泄露 } 错误的原因在于: 极端情况下（比如 for 循环执行完程序异常，或者 for 还没执行完程序异常），将导致所有文件句柄无法释放，造成资源泄露。
 再比如在第 4 次循环的时候，打开文件报错了，接着调用 log.Fatal(err) 结束程序，这时候，前面 3 次循环打开的 3 个文件句柄资源无法被释放，造成资源泄露。
@@ -16,8 +16,8 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://golang.dbwu.tech/traps/for_func/" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
-<title>For Func | Go 语言必知必会</title>
+<meta property="article:modified_time" content="2023-05-28T23:09:10+08:00" />
+<title>Go 陷阱之 for 循环调用函数 | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
@@ -26,7 +26,8 @@
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
 -->
-  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
 </head>
 <body dir="ltr">
   <input type="checkbox" class="hidden toggle" id="menu-control" />
@@ -142,15 +143,15 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/traps/byte_operation/">byte 加减</a></li>
 <li>
-  <a href="/traps/map_struct_assign/">map</a></li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
 <li>
-  <a href="/traps/copy/">copy 复制失败</a></li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
 <li>
   <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
 <li>
   <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
 <li>
-  <a href="/traps/string_method/">实现 String 方法陷入无限递归</a></li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
 <li>
   <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
 <li>
@@ -177,6 +178,63 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
 
 
 
@@ -207,7 +265,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>For Func</strong>
+  <strong>Go 陷阱之 for 循环调用函数</strong>
 
   <label for="toc-control">
     
@@ -394,7 +452,7 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/ee3d34eed88d63fb9a1a2bde57cc8b1796649d1f" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners/commit/3481e3e16db78154f9ef6de549e0057685e2c225" title='最后修改者 duanbiaowu | 2023-05-28' target="_blank" rel="noopener">
       <img src="/svg/calendar.svg" class="book-icon" alt="Calendar" />
       <span>2023-05-28</span>
     </a>
@@ -403,7 +461,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <div>
-    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//..//content/traps/for_func.md" target="_blank" rel="noopener">
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/traps/for_func.md" target="_blank" rel="noopener">
       <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
       <span>编辑本页</span>
     </a>

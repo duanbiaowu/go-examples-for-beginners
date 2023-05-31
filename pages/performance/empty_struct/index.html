@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。
+map 实现 set 这里假设 Set 元素类型为 int, 那么我们就以 int 作为 map 的键类型，以 bool 作为 map 的值类型 (之所以选择 bool 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 byte 类型，其大小同样是 1 个字节)。
+package main import &#34;fmt&#34; // Set 类型定义 type set map[int]bool // 初始化一个新的 Set func newSet() set { return make(set) } // 元素是否存在于与集合中 func (s set) contains(ele int) bool { _, ok := s[ele] return ok } // 添加元素到集合 func (s set) add(ele int) { s[ele] = true } // 从集合中删除某个元素 func (s set) remove(ele int) { delete(s, ele) } func main() { s := newSet() fmt.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Go 高性能之空结构体" />
+<meta property="og:description" content="概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。
+map 实现 set 这里假设 Set 元素类型为 int, 那么我们就以 int 作为 map 的键类型，以 bool 作为 map 的值类型 (之所以选择 bool 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 byte 类型，其大小同样是 1 个字节)。
+package main import &#34;fmt&#34; // Set 类型定义 type set map[int]bool // 初始化一个新的 Set func newSet() set { return make(set) } // 元素是否存在于与集合中 func (s set) contains(ele int) bool { _, ok := s[ele] return ok } // 添加元素到集合 func (s set) add(ele int) { s[ele] = true } // 从集合中删除某个元素 func (s set) remove(ele int) { delete(s, ele) } func main() { s := newSet() fmt." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/performance/empty_struct/" />
+<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-01-01T00:00:00+00:00" />
+<title>Go 高性能之空结构体 | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
+  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h3 id="bloghttpsdbwutech">
+  <a href="https://dbwu.tech/">Blog</a></h3>
+<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
+<h3 id="微信公众号httpsdbwutechimageswechatpng">
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+<hr>
+<h3 id="-工程化">🛠️ 工程化</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">☹️ 陷阱</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
+<li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/">goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-高性能">⚡ 高性能</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/"class=active>空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Go 高性能之空结构体</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#map-实现-set">map 实现 set</a></li>
+    <li><a href="#空结构体">空结构体</a></li>
+    <li><a href="#使用-bool-实现-set">使用 bool 实现 Set</a>
+      <ul>
+        <li><a href="#测试代码">测试代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用空结构体实现-set">使用空结构体实现 Set</a>
+      <ul>
+        <li><a href="#测试代码-1">测试代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#彩蛋">彩蛋</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">概述</h1>
+<p>Go 的标准库没有内置的 <code>Set</code> 类型，在不引用第三方包的情况下，一般是结合内置的 <code>map</code> 类型实现 <code>Set</code> 相关功能。</p>
+<h1 id="map-实现-set">map 实现 set</h1>
+<p>这里假设 <code>Set</code> 元素类型为 <code>int</code>, 那么我们就以 <code>int</code> 作为 <code>map</code> 的键类型，以 <code>bool</code> 作为 <code>map</code> 的值类型
+(之所以选择 <code>bool</code> 类型，是因为其大小为 1 个字节，相对其他数据类型可以节省内存，当然，也可以使用 <code>byte</code> 类型，其大小同样是 1 个字节)。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#75715e">// Set 类型定义
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">set</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#66d9ef">bool</span>
+
+<span style="color:#75715e">// 初始化一个新的 Set
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSet</span>() <span style="color:#a6e22e">set</span> {
+	<span style="color:#66d9ef">return</span> make(<span style="color:#a6e22e">set</span>)
+}
+
+<span style="color:#75715e">// 元素是否存在于与集合中
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">contains</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>]
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>
+}
+
+<span style="color:#75715e">// 添加元素到集合
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>] = <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#75715e">// 从集合中删除某个元素
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">remove</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	delete(<span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">ele</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newSet</span>()
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">contains</span>(<span style="color:#ae81ff">100</span>))
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">add</span>(<span style="color:#ae81ff">100</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">contains</span>(<span style="color:#ae81ff">100</span>))
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">remove</span>(<span style="color:#ae81ff">100</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">contains</span>(<span style="color:#ae81ff">100</span>))
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+
+<span style="color:#75715e"># 输出如下</span>
+false
+true
+false
+</code></pre></div><p>上述示例代码通过内置类型 <code>map</code> 实现了 <code>set</code> 类型相关功能，美中不足的一点在于: 每个元素都要浪费一个 <code>bool</code> 类型作为标识占位符，
+能否进一步的优化呢？ 当然是可以的，这就是接下来要讲到的 <code>空结构体</code> 了。</p>
+<h1 id="空结构体">空结构体</h1>
+<p>Go 中的空结构体 <code>struct{}{}</code> 是一个底层的内置变量，不占用任何内存:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;unsafe&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;size = %d\n&#34;</span>, <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Sizeof</span>(<span style="color:#66d9ef">struct</span>{}{}))
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+
+<span style="color:#75715e"># 输出如下</span>
+size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</code></pre></div><p>结合刚才的例子，可以将 <code>struct{}{}</code> 作为 <code>Set</code> 的元素，这样不论 <code>Set</code> 有多少个元素，<code>标志位</code> 内存占用始终为 0 。</p>
+<h1 id="使用-bool-实现-set">使用 bool 实现 Set</h1>
+<h2 id="测试代码">测试代码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#75715e">// Set 类型定义, 使用 bool 类型作为占位符
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">set</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#66d9ef">bool</span>
+
+<span style="color:#75715e">// 初始化一个新的 Set
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSet</span>() <span style="color:#a6e22e">set</span> {
+	<span style="color:#66d9ef">return</span> make(<span style="color:#a6e22e">set</span>)
+}
+
+<span style="color:#75715e">// 元素是否存在于与集合中
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">contains</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>]
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>
+}
+
+<span style="color:#75715e">// 添加元素到集合
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>] = <span style="color:#66d9ef">true</span>
+}
+
+<span style="color:#75715e">// 从集合中删除某个元素
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">remove</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	delete(<span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">ele</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newSet</span>()
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">i</span>)
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">contains</span>(<span style="color:#a6e22e">i</span>)
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">remove</span>(<span style="color:#a6e22e">i</span>)
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000000x -benchmem &gt; bool.txt
+</code></pre></div><h1 id="使用空结构体实现-set">使用空结构体实现 Set</h1>
+<h2 id="测试代码-1">测试代码</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;testing&#34;</span>
+)
+
+<span style="color:#75715e">// Set 类型定义, 使用 bool 类型作为占位符
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">set</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">int</span>]<span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#75715e">// 初始化一个新的 Set
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSet</span>() <span style="color:#a6e22e">set</span> {
+	<span style="color:#66d9ef">return</span> make(<span style="color:#a6e22e">set</span>)
+}
+
+<span style="color:#75715e">// 元素是否存在于与集合中
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">contains</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>]
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ok</span>
+}
+
+<span style="color:#75715e">// 添加元素到集合
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">ele</span>] = <span style="color:#66d9ef">struct</span>{}{}
+}
+
+<span style="color:#75715e">// 从集合中删除某个元素
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">set</span>) <span style="color:#a6e22e">remove</span>(<span style="color:#a6e22e">ele</span> <span style="color:#66d9ef">int</span>) {
+	delete(<span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">ele</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newSet</span>()
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">add</span>(<span style="color:#a6e22e">i</span>)
+	}
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">contains</span>(<span style="color:#a6e22e">i</span>)
+		<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">remove</span>(<span style="color:#a6e22e">i</span>)
+	}
+}
+</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>10000000x -benchmem &gt; struct.txt
+</code></pre></div><h1 id="使用-benchstat-比较差异">使用 benchstat 比较差异</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> bool.txt struct.txt
+
+<span style="color:#75715e"># 输出如下</span>
+name        old time/op    new time/op    delta
+_Compare-8     371ns ± 0%     332ns ± 0%  -10.47%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name        old alloc/op   new alloc/op   delta
+_Compare-8     44.0B ± 0%     40.0B ± 0%   -9.09%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+
+name        old allocs/op  new allocs/op  delta
+_Compare-8      0.00           0.00          ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
+</code></pre></div><p>从输出的结果中可以看到，相比于使用 <code>bool</code> 作为 <code>Set</code> 元素占位符，使用 <code>空结构体</code> 在性能和内存占用方面，都有了小幅度的优化提升。
+因为时间关系，这里的基准测试只运行了 10000000 次，运行次数越大，优化的效果越明显。感兴趣的读者可以将 <code>-benchtime</code> 调大后看看优化效果。</p>
+<h1 id="小结">小结</h1>
+<p>Go 中的空结构体 <code>struct{}{}</code> 不占用任何内存，而且有很清晰的语义性质 (作为占位符使用)。除了刚才示例中实现 <code>Set</code> 功能外，
+还可以使用空结构体作为 <code>通道信号标识</code>、<code>空对象</code> 等，各种使用场景请读者自行探究。</p>
+<h1 id="彩蛋">彩蛋</h1>
+<p>除了空结构体 <code>struct{}{}</code> 之外，还有一个鲜为人知的大小为 0 的数据类型是: <code>空数组</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;unsafe&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;size = %d\n&#34;</span>, <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Sizeof</span>([<span style="color:#ae81ff">0</span>]<span style="color:#66d9ef">int</span>{}))
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go run main.go
+
+<span style="color:#75715e"># 输出如下</span>
+size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</code></pre></div></article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/performance/empty_struct.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
+document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
+select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#map-实现-set">map 实现 set</a></li>
+    <li><a href="#空结构体">空结构体</a></li>
+    <li><a href="#使用-bool-实现-set">使用 bool 实现 Set</a>
+      <ul>
+        <li><a href="#测试代码">测试代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用空结构体实现-set">使用空结构体实现 Set</a>
+      <ul>
+        <li><a href="#测试代码-1">测试代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用-benchstat-比较差异">使用 benchstat 比较差异</a></li>
+    <li><a href="#小结">小结</a></li>
+    <li><a href="#彩蛋">彩蛋</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
