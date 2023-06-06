@@ -16,10 +16,10 @@ Go 源代码的安装目录，`Mac` 和 `Windows`  安装时会自动配置好�
 ```shell
 # 查看 $GOROOT 目录
 $ echo $GOROOT
-/usr/local/bin
+/usr/local/go
 
 # 设置 $GOROOT 目录
-$ export GOROOT=/usr/local/bin
+$ export GOROOT=/usr/local/go
 
 # 增加 go 相关命令到 PATH
 $ export PATH=$PATH:/usr/local/go/bin
