@@ -6,7 +6,7 @@ modify: 2023-01-01
 
 # 概述
 
-Map 的 `key` 支持很多数据类型，只要满足 [比较规则](../introduction/type_comparison.md) 即可，
+Map 的 `key` 支持很多数据类型，只要满足 [比较规则](https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/introduction/type_comparison.md) 即可，
 大多数场景下，我们使用到的是 `int` 和 `string` 两种数据类型，那么两者之间，哪个性能更高一些呢？
 
 # key 类型为 string
