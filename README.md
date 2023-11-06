@@ -132,4 +132,4 @@
 
 This project has always been developed in the GoLand integrated development environment under JetBrains, based on the **free JetBrains Open Source license(s)** genuine free license. I would like to express my gratitude.
 
-<a href="https://www.jetbrains.com/?from=Duan Biaowu" target="_blank"><img src="introduction/images/jetbrain.png" style="width: 36%;"/></a>
+<a href="https://www.jetbrains.com/?from=Duan Biaowu" target="_blank"><img src="content/images/jetbrain.png" style="width: 36%;"/></a>
