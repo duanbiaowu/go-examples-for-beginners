@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述  Array or Slice, that&rsquo;s the question!">
+<meta name="description" content="概述 # Array or Slice, that&rsquo;s the question!">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light"><meta property="og:title" content="Go 高性能之切片和数组" />
-<meta property="og:description" content="概述  Array or Slice, that&rsquo;s the question!" />
+<meta property="og:description" content="概述 # Array or Slice, that&rsquo;s the question!" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://golang.dbwu.tech/performance/slice_with_array/" />
+<meta property="og:url" content="https://golang.dbwu.tech/performance/slice_with_array/" /><meta property="article:section" content="performance" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
 <meta property="article:modified_time" content="2023-05-31T18:19:53+08:00" />
+
 <title>Go 高性能之切片和数组 | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
-  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -56,14 +57,247 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-  <h3 id="bloghttpsdbwutech">
-  <a href="https://dbwu.tech/">Blog</a></h3>
-<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
-  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
-<h3 id="微信公众号httpsdbwutechimageswechatpng">
-  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+  <ul>
+<li>
+  <a href="https://dbwu.tech/">Blog</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></li>
+<li>
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></li>
+</ul>
 <hr>
-<h3 id="-工程化">🛠️ 工程化</h3>
+<h2 id="快速入门系列">
+  快速入门系列
+  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<ul>
+<li>
+<p>
+  <a href="/introduction/preface/"><strong>前言</strong></a></p>
+</li>
+<li>
+<p><strong>1. 环境安装</strong></p>
+<ul>
+<li>
+  <a href="/introduction/windows/">Windows</a></li>
+<li>
+  <a href="/introduction/mac/">Mac</a></li>
+<li>
+  <a href="/introduction/linux/">Linux</a></li>
+<li>
+  <a href="/introduction/install/">合并版</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>2. 语法基础</strong>
+<ul>
+<li>
+  <a href="/introduction/buildandrun/">Go 程序的运行方式及要求</a></li>
+<li>
+  <a href="/introduction/basesyntaxandkeyword/">基本代码格式，关键字, 预定义标识符</a></li>
+<li>
+  <a href="/introduction/variables/">变量</a></li>
+<li>
+  <a href="/introduction/blank_operator/">空白标识符</a></li>
+<li>
+  <a href="/introduction/const/">常量</a></li>
+<li>
+  <a href="/introduction/typedef/">自定义类型</a></li>
+<li>
+  <a href="/introduction/iota/">常量生成器</a></li>
+<li>
+  <a href="/introduction/operator_priority/">运算优先级</a></li>
+<li>
+  <a href="/introduction/import/">包的导入</a></li>
+<li>
+  <a href="/introduction/print/">调试打印</a></li>
+<li>
+  <a href="/introduction/string/">字符串</a></li>
+<li>
+  <a href="/introduction/rune/">字符</a></li>
+<li>
+  <a href="/introduction/data_convert/">类型转换</a></li>
+<li>
+  <a href="/introduction/decimal/">保留小数位</a></li>
+<li>
+  <a href="/introduction/pointer/">指针</a></li>
+<li>
+  <a href="/introduction/if_else/">if/else</a></li>
+<li>
+  <a href="/introduction/inc_and_dec/">自增自减</a></li>
+<li>
+  <a href="/introduction/for/">for</a></li>
+<li>
+  <a href="/introduction/range/">range</a></li>
+<li>
+  <a href="/introduction/switch/">switch</a></li>
+<li>
+  <a href="/introduction/goto/">goto / 标签</a></li>
+<li>
+  <a href="/introduction/visable/">可见性</a></li>
+<li>
+  <a href="/introduction/scope/">作用域</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>3. 数据类型</strong>
+<ul>
+<li>
+  <a href="/introduction/array/">数组</a></li>
+<li>
+  <a href="/introduction/slice/">切片</a></li>
+<li>
+  <a href="/introduction/bytes/">字符切片</a></li>
+<li>
+  <a href="/introduction/map/">Map</a></li>
+<li>
+  <a href="/introduction/sorted_map/">有序 Map</a></li>
+<li>
+  <a href="/introduction/func/">函数</a></li>
+<li>
+  <a href="/introduction/init/">init</a></li>
+<li>
+  <a href="/introduction/make_with_new/">make, new</a></li>
+<li>
+  <a href="/introduction/func_variadic_params/">变长参数</a></li>
+<li>
+  <a href="/introduction/func_pointer_params/">指针参数</a></li>
+<li>
+  <a href="/introduction/func_closures/">闭包</a></li>
+<li>
+  <a href="/introduction/func_recursion/">递归</a></li>
+<li>
+  <a href="/introduction/func_inner/">内部函数</a></li>
+<li>
+  <a href="/introduction/panic/">panic</a></li>
+<li>
+  <a href="/introduction/defer/">defer</a></li>
+<li>
+  <a href="/introduction/recover/">recover</a></li>
+<li>
+  <a href="/introduction/struct/">结构体</a></li>
+<li>
+  <a href="/introduction/struct_embedding/">嵌套结构体</a></li>
+<li>
+  <a href="/introduction/methods/">方法</a></li>
+<li>
+  <a href="/introduction/interface/">接口</a></li>
+<li>
+  <a href="/introduction/implement_error/">实现系统错误接口</a></li>
+<li>
+  <a href="/introduction/implement/">判断是否实现接口</a></li>
+<li>
+  <a href="/introduction/error/">错误</a></li>
+<li>
+  <a href="/introduction/zero_value/">零值</a></li>
+<li>
+  <a href="/introduction/type_comparison/">类型比较</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>4. 协程与通道</strong>
+<ul>
+<li>
+  <a href="/introduction/goroutine/">goroutine</a></li>
+<li>
+  <a href="/introduction/channel/">非缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_buffer/">缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_close/">关闭通道</a></li>
+<li>
+  <a href="/introduction/channel_direction/">通道方向</a></li>
+<li>
+  <a href="/introduction/channel_close_check/">检测通道是否关闭</a></li>
+<li>
+  <a href="/introduction/channel_range/">遍历通道</a></li>
+<li>
+  <a href="/introduction/waitgroup/">waitgroup</a></li>
+<li>
+  <a href="/introduction/select/">select</a></li>
+<li>
+  <a href="/introduction/mutex/">互斥锁</a></li>
+<li>
+  <a href="/introduction/timeout/">超时控制</a></li>
+<li>
+  <a href="/introduction/ticker/">定时器</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>5. 常见操作</strong>
+<ul>
+<li>
+  <a href="/introduction/atomic/">原子操作</a></li>
+<li>
+  <a href="/introduction/file_create_delete/">创建, 删除文件</a></li>
+<li>
+  <a href="/introduction/file_write/">写文件</a></li>
+<li>
+  <a href="/introduction/file_read/">读文件</a></li>
+<li>
+  <a href="/introduction/file_path/">文件路径, 扩展名</a></li>
+<li>
+  <a href="/introduction/file_check/">文件判断</a></li>
+<li>
+  <a href="/introduction/dir_create_delete/">创建, 删除目录</a></li>
+<li>
+  <a href="/introduction/dir_walk/">遍历目录</a></li>
+<li>
+  <a href="/introduction/log/">日志</a></li>
+<li>
+  <a href="/introduction/http/">HTTP</a></li>
+<li>
+  <a href="/introduction/url/">URL</a></li>
+<li>
+  <a href="/introduction/base64/">base64</a></li>
+<li>
+  <a href="/introduction/sha256/">sha256</a></li>
+<li>
+  <a href="/introduction/md5/">md5</a></li>
+<li>
+  <a href="/introduction/exit/">exit</a></li>
+<li>
+  <a href="/introduction/process_id/">获取进程ID</a></li>
+<li>
+  <a href="/introduction/command/">命令行</a></li>
+<li>
+  <a href="/introduction/command_args/">命令行参数</a></li>
+<li>
+  <a href="/introduction/command_flag/">命令行参数解析与设置</a></li>
+<li>
+  <a href="/introduction/signal/">信号</a></li>
+<li>
+  <a href="/introduction/json/">json</a></li>
+<li>
+  <a href="/introduction/xml/">xml</a></li>
+<li>
+  <a href="/introduction/time/">日期, 时间</a></li>
+<li>
+  <a href="/introduction/timestamp/">时间戳</a></li>
+<li>
+  <a href="/introduction/random/">随机数</a></li>
+<li>
+  <a href="/introduction/regexp/">正则表达式</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进阶提升系列">
+  进阶提升系列
+  <a class="anchor" href="#%e8%bf%9b%e9%98%b6%e6%8f%90%e5%8d%87%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<h3 id="-工程化">
+  🛠️ 工程化
+  <a class="anchor" href="#-%e5%b7%a5%e7%a8%8b%e5%8c%96">#</a>
+</h3>
 <ul>
 <li>
 <p><strong>构建</strong></p>
@@ -136,7 +370,10 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
-<h3 id="-陷阱">☹️ 陷阱</h3>
+<h3 id="-陷阱">
+  ☹️ 陷阱
+  <a class="anchor" href="#-%e9%99%b7%e9%98%b1">#</a>
+</h3>
 <ul>
 <li><strong>仔细检查你的代码</strong>
 <ul>
@@ -180,7 +417,10 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
-<h3 id="-高性能">⚡ 高性能</h3>
+<h3 id="-高性能">
+  ⚡ 高性能
+  <a class="anchor" href="#-%e9%ab%98%e6%80%a7%e8%83%bd">#</a>
+</h3>
 <ul>
 <li><strong>让你的代码速度飞起</strong>
 <ul>
@@ -252,7 +492,7 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
 
 
  
@@ -308,81 +548,102 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="概述">概述</h1>
+  <article class="markdown"><h1 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h1>
 <blockquote>
 <p>Array or Slice, that&rsquo;s the question!</p>
 </blockquote>
 <p>Go 的数组采用 <code>值传递</code> 的方式，直观上看，比采用 <code>引用传递</code> 方式的指针要慢，但事实真的是这样吗？</p>
-<h1 id="使用数组">使用数组</h1>
-<h2 id="测试代码">测试代码</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
-
-<span style="color:#66d9ef">const</span> (
-	<span style="color:#75715e">// 数组容量为 1024
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate</span>() [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span> {
-	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span>{}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">size</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">generate</span>()
-	}
-}
-</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
-$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; array.txt
-</code></pre></div><h1 id="使用切片">使用切片</h1>
-<h2 id="测试代码-1">测试代码</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
-
-<span style="color:#66d9ef">const</span> (
-	<span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate</span>() []<span style="color:#66d9ef">int</span> {
-	<span style="color:#75715e">// 切片容量为 1024
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">size</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">size</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-	}
-
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">generate</span>()
-	}
-}
-</code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
-$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; slice.txt
-</code></pre></div><h1 id="使用-benchstat-比较差异">使用 benchstat 比较差异</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> array.txt slice.txt
-
-<span style="color:#75715e"># 输出如下</span>
-name        old time/op    new time/op    delta
-_Compare-8     384ns ± 0%     485ns ± 0%  +26.30%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
-
-name        old alloc/op   new alloc/op   delta
-_Compare-8     0.00B          0.00B          ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
-
-name        old allocs/op  new allocs/op  delta
-_Compare-8      0.00           0.00          ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
-</code></pre></div><p>从输出的结果中可以看到，数组的性能略优于切片。感兴趣的读者可以调整常量 <code>size</code> 的大小，来比较数组和切片在不同容量下的性能差异。</p>
-<h1 id="小结">小结</h1>
+<h1 id="使用数组">
+  使用数组
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e6%95%b0%e7%bb%84">#</a>
+</h1>
+<h2 id="测试代码">
+  测试代码
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e4%bb%a3%e7%a0%81">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 数组容量为 1024
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate</span>() [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> [<span style="color:#a6e22e">size</span>]<span style="color:#66d9ef">int</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">size</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">generate</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
+</span></span><span style="display:flex;"><span>$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; array.txt
+</span></span></code></pre></div><h1 id="使用切片">
+  使用切片
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e5%88%87%e7%89%87">#</a>
+</h1>
+<h2 id="测试代码-1">
+  测试代码
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e4%bb%a3%e7%a0%81-1">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">performance</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">size</span> = <span style="color:#ae81ff">1024</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">generate</span>() []<span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 切片容量为 1024
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">res</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">size</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">size</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">res</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">res</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_Compare</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">generate</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>运行测试，并将基准测试结果写入文件:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 运行 100000 次, 统计内存分配</span>
+</span></span><span style="display:flex;"><span>$ go test -run<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;^$&#39;</span> -bench<span style="color:#f92672">=</span>. -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -benchtime<span style="color:#f92672">=</span>100000x -benchmem &gt; slice.txt
+</span></span></code></pre></div><h1 id="使用-benchstat-比较差异">
+  使用 benchstat 比较差异
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8-benchstat-%e6%af%94%e8%be%83%e5%b7%ae%e5%bc%82">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ benchstat -alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span> array.txt slice.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span>name        old time/op    new time/op    delta
+</span></span><span style="display:flex;"><span>_Compare-8     384ns ± 0%     485ns ± 0%  +26.30%  <span style="color:#f92672">(</span>p<span style="color:#f92672">=</span>1.000 n<span style="color:#f92672">=</span>1+1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name        old alloc/op   new alloc/op   delta
+</span></span><span style="display:flex;"><span>_Compare-8     0.00B          0.00B          ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name        old allocs/op  new allocs/op  delta
+</span></span><span style="display:flex;"><span>_Compare-8      0.00           0.00          ~     <span style="color:#f92672">(</span>all equal<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>从输出的结果中可以看到，数组的性能略优于切片。感兴趣的读者可以调整常量 <code>size</code> 的大小，来比较数组和切片在不同容量下的性能差异。</p>
+<h1 id="小结">
+  小结
+  <a class="anchor" href="#%e5%b0%8f%e7%bb%93">#</a>
+</h1>
 <p>对于容量较小的 <code>列表型数据</code> (比如 1 年的 12 个月，1 周的 7 天, 订单状态列表 这种常见的业务数据)，返回数组优于返回切片，
 因为<strong>数组的复制成本远远小于切片分配到堆上的成本加上后续 <code>GC</code> 的成本</strong>。</p>
 <p>对于容量较大的 <code>内存持久性数据</code> 或需要 <code>共享底层数组的切片数据</code>， 使用切片可以比使用数组获得更好的性能。</p>
@@ -425,9 +686,7 @@ _Compare-8      0.00           0.00          ~     <span style="color:#f92672">(
 
 
 
-  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
-document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
-select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
 
 
  

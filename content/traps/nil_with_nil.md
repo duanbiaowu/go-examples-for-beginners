@@ -97,5 +97,5 @@ func main() {
 
 # 扩展阅读
 
-1. [类型比较](https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/introduction/type_comparison.md)
-2. [make VS new](https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/introduction/make_with_new.md)
+1. [类型比较](../introduction/type_comparison.md)
+2. [make VS new](../introduction/make_with_new.md)

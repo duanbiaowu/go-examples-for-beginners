@@ -6,7 +6,7 @@
 
 ## 🚀 快速入门
 
-- [目录](introduction/README.md)
+- [目录](content/introduction/README.md)
 
 ## 🛠️ 工程化
 
@@ -126,7 +126,7 @@
 
 ## 微信
 
-![微信公众号](introduction/images/wechat_accounts.png)
+![微信公众号](content/images/wechat_accounts.png)
 
 ## JetBrains open source certificate support
 

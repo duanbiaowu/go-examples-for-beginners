@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go 快速入门 on Go 语言必知必会</title>
+    <link>https://golang.dbwu.tech/introduction/</link>
+    <description>Recent content in Go 快速入门 on Go 语言必知必会</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <atom:link href="https://golang.dbwu.tech/introduction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/array/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/array/</guid>
+      <description>概述 # 数组 是具有相同数据类型的一组长度固定的数据项序列，分配在连续的内存地址上。其中数据类型可以是整型、布尔型等基础数据类型，也可以是自定义数据类型。 数组长度 必须是一个常量表达式，并且必须是一个非负数。同时，数组长度 也是数组类型的一部分， 例如 [3]int 和 [5]int 是不同的类型。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/atomic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/atomic/</guid>
+      <description>概述 # 调用 sync/atomic 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/base64/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/base64/</guid>
+      <description>概述 # 调用 encoding/base64 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/basesyntaxandkeyword/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/basesyntaxandkeyword/</guid>
+      <description>文件名 # Go 的文件以 .</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/blank_operator/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/blank_operator/</guid>
+      <description>概述 # _ 是一个特殊的标识符，被称为空白标识符。 它可以像其他标识符那样用于变量的声明或赋值（任何类型都可以赋值给它），但任何赋给这个标识符的值都将被丢弃， 因此这些值不能在后续的代码中使用，也不可以使用这个标识符作为变量对其它变量进行赋值或运算。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/buildandrun/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/buildandrun/</guid>
+      <description>示例代码 # package main // 包名，必须声明 func main() { println(&amp;#34;hello world&amp;#34;) } Go 代码组织方式 # Go 代码是使用包来组织的，类似于其他编程语言中的库、模块、命名空间。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/bytes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/bytes/</guid>
+      <description>概述 # 建议先阅读 字符串, 切片 两个小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel/</guid>
+      <description>概述 # 建议先阅读 goroutine 小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel_buffer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel_buffer/</guid>
+      <description>概述 # Go 箴言: 不要通过共享内存来通信，而要通过通信来共享内存。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel_close/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel_close/</guid>
+      <description>概述 # 建议先阅读 非缓冲通道 和 缓冲通道 小节。 在前面的两个小节中， 为了最小化代码达到演示效果，省略了 关闭通道 的步骤， 正确的做法应该是在通道使用完成后关闭。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel_close_check/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel_close_check/</guid>
+      <description>概述 # 建议先阅读 非缓冲通道, 缓冲通道, 关闭通道, 通道方向。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel_direction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel_direction/</guid>
+      <description>概述 # 通道的方向分为 发送 和 接收。默认情况下，通道是双向的 (同时发送和接收)，但是可以通过标识符指明通道为单向 (只读或只写)。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/channel_range/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/channel_range/</guid>
+      <description>概述 # 建议先阅读 range, 非缓冲通道, 缓冲通道。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/command/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/command/</guid>
+      <description>概述 # 调用 os/exec 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/command_args/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/command_args/</guid>
+      <description>概述 # 调用 os 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/command_flag/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/command_flag/</guid>
+      <description>概述 # 调用 flag 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/const/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/const/</guid>
+      <description>常量 # 关键字 const, 和其他编程语言中常量的语义一样，定义后无法修改。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/data_convert/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/data_convert/</guid>
+      <description>概述 # Go 是强类型语言，因此不会进行隐式类型转换 (例如不能直接将一个 浮点型 转换为 整型)。任何不同类型之间的转换都必须显式说明。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/decimal/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/decimal/</guid>
+      <description>概述 # 在大多数处理浮点数的场景中，为了提高可读性，往往只需要精确到 2 位或 3 位，一般来说，常用的方法有两种。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/defer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/defer/</guid>
+      <description>概述 # 一个 defer 语句就是一个普通的函数或方法调用。 defer 语句保证了不论是在正常情况下 (return 返回)， 还是非正常情况下 (发生错误, 程序终止)，函数或方法都能够执行。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/dir_create_delete/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/dir_create_delete/</guid>
+      <description>概述 # 调用 os 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/dir_walk/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/dir_walk/</guid>
+      <description>概述 # 调用 path/filepath 包即可。filepath.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/error/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/error/</guid>
+      <description>概述 # 建议先阅读 函数 和 接口 小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/exit/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/exit/</guid>
+      <description>概述 # 调用 os 包，自定义 status code。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/file_check/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/file_check/</guid>
+      <description>概述 # 调用 os 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/file_create_delete/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/file_create_delete/</guid>
+      <description>概述 # 调用 os 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/file_path/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/file_path/</guid>
+      <description>概述 # 调用 path/filepath 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/file_read/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/file_read/</guid>
+      <description>概述 # 调用 os 包即可。建议先阅读 创建文件 和 写文件。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/file_write/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/file_write/</guid>
+      <description>概述 # 调用 os 包即可。建议先阅读 创建文件。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/for/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/for/</guid>
+      <description>概述 # Go 仅提供了关键字 for 来表示循环，并没有提供 while 和 do-while 语句，这一点和主流编程语言不同。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func/</guid>
+      <description>概述 # 函数 是将一个或者一类问题包装为一个代码块，可以被多次调用，提高代码重用性。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func_closures/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func_closures/</guid>
+      <description>概述 # 闭包的概念参考 闭包 - 维基百科 。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func_inner/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func_inner/</guid>
+      <description>概述 # 使用的场景：在函数内部有很多重复性代码并且严重依赖上下文变量。此时可以在函数内部声明一个函数，专门用来处理重复性的代码。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func_pointer_params/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func_pointer_params/</guid>
+      <description>概述 # 建议先阅读 指针 小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func_recursion/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func_recursion/</guid>
+      <description>概述 # 经典语录: 要想理解递归，首先要理解递归。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/func_variadic_params/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/func_variadic_params/</guid>
+      <description>概述 # 在函数的最后一个参数的数据类型之前加上省略号 .</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/goroutine/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/goroutine/</guid>
+      <description>概述 # goroutine 是 Go 程序并发执行的实体，对于初学者来讲，可以简单地将 goroutine 理解为一个 超轻量的线程。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/goto/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/goto/</guid>
+      <description>概述 # 关键字 goto 可以使程序跳转到指定的位置执行，那么这个位置如何表示呢？使用 标签 来表示 (可以理解为标签就是一个变量)。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/http/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/http/</guid>
+      <description>概述 # net/http 包含了 HTTP 相关方法。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/if_else/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/if_else/</guid>
+      <description>概述 # 和其他编程语言中 if/else 规则一致，除了语法上略有差异。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/implement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/implement/</guid>
+      <description>概述 # Go 里面没有 implements 关键字来判断一个结构体 (对象) 是否实现了某个接口， 要实现类似的功能， 需要用到 类型断言。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/implement_error/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/implement_error/</guid>
+      <description>概述 # 标准库 error 数据类型本质上就是一个接口，原型如下:</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/import/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/import/</guid>
+      <description>导入包 # 关键字 import</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/inc_and_dec/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/inc_and_dec/</guid>
+      <description>自增 # 和主流编程语言的自增语法不同，Go 只支持 i++ 方式，不支持 ++i 方式。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/init/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/init/</guid>
+      <description>概述 # init() 函数 是一个特殊的函数，一般称为初始化函数，不能被调用。 在每个文件里面，当程序启动或者文件被作为包引用的时候， init() 函数就会自动执行，一般用来做一些包的初始化操作。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/install/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/install/</guid>
+      <description>概述 # 为了节省篇幅，笔者将常用的 3 种操作系统对应的安装教程汇总到了一起，读者可以直接选择对应内容阅读。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/interface/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/interface/</guid>
+      <description>概述 # Go 接口是隐式实现。 对于一个数据类型，无需声明它实现了哪些接口，只需要实现接口必需的方法即可。 当然了，存在一个小问题就是: 我们可能无意间实现了某个接口:) ，所以 命名 是多么重要的一件事情。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/iota/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/iota/</guid>
+      <description>常量生成器 # 关键字 iota, 创建一系列相关的值，省略逐个定义。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/json/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/json/</guid>
+      <description>概述 # encoding/json 包含了 JSON 相关处理方法。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/linux/</guid>
+      <description>下载 # 打开 Go 官网下载地址 根据硬件架构选择 Linux (已编译完成) 或 Apple Source (源代码)，这里以编译完的发行版为例， 点击对应的版本压缩包开始下载，比如 go1.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/log/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/log/</guid>
+      <description>概述 # 调用 log 包即可，包里面的方法输出日志时会自动加上日期时间前缀字符。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/mac/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/mac/</guid>
+      <description>下载 # 打开 Go 官网下载地址 根据硬件架构选择 Apple macOS (ARM64) 或 Apple macOS (x86-64) 点击对应的版本开始下载，比如 go1.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/make_with_new/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/make_with_new/</guid>
+      <description>概述 # new() 函数为数据类型 T 分配一块内存，初始化为类型 T 的零值，返回类型为指向数据的指针，可以用于所有数据类型。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/map/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/map/</guid>
+      <description>概述 # Map 是一种键值对的无序集合，在其他编程语言中也被称为 字典, Hash, 关联数组。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/md5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/md5/</guid>
+      <description>概述 # 调用 crypto/md5 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/methods/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/methods/</guid>
+      <description>概述 # 方法的声明和普通函数的声明类似，只是在函数名字前面多了一个 接收者参数 (接收者参数将方法绑定到其对应的数据类型上)。 方法可以绑定到任何数据类型上，但是大多数情况下，绑定的都是 结构体。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/mutex/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/mutex/</guid>
+      <description>概述 # 对于任一共享资源，同一时间保证只有一个操作者，这种方法称为 互斥机制。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/operator_priority/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/operator_priority/</guid>
+      <description>运算符优先级 # 从低到高 # || &amp;amp;&amp;amp; &amp;lt;- (通道操作符，后面会讲到，暂时先忽略) == !</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/panic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/panic/</guid>
+      <description>概述 # panic 会终止程序并退出，因此只有在发生严重的错误时才会使用 panic。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/pointer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/pointer/</guid>
+      <description>概述 # Go 提供了指针操作，但是没有指针运算。 也就是说，不像 C 语言中那般强大，毕竟 指针是 C 语言的灵魂。 即使如此，指针依然是非常重要的，在一些 性能敏感 的场景中，指针的身影随处可见。 如果是系统编程、操作系统或者网络应用，指针更是不可或缺的一部分。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/preface/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/preface/</guid>
+      <description>这本书是写什么的？ # 这是一本 Go 语言快速入门手册，目标读者是有任一编程语言基础，希望以最快的时间 (比如一个周末) 入门 Go 语言。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/print/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/print/</guid>
+      <description>普通打印 # 优点：内置函数，不需要引入额外的包，简单方便。 不足：无法进行格式化打印，无法完整打印复合数据结构 (如数组, Map 等)。 println 函数 # 打印多个传入的参数，并自动加一个换行。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/process_id/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/process_id/</guid>
+      <description>概述 # 调用 os 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/random/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/random/</guid>
+      <description>概述 # 调用 rand 包 即可，重要的一点是每次生成随机数之前，都设置随机数生成种子，否则可能每次生成的随机数都一样。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/range/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/range/</guid>
+      <description>概述 # Go 特有的一种的遍历结构。它可以遍历任何一个 集合（字符串、数组、切片、Map、通道等）。 语法上类似主流编程语言中的 foreach 语句，但可以获得每次遍历对应的索引。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/recover/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/recover/</guid>
+      <description>概述 # 建议先阅读 defer 小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/regexp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/regexp/</guid>
+      <description>概述 # 调用 regexp 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/rune/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/rune/</guid>
+      <description>概述 # Go 中表示字符的关键字为 rune, 也就是 int32 的别名。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/scope/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/scope/</guid>
+      <description>概述 # 词法块 是指由大括号围起来的一个语句序列，比如 for 循环语句块，if/else 判断语句块。 在 语句块 内部声明的变量对外部不可见，块把声明围起来，决定了它的作用域。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/select/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/select/</guid>
+      <description>概述 # select 类似 switch, 包含一系列逻辑分支和一个可选的默认分支。每一个分支对应通道上的一次操作 (发送或接收)， 可以将 select 理解为专门针对通道操作的 switch 语句。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/sha256/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/sha256/</guid>
+      <description>概述 # 调用 crypto/sha256 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/signal/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/signal/</guid>
+      <description>概述 # 调用 os/signal 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/slice/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/slice/</guid>
+      <description>概述 # 阅读本小节之前，建议先阅读 数组 小节。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/sorted_map/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/sorted_map/</guid>
+      <description>概述 # Map 的遍历是无序的，这意味着不能依赖遍历的键值顺序。如果想实现 Map 遍历时顺序永远一致， 一个折中的方案时预先给 Map 的 键 排序，然后根据排序后的键序列遍历 Map, 这样可以保证每次遍历顺序都是一样的。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/string/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/string/</guid>
+      <description>概述 # Go 中 字符串 语义和其他编程语言中的字符串中一样，有一点不同的地方在于: Go 中字符串值无法改变，可以理解为： 一旦完成定义之后，字符串就是一个 常量。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/struct/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/struct/</guid>
+      <description>概述 # 结构体 是将零个或多个字段 (变量) 组合在一起的复合数据类型，类似于面向对象语言中的 对象。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/struct_embedding/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/struct_embedding/</guid>
+      <description>概述 # Go 支持将多个结构体通过嵌套的方式，组成一个大的结构体，降低了单个结构体复杂度，同时提高了结构体之间组合的灵活性。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/switch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/switch/</guid>
+      <description>概述 # 相较于主流编程语言，Go 中的 switch 语法更加灵活，它接受任意形式的表达式。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/ticker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/ticker/</guid>
+      <description>概述 # 调用 time.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/time/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/time/</guid>
+      <description>概述 # Go 中和时间相关的操作全部在 time 包。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/timeout/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/timeout/</guid>
+      <description>概述 # 利用 channel (通道) 和 time.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/timestamp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/timestamp/</guid>
+      <description>概述 # 调用 time 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/type_comparison/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/type_comparison/</guid>
+      <description>概述 # 比较运算符 用来比较两个操作数并返回一个 bool 值，常见的比较运算符:</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/typedef/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/typedef/</guid>
+      <description>自定义类型 # 关键字 type, 主要用来对同一种类型进行抽象。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/url/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/url/</guid>
+      <description>概述 # 调用 net/url 包即可。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/variables/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/variables/</guid>
+      <description>变量 # 关键字 var, 定义后可以修改。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/visable/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/visable/</guid>
+      <description>概述 # 包通过 导出 机制控制 变量、 结构体、 函数 等数据可见性。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/waitgroup/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/waitgroup/</guid>
+      <description>概述 # 建议先阅读 goroutine。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/windows/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/windows/</guid>
+      <description>下载 # 打开 Go 官网下载地址，选择 Microsoft Windows 点击对应的版本开始下载，比如 go1.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/xml/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/xml/</guid>
+      <description>概述 # encoding/xml 包含了 XML 相关处理方法。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://golang.dbwu.tech/introduction/zero_value/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/introduction/zero_value/</guid>
+      <description>概述 # 当一个变量使用 var 进行声明后并未进行初始化 (变量后面没有赋值符 =) 操作，会默认分配一个零值 (zero value)。</description>
+    </item>
+  </channel>
+</rss>

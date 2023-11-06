@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="概述 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。">
+<meta name="description" content="概述 # 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light"><meta property="og:title" content="单元测试基础必备" />
-<meta property="og:description" content="概述 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。" />
+<meta property="og:description" content="概述 # 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://golang.dbwu.tech/engineering/test/" />
+<meta property="og:url" content="https://golang.dbwu.tech/engineering/test/" /><meta property="article:section" content="engineering" />
 <meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
 <meta property="article:modified_time" content="2023-05-28T22:46:51+08:00" />
+
 <title>单元测试基础必备 | Go 语言必知必会</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
-<link rel="stylesheet" href="/book.min.7c92ceee66c6db521c0948767411cba54a79ac05e93a75c63bab418790687d88.css" integrity="sha256-fJLO7mbG21IcCUh2dBHLpUp5rAXpOnXGO6tBh5BofYg=" crossorigin="anonymous">
-  <script defer src="/sw.min.74a8bb07f0bee86d6bb9a2750f073f14d93c7e4512f28860370cfd879e9719b4.js" integrity="sha256-dKi7B/C&#43;6G1ruaJ1Dwc/FNk8fkUS8ohgNwz9h56XGbQ=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -56,14 +57,247 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-  <h3 id="bloghttpsdbwutech">
-  <a href="https://dbwu.tech/">Blog</a></h3>
-<h3 id="githubhttpsgithubcomduanbiaowugo-examples-for-beginners">
-  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></h3>
-<h3 id="微信公众号httpsdbwutechimageswechatpng">
-  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></h3>
+  <ul>
+<li>
+  <a href="https://dbwu.tech/">Blog</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></li>
+<li>
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></li>
+</ul>
 <hr>
-<h3 id="-工程化">🛠️ 工程化</h3>
+<h2 id="快速入门系列">
+  快速入门系列
+  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<ul>
+<li>
+<p>
+  <a href="/introduction/preface/"><strong>前言</strong></a></p>
+</li>
+<li>
+<p><strong>1. 环境安装</strong></p>
+<ul>
+<li>
+  <a href="/introduction/windows/">Windows</a></li>
+<li>
+  <a href="/introduction/mac/">Mac</a></li>
+<li>
+  <a href="/introduction/linux/">Linux</a></li>
+<li>
+  <a href="/introduction/install/">合并版</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>2. 语法基础</strong>
+<ul>
+<li>
+  <a href="/introduction/buildandrun/">Go 程序的运行方式及要求</a></li>
+<li>
+  <a href="/introduction/basesyntaxandkeyword/">基本代码格式，关键字, 预定义标识符</a></li>
+<li>
+  <a href="/introduction/variables/">变量</a></li>
+<li>
+  <a href="/introduction/blank_operator/">空白标识符</a></li>
+<li>
+  <a href="/introduction/const/">常量</a></li>
+<li>
+  <a href="/introduction/typedef/">自定义类型</a></li>
+<li>
+  <a href="/introduction/iota/">常量生成器</a></li>
+<li>
+  <a href="/introduction/operator_priority/">运算优先级</a></li>
+<li>
+  <a href="/introduction/import/">包的导入</a></li>
+<li>
+  <a href="/introduction/print/">调试打印</a></li>
+<li>
+  <a href="/introduction/string/">字符串</a></li>
+<li>
+  <a href="/introduction/rune/">字符</a></li>
+<li>
+  <a href="/introduction/data_convert/">类型转换</a></li>
+<li>
+  <a href="/introduction/decimal/">保留小数位</a></li>
+<li>
+  <a href="/introduction/pointer/">指针</a></li>
+<li>
+  <a href="/introduction/if_else/">if/else</a></li>
+<li>
+  <a href="/introduction/inc_and_dec/">自增自减</a></li>
+<li>
+  <a href="/introduction/for/">for</a></li>
+<li>
+  <a href="/introduction/range/">range</a></li>
+<li>
+  <a href="/introduction/switch/">switch</a></li>
+<li>
+  <a href="/introduction/goto/">goto / 标签</a></li>
+<li>
+  <a href="/introduction/visable/">可见性</a></li>
+<li>
+  <a href="/introduction/scope/">作用域</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>3. 数据类型</strong>
+<ul>
+<li>
+  <a href="/introduction/array/">数组</a></li>
+<li>
+  <a href="/introduction/slice/">切片</a></li>
+<li>
+  <a href="/introduction/bytes/">字符切片</a></li>
+<li>
+  <a href="/introduction/map/">Map</a></li>
+<li>
+  <a href="/introduction/sorted_map/">有序 Map</a></li>
+<li>
+  <a href="/introduction/func/">函数</a></li>
+<li>
+  <a href="/introduction/init/">init</a></li>
+<li>
+  <a href="/introduction/make_with_new/">make, new</a></li>
+<li>
+  <a href="/introduction/func_variadic_params/">变长参数</a></li>
+<li>
+  <a href="/introduction/func_pointer_params/">指针参数</a></li>
+<li>
+  <a href="/introduction/func_closures/">闭包</a></li>
+<li>
+  <a href="/introduction/func_recursion/">递归</a></li>
+<li>
+  <a href="/introduction/func_inner/">内部函数</a></li>
+<li>
+  <a href="/introduction/panic/">panic</a></li>
+<li>
+  <a href="/introduction/defer/">defer</a></li>
+<li>
+  <a href="/introduction/recover/">recover</a></li>
+<li>
+  <a href="/introduction/struct/">结构体</a></li>
+<li>
+  <a href="/introduction/struct_embedding/">嵌套结构体</a></li>
+<li>
+  <a href="/introduction/methods/">方法</a></li>
+<li>
+  <a href="/introduction/interface/">接口</a></li>
+<li>
+  <a href="/introduction/implement_error/">实现系统错误接口</a></li>
+<li>
+  <a href="/introduction/implement/">判断是否实现接口</a></li>
+<li>
+  <a href="/introduction/error/">错误</a></li>
+<li>
+  <a href="/introduction/zero_value/">零值</a></li>
+<li>
+  <a href="/introduction/type_comparison/">类型比较</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>4. 协程与通道</strong>
+<ul>
+<li>
+  <a href="/introduction/goroutine/">goroutine</a></li>
+<li>
+  <a href="/introduction/channel/">非缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_buffer/">缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_close/">关闭通道</a></li>
+<li>
+  <a href="/introduction/channel_direction/">通道方向</a></li>
+<li>
+  <a href="/introduction/channel_close_check/">检测通道是否关闭</a></li>
+<li>
+  <a href="/introduction/channel_range/">遍历通道</a></li>
+<li>
+  <a href="/introduction/waitgroup/">waitgroup</a></li>
+<li>
+  <a href="/introduction/select/">select</a></li>
+<li>
+  <a href="/introduction/mutex/">互斥锁</a></li>
+<li>
+  <a href="/introduction/timeout/">超时控制</a></li>
+<li>
+  <a href="/introduction/ticker/">定时器</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>5. 常见操作</strong>
+<ul>
+<li>
+  <a href="/introduction/atomic/">原子操作</a></li>
+<li>
+  <a href="/introduction/file_create_delete/">创建, 删除文件</a></li>
+<li>
+  <a href="/introduction/file_write/">写文件</a></li>
+<li>
+  <a href="/introduction/file_read/">读文件</a></li>
+<li>
+  <a href="/introduction/file_path/">文件路径, 扩展名</a></li>
+<li>
+  <a href="/introduction/file_check/">文件判断</a></li>
+<li>
+  <a href="/introduction/dir_create_delete/">创建, 删除目录</a></li>
+<li>
+  <a href="/introduction/dir_walk/">遍历目录</a></li>
+<li>
+  <a href="/introduction/log/">日志</a></li>
+<li>
+  <a href="/introduction/http/">HTTP</a></li>
+<li>
+  <a href="/introduction/url/">URL</a></li>
+<li>
+  <a href="/introduction/base64/">base64</a></li>
+<li>
+  <a href="/introduction/sha256/">sha256</a></li>
+<li>
+  <a href="/introduction/md5/">md5</a></li>
+<li>
+  <a href="/introduction/exit/">exit</a></li>
+<li>
+  <a href="/introduction/process_id/">获取进程ID</a></li>
+<li>
+  <a href="/introduction/command/">命令行</a></li>
+<li>
+  <a href="/introduction/command_args/">命令行参数</a></li>
+<li>
+  <a href="/introduction/command_flag/">命令行参数解析与设置</a></li>
+<li>
+  <a href="/introduction/signal/">信号</a></li>
+<li>
+  <a href="/introduction/json/">json</a></li>
+<li>
+  <a href="/introduction/xml/">xml</a></li>
+<li>
+  <a href="/introduction/time/">日期, 时间</a></li>
+<li>
+  <a href="/introduction/timestamp/">时间戳</a></li>
+<li>
+  <a href="/introduction/random/">随机数</a></li>
+<li>
+  <a href="/introduction/regexp/">正则表达式</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进阶提升系列">
+  进阶提升系列
+  <a class="anchor" href="#%e8%bf%9b%e9%98%b6%e6%8f%90%e5%8d%87%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<h3 id="-工程化">
+  🛠️ 工程化
+  <a class="anchor" href="#-%e5%b7%a5%e7%a8%8b%e5%8c%96">#</a>
+</h3>
 <ul>
 <li>
 <p><strong>构建</strong></p>
@@ -136,7 +370,10 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
-<h3 id="-陷阱">☹️ 陷阱</h3>
+<h3 id="-陷阱">
+  ☹️ 陷阱
+  <a class="anchor" href="#-%e9%99%b7%e9%98%b1">#</a>
+</h3>
 <ul>
 <li><strong>仔细检查你的代码</strong>
 <ul>
@@ -180,7 +417,10 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <hr>
-<h3 id="-高性能">⚡ 高性能</h3>
+<h3 id="-高性能">
+  ⚡ 高性能
+  <a class="anchor" href="#-%e9%ab%98%e6%80%a7%e8%83%bd">#</a>
+</h3>
 <ul>
 <li><strong>让你的代码速度飞起</strong>
 <ul>
@@ -252,7 +492,7 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-  <script>(function(){var menu=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
 
 
  
@@ -343,22 +583,34 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="概述">概述</h1>
+  <article class="markdown"><h1 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h1>
 <p>测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，<strong>单元测试就是业务逻辑</strong>。</p>
 <blockquote>
 <p><code>go test</code> 命令用来对程序进行测试。</p>
 </blockquote>
-<h1 id="规则">规则</h1>
+<h1 id="规则">
+  规则
+  <a class="anchor" href="#%e8%a7%84%e5%88%99">#</a>
+</h1>
 <p><strong>在一个目录中，以 <code>_test.go</code> 结尾的文件是 <code>go test</code> 编译的目标，<code>go build</code> 将会自动忽略。</strong>
 <code>go test</code> 工具扫描以 <code>_test.go</code> 结尾的文件来寻找特殊函数，并生成一个临时的 <code>main</code> 包来编译和运行，最后清除过程中产生的临时文件。</p>
-<h2 id="常用规则">常用规则:</h2>
+<h2 id="常用规则">
+  常用规则:
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e8%a7%84%e5%88%99">#</a>
+</h2>
 <ul>
 <li>运行当前目录对应的包下面某个测试用例: <code>go test run='^Pattern$'</code>，其中单引号中为正则表达式</li>
 <li>运行当前目录下的测试用例: <code>go test .</code></li>
 <li>运行子目录下的测试用例: <code>go test ./package_name</code></li>
 <li>运行当前目录以及所有子目录下的测试用例: <code>go test ./...</code></li>
 </ul>
-<h1 id="四种函数">四种函数</h1>
+<h1 id="四种函数">
+  四种函数
+  <a class="anchor" href="#%e5%9b%9b%e7%a7%8d%e5%87%bd%e6%95%b0">#</a>
+</h1>
 <p>在以 <code>_test.go</code> 结尾的文件中，一共有 4 种类型的函数:</p>
 <ul>
 <li>功能测试函数: <code>Test</code> 前缀命名，用来测试程序逻辑的正确性</li>
@@ -366,174 +618,216 @@ https://github.com/alex-shpak/hugo-book
 <li>示例函数: <code>Example</code> 前缀命名，用来提供文档</li>
 <li>模糊测试函数: <code>Fuzz</code> 前缀命名，用来提供自动化测试技术</li>
 </ul>
-<h1 id="功能测试">功能测试</h1>
+<h1 id="功能测试">
+  功能测试
+  <a class="anchor" href="#%e5%8a%9f%e8%83%bd%e6%b5%8b%e8%af%95">#</a>
+</h1>
 <p>为了简化演示代码的复杂性，这里直接将测试函数写在 <code>main.go</code> 文件。</p>
-<h2 id="普通测试方法">普通测试方法</h2>
-<h3 id="测试未通过">测试未通过</h3>
+<h2 id="普通测试方法">
+  普通测试方法
+  <a class="anchor" href="#%e6%99%ae%e9%80%9a%e6%b5%8b%e8%af%95%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<h3 id="测试未通过">
+  测试未通过
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e6%9c%aa%e9%80%9a%e8%bf%87">#</a>
+</h3>
 <p>首先写一个空方法，不实现具体的功能，来演示 <code>测试未通过</code>。</p>
 <p>创建 <code>main.go</code> 文件，将如下代码写入:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">numbers</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-
-}
-</code></pre></div><p>创建 <code>main_test.go</code> 文件，将如下代码写入:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span> <span style="color:#75715e">// 引入 testing 包
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_sum</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {	<span style="color:#75715e">// 功能测试以 `Test` 前缀命名
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#75715e">// t.Errorf 类似fmt.Printf()
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">0</span>)
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span> {
-		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">1</span>)
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">6</span> {
-		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">6</span>)
-	}
-}
-</code></pre></div><p>使用 <code>go test</code> 命令运行测试</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test .
- 
-<span style="color:#75715e"># 输出如下</span>
---- FAIL: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-    main_test.go:12: sum<span style="color:#f92672">()</span> <span style="color:#f92672">=</span> 0, want <span style="color:#ae81ff">1</span>
-    main_test.go:16: sum<span style="color:#f92672">()</span> <span style="color:#f92672">=</span> 0, want <span style="color:#ae81ff">6</span>
-FAIL
-FAIL    helloworld      0.001s
-FAIL
-</code></pre></div><p>通过输出可以看到测试失败了，主要原因在于 <code>sum</code> 函数的实现，接下来我们修正 <code>sum</code> 函数。</p>
-<h3 id="修正失败用例">修正失败用例</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">numbers</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建 <code>main_test.go</code> 文件，将如下代码写入:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span> <span style="color:#75715e">// 引入 testing 包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_sum</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {	<span style="color:#75715e">// 功能测试以 `Test` 前缀命名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// t.Errorf 类似fmt.Printf()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>); <span style="color:#a6e22e">v</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">6</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">v</span>, <span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用 <code>go test</code> 命令运行测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test .
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span>--- FAIL: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    main_test.go:12: sum<span style="color:#f92672">()</span> <span style="color:#f92672">=</span> 0, want <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    main_test.go:16: sum<span style="color:#f92672">()</span> <span style="color:#f92672">=</span> 0, want <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>FAIL
+</span></span><span style="display:flex;"><span>FAIL    helloworld      0.001s
+</span></span><span style="display:flex;"><span>FAIL
+</span></span></code></pre></div><p>通过输出可以看到测试失败了，主要原因在于 <code>sum</code> 函数的实现，接下来我们修正 <code>sum</code> 函数。</p>
+<h3 id="修正失败用例">
+  修正失败用例
+  <a class="anchor" href="#%e4%bf%ae%e6%ad%a3%e5%a4%b1%e8%b4%a5%e7%94%a8%e4%be%8b">#</a>
+</h3>
 <p>将如下代码写入 <code>main.go</code> 文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">numbers</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-	<span style="color:#a6e22e">total</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">numbers</span> {
-		<span style="color:#a6e22e">total</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">n</span>
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">total</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-
-}
-</code></pre></div><h3 id="测试通过">测试通过</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">numbers</span> <span style="color:#f92672">...</span><span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">total</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">numbers</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">total</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">total</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="测试通过">
+  测试通过
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e9%80%9a%e8%bf%87">#</a>
+</h3>
 <p>使用 <code>go test</code> 命令运行测试</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test .
- 
-<span style="color:#75715e"># 输出如下</span>
-ok      helloworld      0.001s
-</code></pre></div><h2 id="常用参数">常用参数</h2>
-<h3 id="-count">-count</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test .
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span>ok      helloworld      0.001s
+</span></span></code></pre></div><h2 id="常用参数">
+  常用参数
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e5%8f%82%e6%95%b0">#</a>
+</h2>
+<h3 id="-count">
+  -count
+  <a class="anchor" href="#-count">#</a>
+</h3>
 <p><strong>运行测试的次数，默认为 1</strong>。</p>
 <p>多次运行 <code>go test</code> 命令，可以看到输出的结果中有了一个 <code>(cache)</code> 标识</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test .
-ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
-
-$ go test .
-ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
-
-$ go test .
-ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
-</code></pre></div><p>这是因为源文件 <code>main.go</code> 和测试文件 <code>main_test.go</code> 都未发生变化，所以这里直接读取了测试的缓存结果。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test .
+</span></span><span style="display:flex;"><span>ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ go test .
+</span></span><span style="display:flex;"><span>ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ go test .
+</span></span><span style="display:flex;"><span>ok      helloworld      <span style="color:#f92672">(</span>cached<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>这是因为源文件 <code>main.go</code> 和测试文件 <code>main_test.go</code> 都未发生变化，所以这里直接读取了测试的缓存结果。
 通过使用参数 <code>-count=1</code> 可以达到 &ldquo;禁用缓存&rdquo; 的效果。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> .
-<span style="color:#75715e"># 输出如下</span>
-ok      helloworld      0.001s
-</code></pre></div><h3 id="-v">-v</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span>ok      helloworld      0.001s
+</span></span></code></pre></div><h3 id="-v">
+  -v
+  <a class="anchor" href="#-v">#</a>
+</h3>
 <p><strong>输出测试运行的详细信息</strong>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -v .
-<span style="color:#75715e"># 输出如下</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-PASS
-ok      helloworld      0.001s
-
-
-<span style="color:#75715e"># 配合 -count 使用</span>
-$ go test -v -count<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>  . 
-<span style="color:#75715e"># 输出如下</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-PASS
-ok      helloworld      0.002s
-</code></pre></div><p>通过使用参数 <code>-v</code>, 可以从输出结果中清晰地看到每个测试用例的运行情况。</p>
-<h3 id="-timeout">-timeout</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test -v .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      helloworld      0.001s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配合 -count 使用</span>
+</span></span><span style="display:flex;"><span>$ go test -v -count<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>  . 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      helloworld      0.002s
+</span></span></code></pre></div><p>通过使用参数 <code>-v</code>, 可以从输出结果中清晰地看到每个测试用例的运行情况。</p>
+<h3 id="-timeout">
+  -timeout
+  <a class="anchor" href="#-timeout">#</a>
+</h3>
 <p><strong>测试运行超时时间，默认为 10 分钟</strong>。</p>
-<h3 id="-run">-run</h3>
+<h3 id="-run">
+  -run
+  <a class="anchor" href="#-run">#</a>
+</h3>
 <p><strong>运行特定的测试函数，比如 <code>-run sum</code> 只测试函数名称中包含 <code>sum</code> 的函数</strong>。</p>
-<h2 id="基于表的测试用例">基于表的测试用例</h2>
+<h2 id="基于表的测试用例">
+  基于表的测试用例
+  <a class="anchor" href="#%e5%9f%ba%e4%ba%8e%e8%a1%a8%e7%9a%84%e6%b5%8b%e8%af%95%e7%94%a8%e4%be%8b">#</a>
+</h2>
 <p>在刚才的测试方法中，只写了 3 个测试用例，却写了 3 个不同的 <code>if</code> 语句，如果测试用例有几十上百个，那这种方法显然太不灵活了。
 仔细观察 3 个 <code>if</code> 语句会发现除了参数有变化外， 其他部分都是一样的的，这时候就可以将相同的部分剥离出来，进行合并。</p>
 <p>将如下代码写入 <code>main_test.go</code> 文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span> <span style="color:#75715e">// 引入 testing 包
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_sum</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) { <span style="color:#75715e">// 功能测试以 `Test` 前缀命名
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tests</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
-		<span style="color:#a6e22e">numbers</span> []<span style="color:#66d9ef">int</span> <span style="color:#75715e">// 将可变参数转换为一个切片
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">want</span>    <span style="color:#66d9ef">int</span>   <span style="color:#75715e">// 正确的返回值，用于和结果进行比较
-</span><span style="color:#75715e"></span>	}{
-		{
-			[]<span style="color:#66d9ef">int</span>{},
-			<span style="color:#ae81ff">0</span>,
-		},
-		{
-			[]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>},
-			<span style="color:#ae81ff">1</span>,
-		},
-		{
-			[]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>},
-			<span style="color:#ae81ff">6</span>,
-		},
-	}
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tt</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">tests</span> {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">numbers</span><span style="color:#f92672">...</span>); <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">want</span> {
-			<span style="color:#75715e">// t.Errorf 类似fmt.Printf()
-</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">want</span>)
-		}
-	}
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go test -v .
-<span style="color:#75715e"># 输出如下</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-PASS
-ok      helloworld      0.001s
-</code></pre></div><p>在上述代码中，将 3 个测试用例合并到了一起，这样断言部分就只剩下 1 个 <code>if</code> 语句了，最重要的是，如果以后需要对测试用例增加/修改/删除，
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;testing&#34;</span> <span style="color:#75715e">// 引入 testing 包
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Test_sum</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) { <span style="color:#75715e">// 功能测试以 `Test` 前缀命名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tests</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">numbers</span> []<span style="color:#66d9ef">int</span> <span style="color:#75715e">// 将可变参数转换为一个切片
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">want</span>    <span style="color:#66d9ef">int</span>   <span style="color:#75715e">// 正确的返回值，用于和结果进行比较
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}{
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			[]<span style="color:#66d9ef">int</span>{},
+</span></span><span style="display:flex;"><span>			<span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			[]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>},
+</span></span><span style="display:flex;"><span>			<span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			[]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>},
+</span></span><span style="display:flex;"><span>			<span style="color:#ae81ff">6</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tt</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">tests</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">numbers</span><span style="color:#f92672">...</span>); <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">want</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// t.Errorf 类似fmt.Printf()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;sum() = %v, want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tt</span>.<span style="color:#a6e22e">want</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ go test -v .
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      helloworld      0.001s
+</span></span></code></pre></div><p>在上述代码中，将 3 个测试用例合并到了一起，这样断言部分就只剩下 1 个 <code>if</code> 语句了，最重要的是，如果以后需要对测试用例增加/修改/删除，
 仅需修改 <code>tests</code> 结构体切片就可以，其余部分无需改动。</p>
 <p>比如可以增加一个负数测试用例，只需要追加一个结构体即可:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
-    []<span style="color:#66d9ef">int</span>{},
-    <span style="color:#ae81ff">0</span>,
-},
-<span style="color:#f92672">...</span>
-<span style="color:#f92672">...</span>
-{
-    []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>},
-    <span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>,
-},
-</code></pre></div><h3 id="测试失败时终止">测试失败时终止</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    []<span style="color:#66d9ef">int</span>{},
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>},
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>},
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>,
+</span></span><span style="display:flex;"><span>},
+</span></span></code></pre></div><h3 id="测试失败时终止">
+  测试失败时终止
+  <a class="anchor" href="#%e6%b5%8b%e8%af%95%e5%a4%b1%e8%b4%a5%e6%97%b6%e7%bb%88%e6%ad%a2">#</a>
+</h3>
 <p>默认情况下，所有测试用例都是独立的，如果其中一个用例测试失败，其他用例会继续运行测试，这样可以捕获到所有的失败测试用例。
 如果希望测试失败时终止测试，可以将 <code>t.Errorf()</code> 函数更换为 <code>t.Fatalf()</code>。</p>
-<h1 id="基准测试">基准测试</h1>
+<h1 id="基准测试">
+  基准测试
+  <a class="anchor" href="#%e5%9f%ba%e5%87%86%e6%b5%8b%e8%af%95">#</a>
+</h1>
 <p>默认情况下，不会运行任何基准测试，参数 <code>-bench</code> 指定要运行的基准测试。</p>
-<h2 id="常用参数-1">常用参数:</h2>
+<h2 id="常用参数-1">
+  常用参数:
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e5%8f%82%e6%95%b0-1">#</a>
+</h2>
 <ul>
 <li><code>benchtime</code>           表示时间或运行次数，比如 <code>-benchtime=10s</code> 表示基准测试运行 10 秒，<code>-benchtime=100x</code> 表示基准测试运行 100 次</li>
 <li><code>benchmem</code>            统计内存分配情况</li>
@@ -541,67 +835,82 @@ ok      helloworld      0.001s
 <li><code>memprofile=$FILE</code>    内存 性能剖析 <code>-memprofile=mem.out</code></li>
 <li><code>blockprofile=$FILE</code>  阻塞 性能剖析 <code>blockprofile=block.out</code></li>
 </ul>
-<h2 id="基准测试用例">基准测试用例</h2>
+<h2 id="基准测试用例">
+  基准测试用例
+  <a class="anchor" href="#%e5%9f%ba%e5%87%86%e6%b5%8b%e8%af%95%e7%94%a8%e4%be%8b">#</a>
+</h2>
 <p>将如下代码追加到 <code>main_test.go</code> 文件中:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
-	}
-}
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行基准测试</span>
-$ go test -v -bench<span style="color:#f92672">=</span>.
-<span style="color:#75715e"># 输出如下</span>
-<span style="color:#f92672">===</span> RUN   Test_sum
---- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-goos: linux
-goarch: amd64
-pkg: helloworld
-cpu: Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-8300H CPU @ 2.30GHz
-Benchmark_sum
-Benchmark_sum-8         <span style="color:#ae81ff">305606659</span>                4.020 ns/op
-PASS
-ok      helloworld      1.631s
-</code></pre></div><p>输出结果中的 <code>Benchmark_sum-8</code> 表示 <code>GOMAXPROCS</code> 的值为 8，也就是默认的 CPU 核数，这个值会影响到并发测试结果。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 运行基准测试</span>
+</span></span><span style="display:flex;"><span>$ go test -v -bench<span style="color:#f92672">=</span>.
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出如下</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>--- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>goos: linux
+</span></span><span style="display:flex;"><span>goarch: amd64
+</span></span><span style="display:flex;"><span>pkg: helloworld
+</span></span><span style="display:flex;"><span>cpu: Intel<span style="color:#f92672">(</span>R<span style="color:#f92672">)</span> Core<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> i5-8300H CPU @ 2.30GHz
+</span></span><span style="display:flex;"><span>Benchmark_sum
+</span></span><span style="display:flex;"><span>Benchmark_sum-8         <span style="color:#ae81ff">305606659</span>                4.020 ns/op
+</span></span><span style="display:flex;"><span>PASS
+</span></span><span style="display:flex;"><span>ok      helloworld      1.631s
+</span></span></code></pre></div><p>输出结果中的 <code>Benchmark_sum-8</code> 表示 <code>GOMAXPROCS</code> 的值为 8，也就是默认的 CPU 核数，这个值会影响到并发测试结果。
 可以通过 <code>-cpu</code> 参数改变 <code>GOMAXPROCS</code>，-cpu 支持传入一个列表作为参数，如 <code>-cpu=2,4</code>。
 除此之外，结果中还给出了相关的时间数据: 测试总用时 1.631 秒，<code>sum</code> 函数调用耗费 4.020 纳秒 (305606659 次调用的平均值),</p>
 <p>因为基准测试运行器起初并不了解函数调用的具体耗时，所以 <code>b.N</code> 的值从一个小的数字慢慢增长到足够大的数字，直到能检测到稳定的调用耗时。
 一般来说，<code>b.N</code> 的值从 1 开始，如果该用例能够在 <code>1s</code> 内完成，<code>b.N</code> 的值便会增加继续执行，越往后面，每次增加的值越大。</p>
-<h2 id="resettimer">ResetTimer</h2>
+<h2 id="resettimer">
+  ResetTimer
+  <a class="anchor" href="#resettimer">#</a>
+</h2>
 <p>如果在 <code>Benchmark</code> 运行开始前，需要一些初始化准备工作 (例如初始化一些配置信息)，可以调用 <code>ResetTimer</code> 方法忽略掉这部分工作，不计入基准测试耗时中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>) <span style="color:#75715e">// 模拟耗时准备任务, 这个时间不会被计入基准测试耗时
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">ResetTimer</span>()              <span style="color:#75715e">// 重置定时器
-</span><span style="color:#75715e"></span>	
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
-    }
-}
-</code></pre></div><h2 id="starttimer-stoptimer">StartTimer, StopTimer</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>) <span style="color:#75715e">// 模拟耗时准备任务, 这个时间不会被计入基准测试耗时
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">ResetTimer</span>()              <span style="color:#75715e">// 重置定时器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="starttimer-stoptimer">
+  StartTimer, StopTimer
+  <a class="anchor" href="#starttimer-stoptimer">#</a>
+</h2>
 <p>除了函数的初始化操作外，还有一种场景是: 函数每次调用前需要一些工作 (例如创建一些资源)，调用后需要一些工作 (例如关闭和释放这些资源)，
 这两者的耗时同样不应该计入基准测试耗时中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
-    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StopTimer</span>()
-    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 模拟创建资源耗时 
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StartTimer</span>()
-	
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
-    }
-
-    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StopTimer</span>()
-    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 模拟释放资源耗时 
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StartTimer</span>()
-}
-</code></pre></div><h1 id="示例函数">示例函数</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Benchmark_sum</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StopTimer</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 模拟创建资源耗时 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StartTimer</span>()
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {  <span style="color:#75715e">// b.N 表示测试用例运行的次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StopTimer</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>) <span style="color:#75715e">// 模拟释放资源耗时 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">StartTimer</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="示例函数">
+  示例函数
+  <a class="anchor" href="#%e7%a4%ba%e4%be%8b%e5%87%bd%e6%95%b0">#</a>
+</h1>
 <p>示例函数没有参数和返回值，可以给 <code>sum</code> 函数新增一个 <code>示例函数</code> 作为文档，例如像下面这个例子一样。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Example_sum</span>() {
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">0</span>))
-    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
-    <span style="color:#75715e">// Output:
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 0
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 6
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h2 id="三个作用">三个作用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Example_sum</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sum</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Output:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 6
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h2 id="三个作用">
+  三个作用
+  <a class="anchor" href="#%e4%b8%89%e4%b8%aa%e4%bd%9c%e7%94%a8">#</a>
+</h2>
 <ul>
 <li>文档 (主要目的)</li>
 <li>可以通过 <code>go test</code> 运行的可执行测试
@@ -610,46 +919,53 @@ ok      helloworld      1.631s
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">  <span style="color:#75715e"># 例如将 `// Output:` 改为如下代码:</span>
-  Output:
-  <span style="color:#ae81ff">0</span>
-  <span style="color:#ae81ff">66</span>
-  <span style="color:#75715e"># 运行测试</span>
-  $  go test -v -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> .
-  <span style="color:#75715e"># 输出如下，报错了</span>
-  <span style="color:#f92672">===</span> RUN   Test_sum
-  --- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-  <span style="color:#f92672">===</span> RUN   Example_sum
-  --- FAIL: Example_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
-  got:
-  <span style="color:#ae81ff">0</span>
-  <span style="color:#ae81ff">6</span>
-  want:
-  <span style="color:#ae81ff">0</span>
-  <span style="color:#ae81ff">66</span>
-  FAIL
-  FAIL    helloworld      0.002s
-  FAIL
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>  <span style="color:#75715e"># 例如将 `// Output:` 改为如下代码:</span>
+</span></span><span style="display:flex;"><span>  Output:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 运行测试</span>
+</span></span><span style="display:flex;"><span>  $  go test -v -count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> .
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 输出如下，报错了</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">===</span> RUN   Test_sum
+</span></span><span style="display:flex;"><span>  --- PASS: Test_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">===</span> RUN   Example_sum
+</span></span><span style="display:flex;"><span>  --- FAIL: Example_sum <span style="color:#f92672">(</span>0.00s<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  got:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>  want:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span>  FAIL
+</span></span><span style="display:flex;"><span>  FAIL    helloworld      0.002s
+</span></span><span style="display:flex;"><span>  FAIL
+</span></span></code></pre></div><ul>
 <li>提供手动实验代码
 <ul>
-<li><a href="http://golang.org">http://golang.org</a> 是由 <code>godoc</code> 提供的文档服务，使用了 
+<li>
+  <a href="http://golang.org">http://golang.org</a> 是由 <code>godoc</code> 提供的文档服务，使用了 
   <a href="https://go.dev/play/">Go Playground</a> 让用户可以在浏览器中在线编辑和运行每个示例函数。</li>
 </ul>
 </li>
 </ul>
-<h1 id="先编译出-test-文件">先编译出 .test 文件</h1>
+<h1 id="先编译出-test-文件">
+  先编译出 .test 文件
+  <a class="anchor" href="#%e5%85%88%e7%bc%96%e8%af%91%e5%87%ba-test-%e6%96%87%e4%bb%b6">#</a>
+</h1>
 <p><strong>使用场景</strong></p>
 <ol>
 <li>这台机器上编译，另一个地方跑单测；</li>
 <li>debug 单测程序；</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">go test -c -o example.test
-<span style="color:#75715e"># 运行</span>
- ./example.test
-<span style="color:#75715e"># 指定运行某一个文件</span>
--test.timeout<span style="color:#f92672">=</span>10m0s -test.v<span style="color:#f92672">=</span>true -test.run<span style="color:#f92672">=</span>TestPutAndGetKeyValue
-</code></pre></div><h1 id="最佳实践">最佳实践</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go test -c -o example.test
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行</span>
+</span></span><span style="display:flex;"><span> ./example.test
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 指定运行某一个文件</span>
+</span></span><span style="display:flex;"><span>-test.timeout<span style="color:#f92672">=</span>10m0s -test.v<span style="color:#f92672">=</span>true -test.run<span style="color:#f92672">=</span>TestPutAndGetKeyValue
+</span></span></code></pre></div><h1 id="最佳实践">
+  最佳实践
+  <a class="anchor" href="#%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5">#</a>
+</h1>
 <ol>
 <li>测试用例失败时，应该输出有用的内容: 错误信息，输出参数，返回值以及正确的返回值</li>
 <li>测试用例修复后，应该运行所有测试，确保没有引入新的问题 - 回归测试</li>
@@ -657,13 +973,19 @@ ok      helloworld      1.631s
 <li>测试不应该在失败时终止，而是要在一次运行中尝试报告多个错误，因为错误发生的方式本身会揭露错误的原因</li>
 <li>测试真正需要关心的数据，保持测试代码的简洁和内部结构的稳定性</li>
 </ol>
-<h1 id="小结">小结</h1>
+<h1 id="小结">
+  小结
+  <a class="anchor" href="#%e5%b0%8f%e7%bb%93">#</a>
+</h1>
 <p>本小节介绍了 Go 测试的 3 中相关函数: <code>功能测试函数</code>, <code>基准测试函数</code>, <code>示例函数</code> (模糊测试后面会单独讲)，还有几个常用的测试参数。
 功能测试函数结果分为两种: <code>ok, pass</code> (通过), <code>FAIL</code> (测试未通过)，基准测试函数会输出程序耗时相关数据，示例函数可以作为文档，
 同时可以通过添加 <code>// Output:</code> 注释来提供精确的函数返回值或输出结果，并在 <code>go test</code> 命令运行时自动对注释进行测试校验，
 保证了调用方看到的文档示例中的输出结果一定是正确的。</p>
 <p>题外话: 笔者在第一次了解到 <code>// Output:</code> 这个功能时，不得不惊叹于 Go 的工程化设计，细节决定成败。</p>
-<h1 id="reference">Reference</h1>
+<h1 id="reference">
+  Reference
+  <a class="anchor" href="#reference">#</a>
+</h1>
 <ul>
 <li>
   <a href="https://book.douban.com/subject/27044219/">Go 圣经</a></li>
@@ -707,9 +1029,7 @@ ok      helloworld      1.631s
 
 
 
-  <script>(function(){function select(element){const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(element);selection.removeAllRanges();selection.addRange(range);}
-document.querySelectorAll("pre code").forEach(code=>{code.addEventListener("click",function(event){if(window.getSelection().toString()){return;}
-select(code.parentElement);if(navigator.clipboard){navigator.clipboard.writeText(code.parentElement.textContent);}});});})();</script>
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
 
 
  

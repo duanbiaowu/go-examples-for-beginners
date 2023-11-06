@@ -190,4 +190,4 @@ func main() {
 
 # 扩展阅读
 
-- [Go 方法基础](https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/introduction/methods.md)
+- [Go 方法基础](../introduction/methods.md)

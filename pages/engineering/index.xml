@@ -5,198 +5,154 @@
     <link>https://golang.dbwu.tech/engineering/</link>
     <description>Recent content in Go 工程化 on Go 语言必知必会</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://golang.dbwu.tech/engineering/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language>
+    <atom:link href="https://golang.dbwu.tech/engineering/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>channel 规则</title>
       <link>https://golang.dbwu.tech/engineering/channel/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/channel/</guid>
-      <description>操作规则    操作 nil 已关闭的 channel 未关闭有缓冲区的 channel 未关闭无缓冲区的 channel     关闭 panic panic 成功关闭，然后可以读取缓冲区的值，读取完之后，继续读取到的是 channel 类型的默认值 成功关闭，之后读取到的是 channel 类型的默认值   接收 阻塞 不阻塞，读取到的是 channel 类型的默认值 不阻塞，正常读取值 阻塞   发送 阻塞 panic 不阻塞，正常写入值 阻塞    编译规则    操作       接收 只写 channel 编译错误   发送 只读 channel 编译错误   关闭 只读 channel 编译错误    </description>
+      <description> 操作规则 # 操作 nil 已关闭的 channel 未关闭有缓冲区的 channel 未关闭无缓冲区的 channel 关闭 panic panic 成功关闭，然后可以读取缓冲区的值，读取完之后，继续读取到的是 channel 类型的默认值 成功关闭，之后读取到的是 channel 类型的默认值 接收 阻塞 不阻塞，读取到的是 channel 类型的默认值 不阻塞，正常读取值 阻塞 发送 阻塞 panic 不阻塞，正常写入值 阻塞 编译规则 # 操作 接收 只写 channel 编译错误 发送 只读 channel 编译错误 关闭 只读 channel 编译错误 </description>
     </item>
-    
     <item>
       <title>embed 嵌入文件</title>
       <link>https://golang.dbwu.tech/engineering/embed/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/embed/</guid>
-      <description>概述 Go 编译后是一个 二进制可执行文件，部署非常简单。 在 1.</description>
+      <description>概述 # Go 编译后是一个 二进制可执行文件，部署非常简单。 在 1.</description>
     </item>
-    
     <item>
       <title>expvar 监控接口状态</title>
       <link>https://golang.dbwu.tech/engineering/expvar/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/expvar/</guid>
-      <description>概述 expvar 包为公共变量提供了一个标准化的接口，如服务接口中的访问计数器。 包提供了 HTTP 接口并以 JSON 格式输出这些变量，接口的 URL 路由是 /debug/vars 。</description>
+      <description>概述 # expvar 包为公共变量提供了一个标准化的接口，如服务接口中的访问计数器。 包提供了 HTTP 接口并以 JSON 格式输出这些变量，接口的 URL 路由是 /debug/vars 。</description>
     </item>
-    
     <item>
       <title>JSON 使用技巧</title>
       <link>https://golang.dbwu.tech/engineering/json/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/json/</guid>
-      <description>概述 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。</description>
+      <description>概述 # 在 Go 快速入门指南 - JSON 讲解了 JSON 的常用方法，但是除此之外，JSON 还有一些鲜为人知的使用技巧， 可以简洁地组合和忽略结构体字段，避免了重新定义结构体和内嵌结构体等较为笨拙的方式，这在 接口输出 和 第三发接口对接 业务场景中非常有帮助。 这篇做一个补充，两篇文章涉及到的 JSON 知识点，应该足够大部分开发场景的使用了。</description>
     </item>
-    
-    <item>
-      <title>交叉编译</title>
-      <link>https://golang.dbwu.tech/engineering/compiling_cross_platform/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/compiling_cross_platform/</guid>
-      <description>概述 交叉编译，也称跨平台编译，就是在一个平台上编译源代码，生成结果为另一个平台上的可执行代码。 这里的平台包含两个概念：体系架构 (如 AMD, ARM) 和 操作系统 (如 Linux, Windows）。 同一个体系架构可以运行不同的操作系统，反过来，同一个操作系统也可以运行在不同的体系架构上。</description>
-    </item>
-    
-    <item>
-      <title>切片使用技巧</title>
-      <link>https://golang.dbwu.tech/engineering/slice/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/slice/</guid>
-      <description>概述 Go 内置的 append() 和 copy() 两个函数非常强大，通过配合 slice 组合操作， 可以实现大多数 容器类 数据结构和基础算法，例如 栈, 队列 的常规操作。</description>
-    </item>
-    
-    <item>
-      <title>单元测试基境</title>
-      <link>https://golang.dbwu.tech/engineering/test_fixture/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test_fixture/</guid>
-      <description>概述 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:</description>
-    </item>
-    
-    <item>
-      <title>单元测试基础必备</title>
-      <link>https://golang.dbwu.tech/engineering/test/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test/</guid>
-      <description>概述 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。</description>
-    </item>
-    
-    <item>
-      <title>单元测试覆盖率</title>
-      <link>https://golang.dbwu.tech/engineering/test_cover/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test_cover/</guid>
-      <description>概念  测试覆盖率是指被测试对象被覆盖到的测试比例。</description>
-    </item>
-    
-    <item>
-      <title>压力测试</title>
-      <link>https://golang.dbwu.tech/engineering/test_performance/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test_performance/</guid>
-      <description>概念  在软件测试中：压力测试（Stress Test），也称为强度测试、负载测试。压力测试是模拟实际应用的软硬件环境及用户使用过程的系统负荷，长时间或超大负荷地运行测试软件，来测试被测系统的性能、可靠性、稳定性等。</description>
-    </item>
-    
-    <item>
-      <title>命令行工具</title>
-      <link>https://golang.dbwu.tech/engineering/command/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/command/</guid>
-      <description>概述  工欲善其事，必先利其器。</description>
-    </item>
-    
-    <item>
-      <title>基准测试数据分析</title>
-      <link>https://golang.dbwu.tech/engineering/benchstat/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/benchstat/</guid>
-      <description>概述  Benchstat 命令用来计算和比较基准测试的统计数据。</description>
-    </item>
-    
-    <item>
-      <title>常用数学方法</title>
-      <link>https://golang.dbwu.tech/engineering/math/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/math/</guid>
-      <description>保留两位小数 package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; ) func RoundFloat(val float64, precision int) float64 { ratio := math.</description>
-    </item>
-    
-    <item>
-      <title>开发环境配置</title>
-      <link>https://golang.dbwu.tech/engineering/base_config/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/base_config/</guid>
-      <description>概述 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。</description>
-    </item>
-    
-    <item>
-      <title>条件编译</title>
-      <link>https://golang.dbwu.tech/engineering/conditional_compilation/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/conditional_compilation/</guid>
-      <description>概述 条件编译 是指针对不同的平台，在编译期间选择性地编译特定的程序代码。 Go 通过引入 build tag 实现了条件编译。</description>
-    </item>
-    
-    <item>
-      <title>格式化方法</title>
-      <link>https://golang.dbwu.tech/engineering/format/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/format/</guid>
-      <description>格式化显示空间使用 package main import ( &amp;#34;fmt&amp;#34; ) func ByteCountToReadable(b uint64) string { const unit = 1024 if b &amp;lt; unit { return fmt.</description>
-    </item>
-    
-    <item>
-      <title>模糊测试-实践</title>
-      <link>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</guid>
-      <description>概述 这篇文章将介绍 模糊测试 的基础知识。通过模糊测试，随机数据会针对测试运行并试图找到漏洞或导致程序异常退出的输入数据。 可以通过 模糊测试 发现的漏洞类型包括 SQL 注入, 缓冲区溢出攻击, DOS 和 CSRF。</description>
-    </item>
-    
-    <item>
-      <title>模糊测试-理论</title>
-      <link>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</guid>
-      <description>概述 Go 从 1.</description>
-    </item>
-    
-    <item>
-      <title>结构体使用技巧</title>
-      <link>https://golang.dbwu.tech/engineering/struct/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/engineering/struct/</guid>
-      <description>概述 Go 语言中，结构体和它所包含的数据在内存中是以连续块的形式存在的，即使结构体中嵌套有其他的结构体，这在性能上带来了很大的优势。 不像 Java 中的引用类型，一个对象和它里面包含的对象可能会在不同的内存空间中，和 Go 语言中的指针很像。 下面的例子清晰地说明了这些情况：</description>
-    </item>
-    
     <item>
       <title>编译文件体积优化</title>
       <link>https://golang.dbwu.tech/engineering/upx/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/upx/</guid>
-      <description>概述 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。</description>
+      <description>概述 # 通常情况下，项目编译时会通过优化来减小编译后的文件体积，这样能够加快线上服务的测试和部署流程。 接下来分别从编译选项和第三方压缩工具两方面来介绍如何有效地减小编译后的文件体积。</description>
     </item>
-    
+    <item>
+      <title>常用数学方法</title>
+      <link>https://golang.dbwu.tech/engineering/math/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/math/</guid>
+      <description>保留两位小数 # package main import ( &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; ) func RoundFloat(val float64, precision int) float64 { ratio := math.</description>
+    </item>
     <item>
       <title>错误处理最佳实践</title>
       <link>https://golang.dbwu.tech/engineering/error_handle_gracefully/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/engineering/error_handle_gracefully/</guid>
-      <description>错误必须被处理 调用函数时，有很多函数总是成功返回，比如常见的 println() len(), 但是还有很多函数，因为各种不受控的影响 (比如 网络中断, IO 错误 等), 可能会调用失败甚至报错。 因此，处理错误是程序中最重要的部分之一。</description>
+      <description>错误必须被处理 # 调用函数时，有很多函数总是成功返回，比如常见的 println() len(), 但是还有很多函数，因为各种不受控的影响 (比如 网络中断, IO 错误 等), 可能会调用失败甚至报错。 因此，处理错误是程序中最重要的部分之一。</description>
     </item>
-    
+    <item>
+      <title>单元测试覆盖率</title>
+      <link>https://golang.dbwu.tech/engineering/test_cover/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test_cover/</guid>
+      <description>概念 # 测试覆盖率是指被测试对象被覆盖到的测试比例。</description>
+    </item>
+    <item>
+      <title>单元测试基础必备</title>
+      <link>https://golang.dbwu.tech/engineering/test/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test/</guid>
+      <description>概述 # 测试旨在发现 bug，而不是证明其不存在。一个工程质量良好的项目，一定会有充分的单元测试和合理的测试覆盖率，单元测试就是业务逻辑。</description>
+    </item>
+    <item>
+      <title>单元测试基境</title>
+      <link>https://golang.dbwu.tech/engineering/test_fixture/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test_fixture/</guid>
+      <description>概述 # 编写测试代码时，最繁琐的部分之一是将一些 公共的状态变量 设置为某个特定的状态。比如常见的场景:</description>
+    </item>
+    <item>
+      <title>格式化方法</title>
+      <link>https://golang.dbwu.tech/engineering/format/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/format/</guid>
+      <description>格式化显示空间使用 # package main import ( &amp;#34;fmt&amp;#34; ) func ByteCountToReadable(b uint64) string { const unit = 1024 if b &amp;lt; unit { return fmt.</description>
+    </item>
+    <item>
+      <title>基准测试数据分析</title>
+      <link>https://golang.dbwu.tech/engineering/benchstat/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/benchstat/</guid>
+      <description>概述 # Benchstat 命令用来计算和比较基准测试的统计数据。</description>
+    </item>
+    <item>
+      <title>交叉编译</title>
+      <link>https://golang.dbwu.tech/engineering/compiling_cross_platform/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/compiling_cross_platform/</guid>
+      <description>概述 # 交叉编译，也称跨平台编译，就是在一个平台上编译源代码，生成结果为另一个平台上的可执行代码。 这里的平台包含两个概念：体系架构 (如 AMD, ARM) 和 操作系统 (如 Linux, Windows）。 同一个体系架构可以运行不同的操作系统，反过来，同一个操作系统也可以运行在不同的体系架构上。</description>
+    </item>
+    <item>
+      <title>结构体使用技巧</title>
+      <link>https://golang.dbwu.tech/engineering/struct/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/struct/</guid>
+      <description>概述 # Go 语言中，结构体和它所包含的数据在内存中是以连续块的形式存在的，即使结构体中嵌套有其他的结构体，这在性能上带来了很大的优势。 不像 Java 中的引用类型，一个对象和它里面包含的对象可能会在不同的内存空间中，和 Go 语言中的指针很像。 下面的例子清晰地说明了这些情况：</description>
+    </item>
+    <item>
+      <title>开发环境配置</title>
+      <link>https://golang.dbwu.tech/engineering/base_config/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/base_config/</guid>
+      <description>概述 # 本小节主要讲述如何快速搭建一个现代化的 Go 开发环境。</description>
+    </item>
+    <item>
+      <title>命令行工具</title>
+      <link>https://golang.dbwu.tech/engineering/command/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/command/</guid>
+      <description>概述 # 工欲善其事，必先利其器。</description>
+    </item>
+    <item>
+      <title>模糊测试-理论</title>
+      <link>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test_fuzzing_theory/</guid>
+      <description>概述 # Go 从 1.</description>
+    </item>
+    <item>
+      <title>模糊测试-实践</title>
+      <link>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test_fuzzing_practice/</guid>
+      <description>概述 # 这篇文章将介绍 模糊测试 的基础知识。通过模糊测试，随机数据会针对测试运行并试图找到漏洞或导致程序异常退出的输入数据。 可以通过 模糊测试 发现的漏洞类型包括 SQL 注入, 缓冲区溢出攻击, DOS 和 CSRF。</description>
+    </item>
+    <item>
+      <title>切片使用技巧</title>
+      <link>https://golang.dbwu.tech/engineering/slice/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/slice/</guid>
+      <description>概述 # Go 内置的 append() 和 copy() 两个函数非常强大，通过配合 slice 组合操作， 可以实现大多数 容器类 数据结构和基础算法，例如 栈, 队列 的常规操作。</description>
+    </item>
+    <item>
+      <title>条件编译</title>
+      <link>https://golang.dbwu.tech/engineering/conditional_compilation/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/conditional_compilation/</guid>
+      <description>概述 # 条件编译 是指针对不同的平台，在编译期间选择性地编译特定的程序代码。 Go 通过引入 build tag 实现了条件编译。</description>
+    </item>
+    <item>
+      <title>压力测试</title>
+      <link>https://golang.dbwu.tech/engineering/test_performance/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/engineering/test_performance/</guid>
+      <description>概念 # 在软件测试中：压力测试（Stress Test），也称为强度测试、负载测试。压力测试是模拟实际应用的软硬件环境及用户使用过程的系统负荷，长时间或超大负荷地运行测试软件，来测试被测系统的性能、可靠性、稳定性等。</description>
+    </item>
   </channel>
 </rss>

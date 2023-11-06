@@ -5,9 +5,7 @@
     <link>https://golang.dbwu.tech/tags/</link>
     <description>Recent content in Tags on Go 语言必知必会</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://golang.dbwu.tech/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language>
+    <atom:link href="https://golang.dbwu.tech/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

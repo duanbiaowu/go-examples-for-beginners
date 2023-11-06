@@ -5,235 +5,183 @@
     <link>https://golang.dbwu.tech/performance/</link>
     <description>Recent content in Performances on Go 语言必知必会</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
     <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://golang.dbwu.tech/performance/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <atom:link href="https://golang.dbwu.tech/performance/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go 高性能之 channel 缓冲和非缓冲</title>
       <link>https://golang.dbwu.tech/performance/channel/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/channel/</guid>
-      <description>概述 缓冲通道还是无缓冲通道，在高性能场景下，如何选择？</description>
+      <description>概述 # 缓冲通道还是无缓冲通道，在高性能场景下，如何选择？</description>
     </item>
-    
     <item>
       <title>Go 高性能之 defer 优化</title>
       <link>https://golang.dbwu.tech/performance/defer/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/defer/</guid>
-      <description>概述 defer 语句保证了不论是在正常情况下 (return 返回)，还是非正常情况下 (发生错误, 程序终止)，函数或方法都能够执行。 一个完整的 defer 过程要经过函数注册、参数拷⻉、函数提取、函数调用，这要比直接调用函数慢得多。</description>
+      <description>概述 # defer 语句保证了不论是在正常情况下 (return 返回)，还是非正常情况下 (发生错误, 程序终止)，函数或方法都能够执行。 一个完整的 defer 过程要经过函数注册、参数拷⻉、函数提取、函数调用，这要比直接调用函数慢得多。</description>
     </item>
-    
     <item>
       <title>Go 高性能之 for 循环</title>
       <link>https://golang.dbwu.tech/performance/for/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/for/</guid>
-      <description>概述 for 循环遍历时，第一个参数为遍历对象列表 (假设列表变量名为 items) 的当前索引，第二个参数为遍历对象列表的当前对象，一般来说，我们有两种方法获取到当前遍历到的元素:</description>
+      <description>概述 # for 循环遍历时，第一个参数为遍历对象列表 (假设列表变量名为 items) 的当前索引，第二个参数为遍历对象列表的当前对象，一般来说，我们有两种方法获取到当前遍历到的元素:</description>
     </item>
-    
     <item>
       <title>Go 高性能之 map key 类型</title>
       <link>https://golang.dbwu.tech/performance/map_key_type/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/map_key_type/</guid>
-      <description>概述 Map 的 key 支持很多数据类型，只要满足 比较规则 即可， 大多数场景下，我们使用到的是 int 和 string 两种数据类型，那么两者之间，哪个性能更高一些呢？</description>
+      <description>概述 # Map 的 key 支持很多数据类型，只要满足 比较规则 即可， 大多数场景下，我们使用到的是 int 和 string 两种数据类型，那么两者之间，哪个性能更高一些呢？</description>
     </item>
-    
-    <item>
-      <title>Go 高性能之 map 重置和删除</title>
-      <link>https://golang.dbwu.tech/performance/map_free/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/map_free/</guid>
-      <description>概述 Map 会自动扩容，但是不会自动缩容。这也意味着，即使调用 delete() 将 Map 中的数据删除，内存也不会释放 (为以后的数据备用，类似于预分配的功能)， 随着内存占用越来越多，最终导致性能受到影响。</description>
-    </item>
-    
     <item>
       <title>Go 高性能之 map 预分配</title>
       <link>https://golang.dbwu.tech/performance/map_pre_alloc/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/map_pre_alloc/</guid>
-      <description>概述 map 可以直接设置元素，如果对应的 key 不存在，内部运行时会生成一个新的 key，开发者不需要考虑 map 容量不足问题，因为内部运行时已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
+      <description>概述 # map 可以直接设置元素，如果对应的 key 不存在，内部运行时会生成一个新的 key，开发者不需要考虑 map 容量不足问题，因为内部运行时已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
     </item>
-    
+    <item>
+      <title>Go 高性能之 map 重置和删除</title>
+      <link>https://golang.dbwu.tech/performance/map_free/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/map_free/</guid>
+      <description>概述 # Map 会自动扩容，但是不会自动缩容。这也意味着，即使调用 delete() 将 Map 中的数据删除，内存也不会释放 (为以后的数据备用，类似于预分配的功能)， 随着内存占用越来越多，最终导致性能受到影响。</description>
+    </item>
     <item>
       <title>Go 高性能之 singleflight</title>
       <link>https://golang.dbwu.tech/performance/singleflight/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/singleflight/</guid>
-      <description>概述 Go 语言扩展包中提供了另一种同步原语 singleflight，它能够抑制对某个 API 的多次重复请求。</description>
+      <description>概述 # Go 语言扩展包中提供了另一种同步原语 singleflight，它能够抑制对某个 API 的多次重复请求。</description>
     </item>
-    
     <item>
       <title>Go 高性能之 string 与 []byte 转换</title>
       <link>https://golang.dbwu.tech/performance/string_with_bytes/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/string_with_bytes/</guid>
-      <description>概述 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍+ 性能吗？</description>
+      <description>概述 # 字符串 与 字符切片 互相转换，是开发中经常用到的功能，但是你能想到，一个简单的优化，就可以提高 10 倍+ 性能吗？</description>
     </item>
-    
     <item>
       <title>Go 高性能之 timer 优化</title>
       <link>https://golang.dbwu.tech/performance/timer/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/timer/</guid>
-      <description>概述 time.</description>
+      <description>概述 # time.</description>
     </item>
-    
-    <item>
-      <title>Go 高性能之互斥锁和读写锁</title>
-      <link>https://golang.dbwu.tech/performance/mutex/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/mutex/</guid>
-      <description>概述 标准库 sync 提供了 2 种锁，sync.</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之内存对齐</title>
-      <link>https://golang.dbwu.tech/performance/memory_alignment/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/memory_alignment/</guid>
-      <description>概述 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之内联优化</title>
-      <link>https://golang.dbwu.tech/performance/inline/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/inline/</guid>
-      <description>概述 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之切片和数组</title>
-      <link>https://golang.dbwu.tech/performance/slice_with_array/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/slice_with_array/</guid>
-      <description>概述  Array or Slice, that&amp;rsquo;s the question!</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之切片过滤器</title>
-      <link>https://golang.dbwu.tech/performance/slice_filter/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/slice_filter/</guid>
-      <description>概述 切片的底层是数组，并且不同的切片之间共享一个底层数组，在实现 过滤器 功能时，可以利用这个特点，将过滤后的结果切片引用为同一个底层数组，实现内存零分配。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之切片预分配</title>
-      <link>https://golang.dbwu.tech/performance/slice_pre_alloc/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/slice_pre_alloc/</guid>
-      <description>概述 切片 追加元素时，直接调用 append 函数即可，开发者不需要考虑 切片 容量不足问题，因为 append 函数内部已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之字符串拼接</title>
-      <link>https://golang.dbwu.tech/performance/string_concat/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/string_concat/</guid>
-      <description>概述 Go 的字符串是不可变的，除非用一个新字符串覆盖掉旧字符串。同样，直接拼接两个字符串，等于创建了一个新的字符串。 对于 字符串拼接 的场景，不同方法可以会造成 上千倍 的性能差距。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之字节序优化</title>
-      <link>https://golang.dbwu.tech/performance/binary_read_write/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/binary_read_write/</guid>
-      <description>概述  encoding/binary 包用于数字和字节序列之间的简单转换以及 varints 的编码和解码。</description>
-    </item>
-    
     <item>
       <title>Go 高性能之对象复用</title>
       <link>https://golang.dbwu.tech/performance/sync_pool/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/sync_pool/</guid>
-      <description>概述 sync.</description>
+      <description>概述 # sync.</description>
     </item>
-    
     <item>
-      <title>Go 高性能之截取中文字符串</title>
-      <link>https://golang.dbwu.tech/performance/sub_cn_string/</link>
+      <title>Go 高性能之互斥锁和读写锁</title>
+      <link>https://golang.dbwu.tech/performance/mutex/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/sub_cn_string/</guid>
-      <description>概述 如果字符串中全部都是 ASCII 字节，直接使用切片的方式截取，是最简单和最高效的方式，如:</description>
+      <guid>https://golang.dbwu.tech/performance/mutex/</guid>
+      <description>概述 # 标准库 sync 提供了 2 种锁，sync.</description>
     </item>
-    
-    <item>
-      <title>Go 高性能之整数转字符串</title>
-      <link>https://golang.dbwu.tech/performance/int_to_string/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/int_to_string/</guid>
-      <description>概述 基础数据类型之间相互转化是开发中常见的功能代码，以 int 类型转换为 string 类型举例来说，最常用的方法是标准库提供的 fmt.</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之空结构体</title>
-      <link>https://golang.dbwu.tech/performance/empty_struct/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/empty_struct/</guid>
-      <description>概述 Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。</description>
-    </item>
-    
-    <item>
-      <title>Go 高性能之结构体切片</title>
-      <link>https://golang.dbwu.tech/performance/struct_slice/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/performance/struct_slice/</guid>
-      <description>概述 业务开发中，一个常见的场景是将多个相同类型的 结构体 变量存入一个数据容器中，通常我们会使用 切片 作为数据容器。 那么对于结构体来说，存储其值和存储其指针，性能差异有多大呢？</description>
-    </item>
-    
     <item>
       <title>Go 高性能之获取 goroutine ID</title>
       <link>https://golang.dbwu.tech/performance/goroutineid/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/goroutineid/</guid>
-      <description>概述 Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。</description>
+      <description>概述 # Go 语言刻意没有提供获取 goroutine ID 的原因是为了避免滥用。因为大部分用户在轻松拿到 goroutine ID 之后， 在之后的编程中会不自觉地编写出强依赖 goroutine ID 的代码。</description>
     </item>
-    
     <item>
       <title>Go 高性能之获取调用堆栈优化</title>
       <link>https://golang.dbwu.tech/performance/stack_dump/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/stack_dump/</guid>
-      <description>概述 在工程代码中需要在异常场景打印相应的日志，记录重要的上下文信息。如果遇到 panic 或 error 的情况， 这时候就需要详细的 堆栈信息 作为辅助来排查问题，本小节就来介绍两种常见的获取 堆栈信息 方法， 然后对两种方法进行基准测试，最后使用测试的结果进行性能对比并分析差异。</description>
+      <description>概述 # 在工程代码中需要在异常场景打印相应的日志，记录重要的上下文信息。如果遇到 panic 或 error 的情况， 这时候就需要详细的 堆栈信息 作为辅助来排查问题，本小节就来介绍两种常见的获取 堆栈信息 方法， 然后对两种方法进行基准测试，最后使用测试的结果进行性能对比并分析差异。</description>
     </item>
-    
+    <item>
+      <title>Go 高性能之结构体切片</title>
+      <link>https://golang.dbwu.tech/performance/struct_slice/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/struct_slice/</guid>
+      <description>概述 # 业务开发中，一个常见的场景是将多个相同类型的 结构体 变量存入一个数据容器中，通常我们会使用 切片 作为数据容器。 那么对于结构体来说，存储其值和存储其指针，性能差异有多大呢？</description>
+    </item>
+    <item>
+      <title>Go 高性能之截取中文字符串</title>
+      <link>https://golang.dbwu.tech/performance/sub_cn_string/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/sub_cn_string/</guid>
+      <description>概述 # 如果字符串中全部都是 ASCII 字节，直接使用切片的方式截取，是最简单和最高效的方式，如:</description>
+    </item>
+    <item>
+      <title>Go 高性能之空结构体</title>
+      <link>https://golang.dbwu.tech/performance/empty_struct/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/empty_struct/</guid>
+      <description>概述 # Go 的标准库没有内置的 Set 类型，在不引用第三方包的情况下，一般是结合内置的 map 类型实现 Set 相关功能。</description>
+    </item>
+    <item>
+      <title>Go 高性能之内存对齐</title>
+      <link>https://golang.dbwu.tech/performance/memory_alignment/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/memory_alignment/</guid>
+      <description>概述 # 内存对齐，或者说字节对齐，指代码编译后在内存的布局与使用方式。现代计算机一般是 32位 或 64位 地址对齐，如果要访问的变量内存没有对齐，可能会触发总线错误。 维基百科。</description>
+    </item>
+    <item>
+      <title>Go 高性能之内联优化</title>
+      <link>https://golang.dbwu.tech/performance/inline/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/inline/</guid>
+      <description>概述 # 内联 (inline) 就是 将函数的调用代码替换为函数的具体实现代码 (编译器实现)，程序运行过程中直接执行内联后展开的代码， 节省了函数调用的开销(创建栈帧、读写寄存器、栈溢出检测等)，可以提升性能，但是带来的一个问题是编译后的二进制文件体积增大。</description>
+    </item>
+    <item>
+      <title>Go 高性能之切片过滤器</title>
+      <link>https://golang.dbwu.tech/performance/slice_filter/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/slice_filter/</guid>
+      <description>概述 # 切片的底层是数组，并且不同的切片之间共享一个底层数组，在实现 过滤器 功能时，可以利用这个特点，将过滤后的结果切片引用为同一个底层数组，实现内存零分配。</description>
+    </item>
+    <item>
+      <title>Go 高性能之切片和数组</title>
+      <link>https://golang.dbwu.tech/performance/slice_with_array/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/slice_with_array/</guid>
+      <description>概述 # Array or Slice, that&amp;rsquo;s the question!</description>
+    </item>
+    <item>
+      <title>Go 高性能之切片预分配</title>
+      <link>https://golang.dbwu.tech/performance/slice_pre_alloc/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/slice_pre_alloc/</guid>
+      <description>概述 # 切片 追加元素时，直接调用 append 函数即可，开发者不需要考虑 切片 容量不足问题，因为 append 函数内部已经实现了 自动扩容机制， 从开发者的角度看，这大大提高了生产力并降低了心智负担。</description>
+    </item>
     <item>
       <title>Go 高性能之逃逸分析</title>
       <link>https://golang.dbwu.tech/performance/escape/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/performance/escape/</guid>
-      <description>逃逸分析 Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。</description>
+      <description>逃逸分析 # Go 语言的编译器使用 逃逸分析 决定哪些变量分配在栈上，哪些变量分配在堆上。</description>
     </item>
-    
+    <item>
+      <title>Go 高性能之整数转字符串</title>
+      <link>https://golang.dbwu.tech/performance/int_to_string/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/int_to_string/</guid>
+      <description>概述 # 基础数据类型之间相互转化是开发中常见的功能代码，以 int 类型转换为 string 类型举例来说，最常用的方法是标准库提供的 fmt.</description>
+    </item>
+    <item>
+      <title>Go 高性能之字符串拼接</title>
+      <link>https://golang.dbwu.tech/performance/string_concat/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/string_concat/</guid>
+      <description>概述 # Go 的字符串是不可变的，除非用一个新字符串覆盖掉旧字符串。同样，直接拼接两个字符串，等于创建了一个新的字符串。 对于 字符串拼接 的场景，不同方法可以会造成 上千倍 的性能差距。</description>
+    </item>
+    <item>
+      <title>Go 高性能之字节序优化</title>
+      <link>https://golang.dbwu.tech/performance/binary_read_write/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/performance/binary_read_write/</guid>
+      <description>概述 # encoding/binary 包用于数字和字节序列之间的简单转换以及 varints 的编码和解码。</description>
+    </item>
   </channel>
 </rss>

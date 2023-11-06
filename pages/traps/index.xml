@@ -5,172 +5,134 @@
     <link>https://golang.dbwu.tech/traps/</link>
     <description>Recent content in Traps on Go 语言必知必会</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
     <lastBuildDate>Sun, 01 Jan 2023 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://golang.dbwu.tech/traps/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <atom:link href="https://golang.dbwu.tech/traps/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go 陷阱之 byte 加减</title>
       <link>https://golang.dbwu.tech/traps/byte_operation/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/byte_operation/</guid>
-      <description>概述 标准库中的 byte 类型是 uint8 类型的别名，在所有方面都相当于 uint8，主要作用是用来区分字节类型和无符号整数类型。</description>
+      <description>概述 # 标准库中的 byte 类型是 uint8 类型的别名，在所有方面都相当于 uint8，主要作用是用来区分字节类型和无符号整数类型。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 copy 函数复制失败</title>
       <link>https://golang.dbwu.tech/traps/copy/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/copy/</guid>
-      <description>概述 copy 函数可以将一个切片里面的元素拷贝至另外一个切片，函数的原型如下:</description>
+      <description>概述 # copy 函数可以将一个切片里面的元素拷贝至另外一个切片，函数的原型如下:</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 for 循环 goroutine 执行顺序不一致</title>
       <link>https://golang.dbwu.tech/traps/for_goroutine/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/for_goroutine/</guid>
-      <description>循环中 goroutine 执行顺序不一致 错误的做法 package main import &amp;#34;sync&amp;#34; func main() { var wg sync.</description>
+      <description>循环中 goroutine 执行顺序不一致 # 错误的做法 # package main import &amp;#34;sync&amp;#34; func main() { var wg sync.</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 for 循环调用函数</title>
       <link>https://golang.dbwu.tech/traps/for_func/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/for_func/</guid>
-      <description>循环调用 defer 错误 defer 在函数退出时才会执行，在循环中执行 defer 释放资源时，由于延迟可能会引发 资源泄露问题。</description>
+      <description>循环调用 defer 错误 # defer 在函数退出时才会执行，在循环中执行 defer 释放资源时，由于延迟可能会引发 资源泄露问题。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 for 循环赋值错误</title>
       <link>https://golang.dbwu.tech/traps/for_assign/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/for_assign/</guid>
-      <description>循环赋值错误 错误的做法 package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, v := range number { v = i fmt.</description>
+      <description>循环赋值错误 # 错误的做法 # package main import &amp;#34;fmt&amp;#34; func main() { number := make([]int, 5) for i, v := range number { v = i fmt.</description>
     </item>
-    
-    <item>
-      <title>Go 陷阱之 goroutine 泄漏</title>
-      <link>https://golang.dbwu.tech/traps/channel_not_closed/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/channel_not_closed/</guid>
-      <description>通道为 nil 造成 goroutine 泄漏 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。</description>
-    </item>
-    
     <item>
       <title>Go 陷阱之 goroutine 竞态</title>
       <link>https://golang.dbwu.tech/traps/goroutine_race/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/goroutine_race/</guid>
-      <description>main 结束时不考虑 goroutine 执行状态 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。</description>
+      <description>main 结束时不考虑 goroutine 执行状态 # 默认情况下，主程序结束时不会考虑当前是否还有 goroutine 正在执行。</description>
     </item>
-    
+    <item>
+      <title>Go 陷阱之 goroutine 泄漏</title>
+      <link>https://golang.dbwu.tech/traps/channel_not_closed/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/traps/channel_not_closed/</guid>
+      <description>通道为 nil 造成 goroutine 泄漏 # 在 nil 通道 上发送和接收操作将永久阻塞，造成 goroutine 泄漏。</description>
+    </item>
     <item>
       <title>Go 陷阱之 interface != *interface</title>
       <link>https://golang.dbwu.tech/traps/interface_error/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/interface_error/</guid>
-      <description>概述 interface{} 类型可以表示任意数据类型，直觉上来看，当然也可以表示 *interface 类型。 那么两者之间可以直接转换吗？我们通过两个小例子来验证一下。</description>
+      <description>概述 # interface{} 类型可以表示任意数据类型，直觉上来看，当然也可以表示 *interface 类型。 那么两者之间可以直接转换吗？我们通过两个小例子来验证一下。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 interface 方法调用规则</title>
       <link>https://golang.dbwu.tech/traps/interface_method/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/interface_method/</guid>
-      <description>概述 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。</description>
+      <description>概述 # 接口方法调用时，调用方必须和接口方法定义的接收者类型相同或者可以通过推导得到。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 map 常见问题</title>
       <link>https://golang.dbwu.tech/traps/map_struct_assign/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/map_struct_assign/</guid>
-      <description>未初始化时导致的报错 当 map 声明后但是未初始时，可以获取元素 (虽然获取不到)，但是无法修改元素 (会导致报错)。</description>
+      <description>未初始化时导致的报错 # 当 map 声明后但是未初始时，可以获取元素 (虽然获取不到)，但是无法修改元素 (会导致报错)。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 nil != nil</title>
       <link>https://golang.dbwu.tech/traps/nil_with_nil/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/nil_with_nil/</guid>
-      <description>概述 interface 类型数据结构内部实现包含 2 个字段， 类型 Type 和 值 Value。</description>
+      <description>概述 # interface 类型数据结构内部实现包含 2 个字段， 类型 Type 和 值 Value。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 nil 参数</title>
       <link>https://golang.dbwu.tech/traps/nil_argument/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/nil_argument/</guid>
-      <description>概述 nil 可以作为函数参数传入，这意味着函数内部逻辑处理时，不能依赖于传入的实参 (有可能是 nil)， 一定要做必要的 零值 判断。</description>
+      <description>概述 # nil 可以作为函数参数传入，这意味着函数内部逻辑处理时，不能依赖于传入的实参 (有可能是 nil)， 一定要做必要的 零值 判断。</description>
     </item>
-    
     <item>
       <title>Go 陷阱之 String 方法陷入无限递归</title>
       <link>https://golang.dbwu.tech/traps/string_method/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/string_method/</guid>
-      <description>概述 通常我们会对某个对象自定义一些方法，大多数情况下，这没有任何问题。但是有一种情况需要注意下，那就是自定义的 String 方法。</description>
+      <description>概述 # 通常我们会对某个对象自定义一些方法，大多数情况下，这没有任何问题。但是有一种情况需要注意下，那就是自定义的 String 方法。</description>
     </item>
-    
-    <item>
-      <title>Go 陷阱之几个有趣的 defer 笔试题</title>
-      <link>https://golang.dbwu.tech/traps/defer_exam/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/defer_exam/</guid>
-      <description>test-1 package main func foo(n int) (t int) { t = n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>Go 陷阱之切片占用过多内存</title>
-      <link>https://golang.dbwu.tech/traps/slice_occupy_memory/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/slice_occupy_memory/</guid>
-      <description>概述 切片的底层数据结构是数组，同样，切片的子切片会引用同样的数组。如果切片不主动不释放的话，那么底层的数组就会一直占用着内存。</description>
-    </item>
-    
-    <item>
-      <title>Go 陷阱之数组和切片参数传递差异</title>
-      <link>https://golang.dbwu.tech/traps/array_with_map_in_params/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/array_with_map_in_params/</guid>
-      <description>概述 虽然切片的底层是数组，但是当切片和数组作为函数的参数时，规则是不一样的。</description>
-    </item>
-    
-    <item>
-      <title>Go 陷阱之缓冲区内容不输出</title>
-      <link>https://golang.dbwu.tech/traps/buffer_flush/</link>
-      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://golang.dbwu.tech/traps/buffer_flush/</guid>
-      <description>概述 bufio 包实现了 缓冲 IO，它通过在内部封装一个 io.</description>
-    </item>
-    
     <item>
       <title>Go 陷阱之错误处理三剑客</title>
       <link>https://golang.dbwu.tech/traps/defer_with_recover/</link>
       <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://golang.dbwu.tech/traps/defer_with_recover/</guid>
-      <description>defer defer 语句经常用于成对的操作，比如 打开文件/关闭文件 连接网络/断开网络, 合理地使用 defer 不仅可以提高代码可读性，也降低了忘记释放资源造成的泄漏等问题。</description>
+      <description>defer # defer 语句经常用于成对的操作，比如 打开文件/关闭文件 连接网络/断开网络, 合理地使用 defer 不仅可以提高代码可读性，也降低了忘记释放资源造成的泄漏等问题。</description>
     </item>
-    
+    <item>
+      <title>Go 陷阱之缓冲区内容不输出</title>
+      <link>https://golang.dbwu.tech/traps/buffer_flush/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/traps/buffer_flush/</guid>
+      <description>概述 # bufio 包实现了 缓冲 IO，它通过在内部封装一个 io.</description>
+    </item>
+    <item>
+      <title>Go 陷阱之几个有趣的 defer 笔试题</title>
+      <link>https://golang.dbwu.tech/traps/defer_exam/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/traps/defer_exam/</guid>
+      <description>test-1 # package main func foo(n int) (t int) { t = n defer func() { t += 3 }() return t } func main() { println(foo(1)) } 上面的代码会输出什么？思考之后 &amp;hellip;</description>
+    </item>
+    <item>
+      <title>Go 陷阱之切片占用过多内存</title>
+      <link>https://golang.dbwu.tech/traps/slice_occupy_memory/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/traps/slice_occupy_memory/</guid>
+      <description>概述 # 切片的底层数据结构是数组，同样，切片的子切片会引用同样的数组。如果切片不主动不释放的话，那么底层的数组就会一直占用着内存。</description>
+    </item>
+    <item>
+      <title>Go 陷阱之数组和切片参数传递差异</title>
+      <link>https://golang.dbwu.tech/traps/array_with_map_in_params/</link>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 +0000</pubDate>
+      <guid>https://golang.dbwu.tech/traps/array_with_map_in_params/</guid>
+      <description>概述 # 虽然切片的底层是数组，但是当切片和数组作为函数的参数时，规则是不一样的。</description>
+    </item>
   </channel>
 </rss>

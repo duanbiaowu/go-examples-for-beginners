@@ -3,11 +3,128 @@ headless: true
 ---
 
 
-### [Blog](https://dbwu.tech/)
-### [Github](https://github.com/duanbiaowu/go-examples-for-beginners)
-### [微信公众号](https://dbwu.tech/images/wechat.png)
+- [Blog](https://dbwu.tech/)
+- [Github](https://github.com/duanbiaowu/go-examples-for-beginners)
+- [微信公众号](https://dbwu.tech/images/wechat.png)
 
 ---
+
+## 快速入门系列
+
+- [**前言**](../introduction/preface.md)
+
+
+- **1. 环境安装**
+  - [Windows](../introduction/windows.md)
+  - [Mac](../introduction/mac.md)
+  - [Linux](../introduction/linux.md)
+  - [合并版](../introduction/install.md)
+
+---
+
+- **2. 语法基础**
+  - [Go 程序的运行方式及要求](../introduction/buildandrun.md)
+  - [基本代码格式，关键字, 预定义标识符](../introduction/basesyntaxandkeyword.md)
+  - [变量](../introduction/variables.md)
+  - [空白标识符](../introduction/blank_operator.md)
+  - [常量](../introduction/const.md)
+  - [自定义类型](../introduction/typedef.md)
+  - [常量生成器](../introduction/iota.md)
+  - [运算优先级](../introduction/operator_priority.md)
+  - [包的导入](../introduction/import.md)
+  - [调试打印](../introduction/print.md)
+  - [字符串](../introduction/string.md)
+  - [字符](../introduction/rune.md)
+  - [类型转换](../introduction/data_convert.md)
+  - [保留小数位](../introduction/decimal.md)
+  - [指针](../introduction/pointer.md)
+  - [if/else](../introduction/if_else.md)
+  - [自增自减](../introduction/inc_and_dec.md)
+  - [for](../introduction/for.md)
+  - [range](../introduction/range.md)
+  - [switch](../introduction/switch.md)
+  - [goto / 标签](../introduction/goto.md)
+  - [可见性](../introduction/visable.md)
+  - [作用域](../introduction/scope.md)
+
+---
+
+- **3. 数据类型**
+  - [数组](../introduction/array.md)
+  - [切片](../introduction/slice.md)
+  - [字符切片](../introduction/bytes.md)
+  - [Map](../introduction/map.md)
+  - [有序 Map](../introduction/sorted_map.md)
+  - [函数](../introduction/func.md)
+  - [init](../introduction/init.md)
+  - [make, new](../introduction/make_with_new.md)
+  - [变长参数](../introduction/func_variadic_params.md)
+  - [指针参数](../introduction/func_pointer_params.md)
+  - [闭包](../introduction/func_closures.md)
+  - [递归](../introduction/func_recursion.md)
+  - [内部函数](../introduction/func_inner.md)
+  - [panic](../introduction/panic.md)
+  - [defer](../introduction/defer.md)
+  - [recover](../introduction/recover.md)
+  - [结构体](../introduction/struct.md)
+  - [嵌套结构体](../introduction/struct_embedding.md)
+  - [方法](../introduction/methods.md)
+  - [接口](../introduction/interface.md)
+  - [实现系统错误接口](../introduction/implement_error.md)
+  - [判断是否实现接口](../introduction/implement.md)
+  - [错误](../introduction/error.md)
+  - [零值](../introduction/zero_value.md)
+  - [类型比较](../introduction/type_comparison.md)
+
+---
+
+- **4. 协程与通道**
+  - [goroutine](../introduction/goroutine.md)
+  - [非缓冲通道](../introduction/channel.md)
+  - [缓冲通道](../introduction/channel_buffer.md)
+  - [关闭通道](../introduction/channel_close.md)
+  - [通道方向](../introduction/channel_direction.md)
+  - [检测通道是否关闭](../introduction/channel_close_check.md)
+  - [遍历通道](../introduction/channel_range.md)
+  - [waitgroup](../introduction/waitgroup.md)
+  - [select](../introduction/select.md)
+  - [互斥锁](../introduction/mutex.md)
+  - [超时控制](../introduction/timeout.md)
+  - [定时器](../introduction/ticker.md)
+
+---
+
+- **5. 常见操作**
+  - [原子操作](../introduction/atomic.md)
+  - [创建, 删除文件](../introduction/file_create_delete.md)
+  - [写文件](../introduction/file_write.md)
+  - [读文件](../introduction/file_read.md)
+  - [文件路径, 扩展名](../introduction/file_path.md)
+  - [文件判断](../introduction/file_check.md)
+  - [创建, 删除目录](../introduction/dir_create_delete.md)
+  - [遍历目录](../introduction/dir_walk.md)
+  - [日志](../introduction/log.md)
+  - [HTTP](../introduction/http.md)
+  - [URL](../introduction/url.md)
+  - [base64](../introduction/base64.md)
+  - [sha256](../introduction/sha256.md)
+  - [md5](../introduction/md5.md)
+  - [exit](../introduction/exit.md)
+  - [获取进程ID](../introduction/process_id.md)
+  - [命令行](../introduction/command.md)
+  - [命令行参数](../introduction/command_args.md)
+  - [命令行参数解析与设置](../introduction/command_flag.md)
+  - [信号](../introduction/signal.md)
+  - [json](../introduction/json.md)
+  - [xml](../introduction/xml.md)
+  - [日期, 时间](../introduction/time.md)
+  - [时间戳](../introduction/timestamp.md)
+  - [随机数](../introduction/random.md)
+  - [正则表达式](../introduction/regexp.md)
+
+---
+
+## 进阶提升系列
 
 ### 🛠️ 工程化
 

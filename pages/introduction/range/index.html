@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="概述 # Go 特有的一种的遍历结构。它可以遍历任何一个 集合（字符串、数组、切片、Map、通道等）。 语法上类似主流编程语言中的 foreach 语句，但可以获得每次遍历对应的索引。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light"><meta property="og:title" content="" />
+<meta property="og:description" content="概述 # Go 特有的一种的遍历结构。它可以遍历任何一个 集合（字符串、数组、切片、Map、通道等）。 语法上类似主流编程语言中的 foreach 语句，但可以获得每次遍历对应的索引。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://golang.dbwu.tech/introduction/range/" /><meta property="article:section" content="introduction" />
+
+
+
+<title>Range | Go 语言必知必会</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.33a48f5432973b8ff9a82679d9e45d67f2c15d4399bd2829269455cfe390b5e8.css" integrity="sha256-M6SPVDKXO4/5qCZ52eRdZ/LBXUOZvSgpJpRVz&#43;OQteg=" crossorigin="anonymous">
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CZMGTTFLNY"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3261056100776781" crossorigin="anonymous"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CZMGTTFLNY');
+</script>
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Go 语言必知必会</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+  <a href="https://dbwu.tech/">Blog</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners">Github</a></li>
+<li>
+  <a href="https://dbwu.tech/images/wechat.png">微信公众号</a></li>
+</ul>
+<hr>
+<h2 id="快速入门系列">
+  快速入门系列
+  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<ul>
+<li>
+<p>
+  <a href="/introduction/preface/"><strong>前言</strong></a></p>
+</li>
+<li>
+<p><strong>1. 环境安装</strong></p>
+<ul>
+<li>
+  <a href="/introduction/windows/">Windows</a></li>
+<li>
+  <a href="/introduction/mac/">Mac</a></li>
+<li>
+  <a href="/introduction/linux/">Linux</a></li>
+<li>
+  <a href="/introduction/install/">合并版</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>2. 语法基础</strong>
+<ul>
+<li>
+  <a href="/introduction/buildandrun/">Go 程序的运行方式及要求</a></li>
+<li>
+  <a href="/introduction/basesyntaxandkeyword/">基本代码格式，关键字, 预定义标识符</a></li>
+<li>
+  <a href="/introduction/variables/">变量</a></li>
+<li>
+  <a href="/introduction/blank_operator/">空白标识符</a></li>
+<li>
+  <a href="/introduction/const/">常量</a></li>
+<li>
+  <a href="/introduction/typedef/">自定义类型</a></li>
+<li>
+  <a href="/introduction/iota/">常量生成器</a></li>
+<li>
+  <a href="/introduction/operator_priority/">运算优先级</a></li>
+<li>
+  <a href="/introduction/import/">包的导入</a></li>
+<li>
+  <a href="/introduction/print/">调试打印</a></li>
+<li>
+  <a href="/introduction/string/">字符串</a></li>
+<li>
+  <a href="/introduction/rune/">字符</a></li>
+<li>
+  <a href="/introduction/data_convert/">类型转换</a></li>
+<li>
+  <a href="/introduction/decimal/">保留小数位</a></li>
+<li>
+  <a href="/introduction/pointer/">指针</a></li>
+<li>
+  <a href="/introduction/if_else/">if/else</a></li>
+<li>
+  <a href="/introduction/inc_and_dec/">自增自减</a></li>
+<li>
+  <a href="/introduction/for/">for</a></li>
+<li>
+  <a href="/introduction/range/"class=active>range</a></li>
+<li>
+  <a href="/introduction/switch/">switch</a></li>
+<li>
+  <a href="/introduction/goto/">goto / 标签</a></li>
+<li>
+  <a href="/introduction/visable/">可见性</a></li>
+<li>
+  <a href="/introduction/scope/">作用域</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>3. 数据类型</strong>
+<ul>
+<li>
+  <a href="/introduction/array/">数组</a></li>
+<li>
+  <a href="/introduction/slice/">切片</a></li>
+<li>
+  <a href="/introduction/bytes/">字符切片</a></li>
+<li>
+  <a href="/introduction/map/">Map</a></li>
+<li>
+  <a href="/introduction/sorted_map/">有序 Map</a></li>
+<li>
+  <a href="/introduction/func/">函数</a></li>
+<li>
+  <a href="/introduction/init/">init</a></li>
+<li>
+  <a href="/introduction/make_with_new/">make, new</a></li>
+<li>
+  <a href="/introduction/func_variadic_params/">变长参数</a></li>
+<li>
+  <a href="/introduction/func_pointer_params/">指针参数</a></li>
+<li>
+  <a href="/introduction/func_closures/">闭包</a></li>
+<li>
+  <a href="/introduction/func_recursion/">递归</a></li>
+<li>
+  <a href="/introduction/func_inner/">内部函数</a></li>
+<li>
+  <a href="/introduction/panic/">panic</a></li>
+<li>
+  <a href="/introduction/defer/">defer</a></li>
+<li>
+  <a href="/introduction/recover/">recover</a></li>
+<li>
+  <a href="/introduction/struct/">结构体</a></li>
+<li>
+  <a href="/introduction/struct_embedding/">嵌套结构体</a></li>
+<li>
+  <a href="/introduction/methods/">方法</a></li>
+<li>
+  <a href="/introduction/interface/">接口</a></li>
+<li>
+  <a href="/introduction/implement_error/">实现系统错误接口</a></li>
+<li>
+  <a href="/introduction/implement/">判断是否实现接口</a></li>
+<li>
+  <a href="/introduction/error/">错误</a></li>
+<li>
+  <a href="/introduction/zero_value/">零值</a></li>
+<li>
+  <a href="/introduction/type_comparison/">类型比较</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>4. 协程与通道</strong>
+<ul>
+<li>
+  <a href="/introduction/goroutine/">goroutine</a></li>
+<li>
+  <a href="/introduction/channel/">非缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_buffer/">缓冲通道</a></li>
+<li>
+  <a href="/introduction/channel_close/">关闭通道</a></li>
+<li>
+  <a href="/introduction/channel_direction/">通道方向</a></li>
+<li>
+  <a href="/introduction/channel_close_check/">检测通道是否关闭</a></li>
+<li>
+  <a href="/introduction/channel_range/">遍历通道</a></li>
+<li>
+  <a href="/introduction/waitgroup/">waitgroup</a></li>
+<li>
+  <a href="/introduction/select/">select</a></li>
+<li>
+  <a href="/introduction/mutex/">互斥锁</a></li>
+<li>
+  <a href="/introduction/timeout/">超时控制</a></li>
+<li>
+  <a href="/introduction/ticker/">定时器</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>5. 常见操作</strong>
+<ul>
+<li>
+  <a href="/introduction/atomic/">原子操作</a></li>
+<li>
+  <a href="/introduction/file_create_delete/">创建, 删除文件</a></li>
+<li>
+  <a href="/introduction/file_write/">写文件</a></li>
+<li>
+  <a href="/introduction/file_read/">读文件</a></li>
+<li>
+  <a href="/introduction/file_path/">文件路径, 扩展名</a></li>
+<li>
+  <a href="/introduction/file_check/">文件判断</a></li>
+<li>
+  <a href="/introduction/dir_create_delete/">创建, 删除目录</a></li>
+<li>
+  <a href="/introduction/dir_walk/">遍历目录</a></li>
+<li>
+  <a href="/introduction/log/">日志</a></li>
+<li>
+  <a href="/introduction/http/">HTTP</a></li>
+<li>
+  <a href="/introduction/url/">URL</a></li>
+<li>
+  <a href="/introduction/base64/">base64</a></li>
+<li>
+  <a href="/introduction/sha256/">sha256</a></li>
+<li>
+  <a href="/introduction/md5/">md5</a></li>
+<li>
+  <a href="/introduction/exit/">exit</a></li>
+<li>
+  <a href="/introduction/process_id/">获取进程ID</a></li>
+<li>
+  <a href="/introduction/command/">命令行</a></li>
+<li>
+  <a href="/introduction/command_args/">命令行参数</a></li>
+<li>
+  <a href="/introduction/command_flag/">命令行参数解析与设置</a></li>
+<li>
+  <a href="/introduction/signal/">信号</a></li>
+<li>
+  <a href="/introduction/json/">json</a></li>
+<li>
+  <a href="/introduction/xml/">xml</a></li>
+<li>
+  <a href="/introduction/time/">日期, 时间</a></li>
+<li>
+  <a href="/introduction/timestamp/">时间戳</a></li>
+<li>
+  <a href="/introduction/random/">随机数</a></li>
+<li>
+  <a href="/introduction/regexp/">正则表达式</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="进阶提升系列">
+  进阶提升系列
+  <a class="anchor" href="#%e8%bf%9b%e9%98%b6%e6%8f%90%e5%8d%87%e7%b3%bb%e5%88%97">#</a>
+</h2>
+<h3 id="-工程化">
+  🛠️ 工程化
+  <a class="anchor" href="#-%e5%b7%a5%e7%a8%8b%e5%8c%96">#</a>
+</h3>
+<ul>
+<li>
+<p><strong>构建</strong></p>
+<ul>
+<li>
+  <a href="/engineering/base_config/">开发环境配置</a></li>
+<li>
+  <a href="/engineering/command/">命令行工具</a></li>
+<li>
+  <a href="/engineering/compiling_cross_platform/">交叉编译</a></li>
+<li>
+  <a href="/engineering/conditional_compilation/">条件编译</a></li>
+<li>
+  <a href="/engineering/upx/">编译文件体积优化</a></li>
+</ul>
+</li>
+<li>
+<p><strong>测试</strong></p>
+<ul>
+<li>
+  <a href="/engineering/test/">单元测试基础必备</a></li>
+<li>
+  <a href="/engineering/test_cover/">单元测试覆盖率</a></li>
+<li>
+  <a href="/engineering/test_fixture/">单元测试基境</a></li>
+<li>
+  <a href="/engineering/benchstat/">基准测试数据分析</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_theory/">模糊测试-理论</a></li>
+<li>
+  <a href="/engineering/test_fuzzing_practice/">模糊测试-实践</a></li>
+<li>
+  <a href="/engineering/test_performance/">压力测试</a></li>
+</ul>
+</li>
+<li>
+<p><strong>实践</strong></p>
+<ul>
+<li>
+  <a href="https://dbwu.tech/posts/golang_oop/">Go 的面向对象编程</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_implements/">如何实现 implements</a></li>
+<li>
+  <a href="/engineering/channel/">channel 操作规则</a></li>
+<li>
+  <a href="/engineering/struct/">结构体使用技巧</a></li>
+<li>
+  <a href="/engineering/slice/">切片使用技巧</a></li>
+<li>
+  <a href="/engineering/json/">JSON 使用技巧</a></li>
+<li>
+  <a href="/engineering/embed/">embed 嵌入文件</a></li>
+<li>
+  <a href="/engineering/expvar/">expvar 监控接口状态</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/golang_data_race/">数据竞态</a></li>
+<li>
+  <a href="/engineering/error_handle_gracefully/">错误处理最佳实践</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/gin/quick_start.go">Gin 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/zap/quickstart_test.go">zap 快速入门</a></li>
+<li>
+  <a href="https://github.com/duanbiaowu/go-examples-for-beginners/blob/master/engineering/wire/README.md">wire 快速入门</a></li>
+<li>
+  <a href="/engineering/math/">常用数学方法</a></li>
+<li>
+  <a href="/engineering/format/">格式化方法</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-陷阱">
+  ☹️ 陷阱
+  <a class="anchor" href="#-%e9%99%b7%e9%98%b1">#</a>
+</h3>
+<ul>
+<li><strong>仔细检查你的代码</strong>
+<ul>
+<li>
+  <a href="/traps/array_with_map_in_params/">数组和切片参数传递差异</a></li>
+<li>
+  <a href="/traps/byte_operation/">byte 加减</a></li>
+<li>
+  <a href="/traps/map_struct_assign/">map 常见问题</a></li>
+<li>
+  <a href="/traps/copy/">copy 函数复制失败</a></li>
+<li>
+  <a href="/traps/buffer_flush/">缓冲区内容不输出</a></li>
+<li>
+  <a href="/traps/slice_occupy_memory/">切片占用过多内存</a></li>
+<li>
+  <a href="/traps/string_method/">String 方法陷入无限递归</a></li>
+<li>
+  <a href="/traps/defer_with_recover/">错误处理三剑客</a></li>
+<li>
+  <a href="/traps/defer_exam/">几个有趣的 defer 笔试题</a></li>
+<li>
+  <a href="/traps/nil_with_nil/">nil != nil ?</a></li>
+<li>
+  <a href="/traps/nil_argument/">nil 作为参数引发的问题</a></li>
+<li>
+  <a href="/traps/for_assign/">for 循环赋值错误</a></li>
+<li>
+  <a href="/traps/for_func/">for 循环调用函数</a></li>
+<li>
+  <a href="/traps/for_goroutine/">for 循环 goroutine 执行顺序不一致</a></li>
+<li>
+  <a href="/traps/interface_method/">interface 方法调用规则</a></li>
+<li>
+  <a href="/traps/interface_error/">interface{} != *interface{} ?</a></li>
+<li>
+  <a href="/traps/goroutine_race/">goroutine 竞态</a></li>
+<li>
+  <a href="/traps/channel_not_closed/">goroutine 泄漏</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="-高性能">
+  ⚡ 高性能
+  <a class="anchor" href="#-%e9%ab%98%e6%80%a7%e8%83%bd">#</a>
+</h3>
+<ul>
+<li><strong>让你的代码速度飞起</strong>
+<ul>
+<li>
+  <a href="/performance/for/">for</a></li>
+<li>
+  <a href="/performance/slice_pre_alloc/">切片预分配</a></li>
+<li>
+  <a href="/performance/slice_filter/">切片过滤器</a></li>
+<li>
+  <a href="/performance/slice_with_array/">切片和数组</a></li>
+<li>
+  <a href="/performance/string_with_bytes/">string 与 []byte 转换</a></li>
+<li>
+  <a href="/performance/map_pre_alloc/">map 预分配</a></li>
+<li>
+  <a href="/performance/map_key_type/">map key 类型</a></li>
+<li>
+  <a href="/performance/map_free/">map 重置和删除</a></li>
+<li>
+  <a href="/performance/int_to_string/">整数转字符串</a></li>
+<li>
+  <a href="/performance/string_concat/">字符串拼接</a></li>
+<li>
+  <a href="/performance/sub_cn_string/">截取中文字符串</a></li>
+<li>
+  <a href="/performance/empty_struct/">空结构体</a></li>
+<li>
+  <a href="/performance/struct_slice/">结构体切片</a></li>
+<li>
+  <a href="/performance/sync_pool/">对象复用</a></li>
+<li>
+  <a href="/performance/stack_dump/">获取调用堆栈优化</a></li>
+<li>
+  <a href="/performance/binary_read_write/">字节序优化</a></li>
+<li>
+  <a href="/performance/goroutineid/">获取 goroutine ID</a></li>
+<li>
+  <a href="/performance/defer/">defer 优化</a></li>
+<li>
+  <a href="/performance/timer/">timer 优化</a></li>
+<li>
+  <a href="/performance/channel/">channel 缓冲和非缓冲</a></li>
+<li>
+  <a href="/performance/mutex/">互斥锁和读写锁</a></li>
+<li>
+  <a href="/performance/inline/">内联优化</a></li>
+<li>
+  <a href="/performance/memory_alignment/">内存对齐</a></li>
+<li>
+  <a href="https://dbwu.tech/posts/goland_escape/">逃逸分析</a></li>
+<li>
+  <a href="/performance/singleflight/">singleflight</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Range</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#语法规则">语法规则</a></li>
+    <li><a href="#遍历规则">遍历规则</a></li>
+    <li><a href="#遍历字符串">遍历字符串</a>
+      <ul>
+        <li><a href="#key-val-都保留">key, val 都保留</a></li>
+        <li><a href="#省略-key">省略 key</a></li>
+        <li><a href="#省略-val">省略 val</a></li>
+        <li><a href="#key-val-都省略">key, val 都省略</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="概述">
+  概述
+  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
+</h1>
+<p>Go 特有的一种的遍历结构。它可以遍历任何一个 <code>集合（字符串、数组、切片、Map、通道等）</code>。
+语法上类似主流编程语言中的 <code>foreach</code> 语句，但可以获得每次遍历对应的索引。</p>
+<h1 id="语法规则">
+  语法规则
+  <a class="anchor" href="#%e8%af%ad%e6%b3%95%e8%a7%84%e5%88%99">#</a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// key 和 val 也可以使用别的变量名称，比如 index, item 等
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">collection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>} 
+</span></span></code></pre></div><h1 id="遍历规则">
+  遍历规则
+  <a class="anchor" href="#%e9%81%8d%e5%8e%86%e8%a7%84%e5%88%99">#</a>
+</h1>
+<p><strong>其中，<code>key</code> 和 <code>val</code> 都可以使用 
+  <a href="/introduction/blank_operator/">空白标识符</a> 省略</strong>，具体规则如下:</p>
+<ul>
+<li>如果 <code>key</code> 和 <code>val</code> 都保留，那么在循环体中必须使用这 2 个变量，语法如下:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">collection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>如果省略 <code>val</code>, 不需要 
+  <a href="/introduction/blank_operator/">空白标识符</a>，语法如下:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">collection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>如果省略 <code>key</code>, 则 key 的位置需要 
+  <a href="/introduction/blank_operator/">空白标识符</a>，语法如下:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">collection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><ul>
+<li>如果 <code>key</code> 和 <code>val</code> 全部省略，那么只执行循环体中的代码，语法如下:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span> = <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">collection</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h1 id="遍历字符串">
+  遍历字符串
+  <a class="anchor" href="#%e9%81%8d%e5%8e%86%e5%ad%97%e7%ac%a6%e4%b8%b2">#</a>
+</h1>
+<h2 id="key-val-都保留">
+  key, val 都保留
+  <a class="anchor" href="#key-val-%e9%83%bd%e4%bf%9d%e7%95%99">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">str</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;key = %d, val = %c\n&#34;</span>, <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">val</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// $ go run main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出如下 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 0, val = h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 1, val = e
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 2, val = l
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 3, val = l
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 4, val = o
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><h2 id="省略-key">
+  省略 key
+  <a class="anchor" href="#%e7%9c%81%e7%95%a5-key">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">str</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;val = %c\n&#34;</span>, <span style="color:#a6e22e">val</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// $ go run main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出如下 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  val = h
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  val = e
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  val = l
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  val = l
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  val = o
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><h2 id="省略-val">
+  省略 val
+  <a class="anchor" href="#%e7%9c%81%e7%95%a5-val">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">str</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;key = %d\n&#34;</span>, <span style="color:#a6e22e">key</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// $ go run main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出如下 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  key = 4
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><h2 id="key-val-都省略">
+  key, val 都省略
+  <a class="anchor" href="#key-val-%e9%83%bd%e7%9c%81%e7%95%a5">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">str</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;hello&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">_</span> = <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">str</span> {
+</span></span><span style="display:flex;"><span>		println(<span style="color:#e6db74">&#34;do something&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// $ go run main.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出如下 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  do something
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><h1 id="小结">
+  小结
+  <a class="anchor" href="#%e5%b0%8f%e7%bb%93">#</a>
+</h1>
+<p>本小节只使用 <code>字符串</code> 作为演示，对于其他的数据结构 <code>（数组、切片、Map、通道等）</code>， <code>range</code> 语法都差不多。
+后面介绍其他数据结构时，会附加使用 <code>range</code> 遍历操作的内容。</p>
+</article>
+ 
+      <article class="markdown">
+    <img src="https://dbwu.tech/images/wechat.png">
+</article>
+
+<article class="markdown">
+    <h2>转载申请</h2>
+
+    <p>
+        本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">知识共享署名 4.0 国际许可协议</a> 进行许可，转载时请注明原文链接，图片在使用时请保留全部内容，商业转载请联系作者获得授权。
+    </p>
+</article>
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/duanbiaowu/go-examples-for-beginners//tree/master//content/introduction/range.md" target="_blank" rel="noopener">
+      <img src="/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>编辑本页</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments"><script src="https://giscus.app/client.js"
+    data-repo="duanbiaowu/go-examples-for-beginners"
+    data-repo-id="R_kgDOGo6enw"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOGo6en84CSbYF"
+    data-mapping="specific"
+    data-term=""
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="1"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    crossorigin="anonymous" async>
+</script>
+</div>
+  
+ 
+
+      <div>
+    <a href="https://dbwu.tech/" target="_blank"> © 蛮荆 </a> |
+    <img src="https://dbwu.tech/images/%E5%A4%87%E6%A1%88%E5%9B%BE%E6%A0%87.png" />
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=61011302001681" target="_blank">陕公网安备 61011302001681 号</a> |
+    <a href="https://beian.miit.gov.cn" target="_blank">陕ICP备2023004378号-1</a> |
+    <a href="https://themes.gohugo.io/themes/hugo-book/" title="hugo-book" target="_blank">Rendered by Hugo</a>
+</div>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#语法规则">语法规则</a></li>
+    <li><a href="#遍历规则">遍历规则</a></li>
+    <li><a href="#遍历字符串">遍历字符串</a>
+      <ul>
+        <li><a href="#key-val-都保留">key, val 都保留</a></li>
+        <li><a href="#省略-key">省略 key</a></li>
+        <li><a href="#省略-val">省略 val</a></li>
+        <li><a href="#key-val-都省略">key, val 都省略</a></li>
+      </ul>
+    </li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
