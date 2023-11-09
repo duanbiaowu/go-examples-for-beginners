@@ -215,3 +215,34 @@ headless: true
   - [内存对齐](../performance/memory_alignment.md)
   - [逃逸分析](https://dbwu.tech/posts/goland_escape/)
   - [singleflight](../performance/singleflight.md)
+
+---
+
+### <a href="https://dbwu.tech/posts/golang_oop/" target="_blank">Go 面向对象编程</a>
+
+---
+
+### 📚 设计模式
+
+- **创建型模式**
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/creational/builder.go" target="_blank">构建</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/creational/factory.go" target="_blank">工厂</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/creational/object_pool.go" target="_blank">对象池</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/creational/singleton.go" target="_blank">单例</a>
+
+- **结构性模式**
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/structural/adapter.go" target="_blank">适配器</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/structural/decorator.go" target="_blank">装饰器</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/structural/proxy.go" target="_blank">代理</a>
+
+- **行为型模式**
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/behavioral/chain_of_responsibility.go" target="_blank">责任链</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/behavioral/observer.go" target="_blank">观察者</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/behavioral/state.go" target="_blank">状态</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/behavioral/strategy.go" target="_blank">策略</a>
+
+- **其他模式**
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/concurrency/" target="_blank">并发模式</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/idiom/" target="_blank">常用模式</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/k8s/visitor.go" target="_blank">K8S</a>
+  - <a href="https://github.com/duanbiaowu/go-examples-for-beginners/tree/master/patterns/mapreduce/real_world.go" target="_blank">MapReduce</a>

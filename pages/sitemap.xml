@@ -111,13 +111,13 @@
     <lastmod>2023-05-31T18:19:53+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/traps/interface_method/</loc>
-    <lastmod>2023-05-31T18:19:53+08:00</lastmod>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/traps/map_struct_assign/</loc>
     <lastmod>2023-05-31T18:19:53+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/traps/nil_with_nil/</loc>
-    <lastmod>2023-05-31T18:19:53+08:00</lastmod>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/traps/nil_argument/</loc>
     <lastmod>2023-05-31T18:19:53+08:00</lastmod>
@@ -147,7 +147,7 @@
     <lastmod>2023-06-13T18:36:19+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/traps/</loc>
-    <lastmod>2023-05-31T18:19:53+08:00</lastmod>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/engineering/upx/</loc>
     <lastmod>2023-05-28T22:46:51+08:00</lastmod>
@@ -201,186 +201,277 @@
     <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/array/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/atomic/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/base64/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/basesyntaxandkeyword/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/blank_operator/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/buildandrun/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/bytes/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel_buffer/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel_close/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel_close_check/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel_direction/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/channel_range/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/command/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/command_args/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/command_flag/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/const/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/data_convert/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/decimal/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/defer/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/dir_create_delete/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/dir_walk/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/error/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/exit/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/file_check/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/file_create_delete/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/file_path/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/file_read/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/file_write/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/for/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func_closures/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func_inner/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func_pointer_params/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func_recursion/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/func_variadic_params/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/goroutine/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/goto/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/http/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/if_else/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/implement/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/implement_error/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/import/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/inc_and_dec/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/init/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/install/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/interface/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/iota/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/json/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/linux/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/log/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/mac/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/make_with_new/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/map/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/md5/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/methods/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/mutex/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/operator_priority/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/panic/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/pointer/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/preface/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/print/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/process_id/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/random/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/range/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/recover/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/regexp/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/rune/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/scope/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/select/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/sha256/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/signal/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/slice/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/sorted_map/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/string/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/struct/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/struct_embedding/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/switch/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/ticker/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/time/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/timeout/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/timestamp/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/type_comparison/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/typedef/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/url/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/variables/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/visable/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/waitgroup/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/windows/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/xml/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/zero_value/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/categories/</loc>
   </url><url>
@@ -388,6 +479,7 @@
     <lastmod>2023-05-28T22:46:51+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/introduction/</loc>
+    <lastmod>2023-11-06T22:34:40+08:00</lastmod>
   </url><url>
     <loc>https://golang.dbwu.tech/</loc>
     <lastmod>2023-05-28T22:46:51+08:00</lastmod>
