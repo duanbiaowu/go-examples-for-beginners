@@ -25,7 +25,7 @@ Go 代码是使用包来组织的，类似于其他编程语言中的库、模�
 1. 编译并运行 (一步完成)
    * 命令行运行 `go run 文件名.go`, 比如 `go run main.go`,
 2. 先编译为可执行文件，然后运行 (两步完成)
-   * 命令行运行 `go run 文件名.go`, 比如 `go run main.go`
+   * 命令行运行 `go build 文件名.go`, 比如 `go build main.go`
    * 生成可执行文件，比如 `main`
    * 执行可执行文件，`./main`
 
