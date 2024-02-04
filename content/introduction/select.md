@@ -207,3 +207,11 @@ func main() {
 ```
 
 从输出结果看，`[ch1 goroutine]` 输出了 1 次，`[ch2 goroutine]` 输出了 2 次，`[done goroutine]` 输出了 3 次。 
+
+#  附录
+
+## select 和 switch 区别
+
+select 只能应用于 channel 的操作，既可以用于 channel 的数据接收，也可以用于 channel 的数据发送。 如果 select 的多个分支都满足条件，则会随机的选取其中一个满足条件的分支。
+
+switch 可以为各种类型进行分支操作， 设置可以为接口类型进行分支判断 (通过 i.(type))。switch 分支是顺序执行的，这和 select 不同。
