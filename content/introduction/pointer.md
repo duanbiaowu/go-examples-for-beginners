@@ -105,6 +105,22 @@ uintptr 是一个可以表示任何指针地址的整数。
 1. 任何类型的指针和 unsafe.Pointer 可以相互转换。
 2. uintptr 类型和 unsafe.Pointer 可以相互转换。
 
+```go
+package main
+
+import (
+	"math"
+	"unsafe"
+)
+
+func main() {
+	var p uintptr
+	x := math.MaxFloat64
+	p = uintptr(unsafe.Pointer(&x))
+	println(unsafe.Sizeof(p)) // 8
+}
+```
+
 # 扩展阅读
 
 1. [指针 - 维基百科](https://zh.m.wikipedia.org/zh-cn/%E6%8C%87%E6%A8%99_(%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8))
