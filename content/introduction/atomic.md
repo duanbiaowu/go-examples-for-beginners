@@ -85,3 +85,17 @@ func main() {
   number = 1000
 */
 ```
+
+# 附录
+
+## 使用 atomic 包对 uint32 类型实现 -1 功能
+
+```go
+var value uint32
+newValue := atomic.AddUint32(&value, 1)
+t.Logf("new = %d", newValue)
+
+atomic.AddUint32(&value, ^uint32(0))   // ^uint32(0) == -1
+newValue = atomic.LoadUint32(&value)
+t.Logf("new = %d", newValue)
+```
