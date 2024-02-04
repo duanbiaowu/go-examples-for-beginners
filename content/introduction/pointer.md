@@ -93,6 +93,18 @@ func main() {
 本小节假定读者已经了解指针的概念，所以只是简单地介绍一下 Go 中指针的相关语法。
 如果读者对指针的概念没有基础了解，推荐阅读下面的文章。
 
+# 附录
+
+## uintptr 是什么
+
+![uintptr with unsafe.Pointer](https://github.com/duanbiaowu/go-examples-for-beginners/assets/10596220/fa27cf2f-57de-4b51-b8ea-ca104403bc28)
+
+
+uintptr 是一个可以表示任何指针地址的整数。
+
+1. 任何类型的指针和 unsafe.Pointer 可以相互转换。
+2. uintptr 类型和 unsafe.Pointer 可以相互转换。
+
 # 扩展阅读
 
 1. [指针 - 维基百科](https://zh.m.wikipedia.org/zh-cn/%E6%8C%87%E6%A8%99_(%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8))
