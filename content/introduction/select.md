@@ -215,3 +215,31 @@ func main() {
 select 只能应用于 channel 的操作，既可以用于 channel 的数据接收，也可以用于 channel 的数据发送。 如果 select 的多个分支都满足条件，则会随机的选取其中一个满足条件的分支。
 
 switch 可以为各种类型进行分支操作， 设置可以为接口类型进行分支判断 (通过 i.(type))。switch 分支是顺序执行的，这和 select 不同。
+
+## select 设置优先级
+
+当 `ch1` 和 `ch2` 同时达到就绪状态时，优先执行任务1，在没有任务1的时候再去执行任务2。
+
+```go
+func worker2(ch1, ch2 <-chan int, stopCh chan struct{}) {
+	for {
+		select {
+		case <-stopCh:
+			return
+		case job1 := <-ch1:
+			fmt.Println(job1)
+		case job2 := <-ch2:
+		priority:
+			for {
+				select {
+				case job1 := <-ch1:
+					fmt.Println(job1)
+				default:
+					break priority
+				}
+			}
+			fmt.Println(job2)
+		}
+	}
+}
+```
